@@ -63,13 +63,13 @@ const createUsers = async () => {
   await models.User.create({
     username: 'andersnylund',
     email: 'anders.nylund.an@gmail.com',
-    password: 'secretpassword',
+    password: 'verysecretpassword',
   });
 
   await models.User.create({
     username: 'jdoe',
     email: 'john.doe@example.com',
-    password: 'johndoe',
+    password: 'john.doe',
   });
 };
 

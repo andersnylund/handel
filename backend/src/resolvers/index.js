@@ -1,4 +1,3 @@
-export default {
-  Query: {},
-  Mutation: {},
-};
+import userResolvers from './user';
+
+export default [userResolvers];
