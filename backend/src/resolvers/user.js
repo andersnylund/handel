@@ -5,7 +5,19 @@ const generateToken = (secret, { id, username, email }) =>
   jwt.sign({ id, username, email }, secret, { expiresIn: '30m' });
 
 export default {
-  Query: {},
+  Query: {
+    me: async (parent, args, { me }) => {
+      if (!me) {
+        throw new AuthenticationError('Login not valid');
+      } else {
+        return {
+          id: me.id,
+          username: me.username,
+          email: me.email,
+        };
+      }
+    },
+  },
   Mutation: {
     signUp: async (
       parent,

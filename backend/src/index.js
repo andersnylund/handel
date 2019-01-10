@@ -1,14 +1,15 @@
 import express from 'express';
 import helmet from 'helmet';
-import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
 import chalk from 'chalk';
 
+import { getMe } from './utils';
 import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
+import { createUsers } from './testData';
 
 dotenv.config();
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -16,20 +17,6 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const app = express();
 app.use(cors());
 app.use(helmet());
-
-const getMe = async req => {
-  const token = req.headers.bearer;
-
-  if (token) {
-    try {
-      return await jwt.verify(token, process.env.SECRET);
-    } catch (e) {
-      throw new AuthenticationError('Your sessions expired. Sign in again.');
-    }
-  }
-
-  return null; // TODO test this
-};
 
 const server = new ApolloServer({
   typeDefs: schema,
@@ -59,23 +46,9 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-const createUsers = async () => {
-  await models.User.create({
-    username: 'andersnylund',
-    email: 'anders.nylund.an@gmail.com',
-    password: 'verysecretpassword',
-  });
-
-  await models.User.create({
-    username: 'jdoe',
-    email: 'john.doe@example.com',
-    password: 'john.doe',
-  });
-};
-
 sequelize.sync({ force: isDevelopment }).then(async () => {
   if (isDevelopment) {
-    createUsers();
+    await createUsers(models);
   }
 
   app.listen({ port: 8000 }, () => {
@@ -83,3 +56,5 @@ sequelize.sync({ force: isDevelopment }).then(async () => {
     console.log(chalk.green('Apollo Server on http://localhost:8000/graphql'));
   });
 });
+
+export default { getMe };
