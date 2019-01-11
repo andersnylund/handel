@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 import { Form, Header, Button } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { withRouter } from 'react-router-dom';
+
+import * as routes from '../constants/routes';
 
 const SIGN_IN = gql`
   mutation($login: String!, $password: String!) {
@@ -24,9 +27,13 @@ class SignIn extends React.Component {
   };
 
   onSubmit = async (event, signIn) => {
+    const { history, refetch } = this.props;
+
     event.preventDefault();
     const { data } = await signIn();
-    localStorage.setItem('token', data.signIn.token);
+    await localStorage.setItem('token', data.signIn.token);
+    await refetch();
+    history.push(routes.LANDING);
   };
 
   render() {
@@ -70,4 +77,4 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+export default withRouter(SignIn);
