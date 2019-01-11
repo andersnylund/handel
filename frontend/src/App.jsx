@@ -3,12 +3,14 @@ import { Router, Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
 import NavBar from './components/NavBar';
-import Landing from './components/Landing';
+import Landing from './pages/Landing';
 // import SignUpPage from '../SignUp';
-import SignIn from './components/SignIn';
-// import AccountPage from '../Account';
+import SignIn from './pages/SignIn';
+import Account from './pages/Account';
+import MyItems from './pages/MyItems';
+import AddItem from './pages/AddItem';
 // import AdminPage from '../Admin';
-import withSession from './components/session/withSession';
+import withSession from './session/withSession';
 
 import * as routes from './constants/routes';
 import history from './constants/history';
@@ -23,6 +25,21 @@ const App = ({ session, refetch }) => (
           exact
           path={routes.SIGN_IN}
           component={() => <SignIn refetch={refetch} />}
+        />
+        <Route
+          exact
+          path={routes.ACCOUNT}
+          component={() => <Account refetch={refetch} />}
+        />
+        <Route
+          exact
+          path={routes.ADD_ITEM}
+          component={() => <AddItem refetch={refetch} />}
+        />
+        <Route
+          exact
+          path={routes.MY_ITEMS}
+          component={() => <MyItems refetch={refetch} />}
         />
       </Container>
     </Fragment>
