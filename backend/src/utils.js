@@ -6,11 +6,13 @@ export const getMe = async req => {
 
   if (token) {
     const parsed = token.replace('Bearer ', '');
-    try {
-      const result = await jwt.verify(parsed, process.env.SECRET);
-      return result;
-    } catch (e) {
-      throw new AuthenticationError(e.message);
+    if (parsed !== 'undefined') {
+      try {
+        const result = await jwt.verify(parsed, process.env.SECRET);
+        return result;
+      } catch (e) {
+        throw new AuthenticationError(e.message);
+      }
     }
   }
 

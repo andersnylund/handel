@@ -1,14 +1,14 @@
 import React from 'react';
-import { Container, Menu } from 'semantic-ui-react';
-import Login from './components/Login';
+import { Container } from 'semantic-ui-react';
+
+import SignIn from './components/SignIn';
+import NavBar from './components/NavBar';
 
 const App = () => (
   <React.Fragment>
-    <Menu>
-      <Menu.Item>Handel</Menu.Item>
-    </Menu>
+    <NavBar />
     <Container>
-      <Login />
+      <SignIn />
     </Container>
   </React.Fragment>
 );
