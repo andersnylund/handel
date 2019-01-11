@@ -1,3 +1,4 @@
 import userResolvers from './user';
+import itemResolvers from './item';
 
-export default [userResolvers];
+export default [userResolvers, itemResolvers];

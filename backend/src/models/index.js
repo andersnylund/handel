@@ -15,7 +15,14 @@ const sequelize = new Sequelize(
 
 const models = {
   User: sequelize.import('./user'),
+  Item: sequelize.import('./item'),
 };
+
+Object.keys(models).forEach(key => {
+  if ('associate' in models[key]) {
+    models[key].associate(models);
+  }
+});
 
 export { sequelize };
 
