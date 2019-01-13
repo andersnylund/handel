@@ -5,7 +5,7 @@ import { Button } from 'semantic-ui-react';
 import * as routes from '../constants/routes';
 import history from '../constants/history';
 
-const signOut = client => {
+export const signOut = client => {
   localStorage.setItem('token', '');
   client.resetStore();
   history.push(routes.SIGN_IN);
@@ -20,7 +20,5 @@ const SignOutButton = () => (
     )}
   </ApolloConsumer>
 );
-
-export { signOut };
 
 export default SignOutButton;

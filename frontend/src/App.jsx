@@ -9,7 +9,6 @@ import SignIn from './pages/SignIn';
 import Account from './pages/Account';
 import MyItems from './pages/MyItems';
 import AddItem from './pages/AddItem';
-// import AdminPage from '../Admin';
 import withSession from './session/withSession';
 
 import * as routes from './constants/routes';

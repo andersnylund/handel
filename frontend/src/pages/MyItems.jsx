@@ -4,11 +4,14 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
+import ItemList from '../components/ItemList';
+import withAuthorization from '../session/withAuthorization';
 
 const AddButton = styled(Button)`
-  position: absolute;
+  position: -webkit-sticky;
+  position: sticky;
   bottom: 1rem;
-  right: 1rem;
+  float: right;
 `;
 
 const onClickAddNew = (event, history) => {
@@ -19,6 +22,7 @@ const onClickAddNew = (event, history) => {
 const MyItems = ({ history }) => (
   <Fragment>
     <Header as="h2">My Items</Header>
+    <ItemList />
     <AddButton
       circular
       icon="add"
@@ -28,4 +32,6 @@ const MyItems = ({ history }) => (
   </Fragment>
 );
 
-export default withRouter(MyItems);
+export default withAuthorization(session => session && session.me)(
+  withRouter(MyItems)
+);

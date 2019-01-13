@@ -6,7 +6,13 @@ export default gql`
   }
 
   extend type Mutation {
-    addItem(title: String!, description: String!, price: Int!): Item!
+    addItem(
+      title: String!
+      description: String!
+      price: Int!
+      image: String!
+      largeImage: String!
+    ): Item!
   }
 
   type Item {
@@ -14,5 +20,7 @@ export default gql`
     title: String!
     description: String!
     price: Int!
+    image: String!
+    largeImage: String!
   }
 `;

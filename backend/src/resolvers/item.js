@@ -21,13 +21,15 @@ export default {
       isAuthenticated,
       async (
         parent,
-        { title, description, price },
+        { title, description, price, image, largeImage },
         { models: { Item }, me }
       ) => {
         const item = await Item.create({
           title,
           description,
           price,
+          image,
+          largeImage,
           userId: me.id,
         });
         return item;

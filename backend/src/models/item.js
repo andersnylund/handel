@@ -26,6 +26,20 @@ const item = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    largeImage: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   });
 
   return Item;
