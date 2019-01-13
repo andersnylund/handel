@@ -30,7 +30,7 @@ export default {
         token,
       };
     },
-    signIn: async (
+    login: async (
       parent,
       { login, password },
       { models: { User }, secret }

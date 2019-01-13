@@ -4,8 +4,8 @@ import { Container } from 'semantic-ui-react';
 
 import NavBar from './components/NavBar';
 import Landing from './pages/Landing';
-// import SignUpPage from '../SignUp';
-import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 import Account from './pages/Account';
 import MyItems from './pages/MyItems';
 import AddItem from './pages/AddItem';
@@ -22,8 +22,13 @@ const App = ({ session, refetch }) => (
         <Route exact path={routes.LANDING} component={() => <Landing />} />
         <Route
           exact
-          path={routes.SIGN_IN}
-          component={() => <SignIn refetch={refetch} />}
+          path={routes.LOGIN}
+          component={() => <Login refetch={refetch} />}
+        />
+        <Route
+          exact
+          path={routes.SIGN_UP}
+          component={() => <SignUp refetch={refetch} />}
         />
         <Route
           exact

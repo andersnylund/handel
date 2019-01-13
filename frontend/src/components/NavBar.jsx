@@ -3,7 +3,7 @@ import { Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
-import SignOut from '../pages/SignOut';
+import Logout from '../pages/Logout';
 
 const authorizedMenu = () => (
   <Dropdown icon="bars" item>
@@ -15,7 +15,7 @@ const authorizedMenu = () => (
         <Link to={routes.MY_ITEMS}>My Items</Link>
       </Dropdown.Item>
       <Dropdown.Item>
-        <SignOut />
+        <Logout />
       </Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
@@ -23,7 +23,7 @@ const authorizedMenu = () => (
 
 const unauthorizedMenu = () => (
   <Menu.Item>
-    <Link to={routes.SIGN_IN}>Sign in</Link>
+    <Link to={routes.LOGIN}>Login</Link>
   </Menu.Item>
 );
 

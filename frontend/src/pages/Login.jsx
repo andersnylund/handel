@@ -6,15 +6,15 @@ import { withRouter } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
 
-const SIGN_IN = gql`
+const LOGIN = gql`
   mutation($login: String!, $password: String!) {
-    signIn(login: $login, password: $password) {
+    login(login: $login, password: $password) {
       token
     }
   }
 `;
 
-class SignIn extends React.Component {
+class Login extends React.Component {
   state = {
     login: 'andersnylund',
     password: 'verysecretpassword',
@@ -26,12 +26,12 @@ class SignIn extends React.Component {
     });
   };
 
-  onSubmit = async (event, signIn) => {
+  onSubmit = async (event, loginMutation) => {
     const { history, refetch } = this.props;
 
     event.preventDefault();
-    const { data } = await signIn();
-    await localStorage.setItem('token', data.signIn.token);
+    const { data } = await loginMutation();
+    await localStorage.setItem('token', data.login.token);
     await refetch();
     history.push(routes.LANDING);
   };
@@ -61,11 +61,11 @@ class SignIn extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Field>
-          <Mutation mutation={SIGN_IN} variables={{ login, password }}>
-            {signIn => (
+          <Mutation mutation={LOGIN} variables={{ login, password }}>
+            {loginMutation => (
               <Button
                 type="submit"
-                onClick={event => this.onSubmit(event, signIn)}
+                onClick={event => this.onSubmit(event, loginMutation)}
               >
                 Login
               </Button>
@@ -77,4 +77,4 @@ class SignIn extends React.Component {
   }
 }
 
-export default withRouter(SignIn);
+export default withRouter(Login);

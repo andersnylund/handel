@@ -15,7 +15,7 @@ const withAuthorization = conditionFn => Component => props => (
       return conditionFn(data) ? (
         <Component {...props} />
       ) : (
-        <Redirect to={routes.SIGN_IN} />
+        <Redirect to={routes.LOGIN} />
       );
     }}
   </Query>

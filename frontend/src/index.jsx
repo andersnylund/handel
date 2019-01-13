@@ -10,7 +10,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import App from './App';
 import 'semantic-ui-css/semantic.min.css';
 
-const API_URL = 'http://localhost:8000/graphql';
+const API_URL = '/graphql';
 
 const httpLink = new HttpLink({
   uri: API_URL,
