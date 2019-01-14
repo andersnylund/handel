@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Image, Segment, Card } from 'semantic-ui-react';
 
-const GET_MY_ITEMS = gql`
+export const GET_MY_ITEMS = gql`
   {
     myItems {
       edges {

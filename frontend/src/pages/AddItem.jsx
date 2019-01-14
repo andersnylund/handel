@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
 import withAuthorization from '../session/withAuthorization';
+import { GET_MY_ITEMS } from '../components/ItemList';
 
 const ADD_ITEM = gql`
   mutation(
@@ -55,7 +56,8 @@ class AddItem extends React.Component {
   };
 
   uploadFile = async event => {
-    const { refetch } = this.props;
+    // TODO disable form while uploading
+
     const { files } = event.target;
     const data = new FormData();
     data.append('file', files[0]);
@@ -72,7 +74,6 @@ class AddItem extends React.Component {
       image: file.secure_url,
       largeImage: file.eager[0].secure_url,
     });
-    await refetch(); // TODO doesn't work
   };
 
   onSubmit = async (event, mutation) => {
@@ -162,6 +163,7 @@ class AddItem extends React.Component {
               image,
               largeImage,
             }}
+            refetchQueries={[{ query: GET_MY_ITEMS }]}
           >
             {addItem => (
               <Button
