@@ -3,7 +3,7 @@ import { Router, Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
 import NavBar from './components/NavBar';
-import Landing from './pages/Landing';
+import Items from './pages/Items';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Account from './pages/Account';
@@ -19,7 +19,7 @@ const App = ({ session, refetch }) => (
     <Fragment>
       <NavBar session={session} />
       <Container>
-        <Route exact path={routes.LANDING} component={() => <Landing />} />
+        <Route exact path={routes.ITEMS} component={() => <Items />} />
         <Route
           exact
           path={routes.LOGIN}

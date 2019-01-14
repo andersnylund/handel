@@ -22,7 +22,7 @@ export const GET_MY_ITEMS = gql`
   }
 `;
 
-const ItemList = () => (
+const MyItemList = () => (
   <Fragment>
     <Query query={GET_MY_ITEMS}>
       {({ data, loading, error }) => {
@@ -53,4 +53,4 @@ const ItemList = () => (
   </Fragment>
 );
 
-export default ItemList;
+export default MyItemList;

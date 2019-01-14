@@ -14,7 +14,7 @@ import { withRouter } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
 import withAuthorization from '../session/withAuthorization';
-import { GET_MY_ITEMS } from '../components/ItemList';
+import { GET_MY_ITEMS } from '../components/MyItemList';
 
 const ADD_ITEM = gql`
   mutation(

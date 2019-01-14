@@ -33,7 +33,7 @@ class Login extends React.Component {
     const { data } = await loginMutation();
     await localStorage.setItem('token', data.login.token);
     await refetch();
-    history.push(routes.LANDING);
+    history.push(routes.ITEMS);
   };
 
   render() {

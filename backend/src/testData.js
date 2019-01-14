@@ -43,6 +43,30 @@ export const createData = async models => {
       'https://res.cloudinary.com/andersnylund/image/upload/v1547367037/handel/ba06tzvclzwqz9jkpr7l.png',
     userId: user2.id,
   });
+
+  await models.Item.create({
+    title: 'Martela Picco-tuoli, useita',
+    description:
+      'Martela Picco-tuoli. Käsinojilla. Harmaa verhoilu, harmaat metalliosat, pyökkiset puuosat. VK178 ',
+    price: 75,
+    image:
+      'https://res.cloudinary.com/andersnylund/image/upload/v1547367037/handel/ba06tzvclzwqz9jkpr7l.png',
+    largeImage:
+      'https://res.cloudinary.com/andersnylund/image/upload/v1547367037/handel/ba06tzvclzwqz9jkpr7l.png',
+    userId: user2.id,
+  });
+
+  await models.Item.create({
+    title: 'Lumilauta Burton (Lauta,siteet ja monot)',
+    description:
+      'Lumilautasetti Burton Chopper 120. Sisältää helppokäyttöiset burton siteet, monot burton nro. 34. Lauta ollut käytössä 10 päivää ja on hyvässä kunnossa ',
+    price: 200,
+    image:
+      'https://res.cloudinary.com/andersnylund/image/upload/v1547367037/handel/ba06tzvclzwqz9jkpr7l.png',
+    largeImage:
+      'https://res.cloudinary.com/andersnylund/image/upload/v1547367037/handel/ba06tzvclzwqz9jkpr7l.png',
+    userId: user2.id,
+  });
 };
 
 export default { createData };

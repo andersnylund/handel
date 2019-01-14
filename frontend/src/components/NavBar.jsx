@@ -30,7 +30,7 @@ const unauthorizedMenu = () => (
 const NavBar = ({ session }) => (
   <Menu>
     <Menu.Item>
-      <Link to={routes.LANDING}>Handel</Link>
+      <Link to={routes.ITEMS}>Handel</Link>
     </Menu.Item>
     <Menu.Menu position="right">
       {session && session.me ? authorizedMenu() : unauthorizedMenu()}

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
-import ItemList from '../components/ItemList';
+import MyItemList from '../components/MyItemList';
 import withAuthorization from '../session/withAuthorization';
 
 const AddButton = styled(Button)`
@@ -22,7 +22,7 @@ const onClickAddNew = (event, history) => {
 const MyItems = ({ history }) => (
   <Fragment>
     <Header as="h2">My Items</Header>
-    <ItemList />
+    <MyItemList />
     <AddButton
       circular
       icon="add"
