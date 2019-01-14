@@ -2,8 +2,8 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    myItems: [Item!]!
-    items: [Item!]!
+    myItems(cursor: String, limit: Int): ItemConnection!
+    items(cursor: String, limit: Int): ItemConnection!
   }
 
   extend type Mutation {
@@ -14,6 +14,16 @@ export default gql`
       image: String!
       largeImage: String!
     ): Item!
+  }
+
+  type ItemConnection {
+    edges: [Item!]!
+    pageInfo: PageInfo!
+  }
+
+  type PageInfo {
+    hasNextPage: Boolean!
+    endCursor: String
   }
 
   type Item {

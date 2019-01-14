@@ -6,12 +6,18 @@ import { Image, Segment, Card } from 'semantic-ui-react';
 const GET_MY_ITEMS = gql`
   {
     myItems {
-      id
-      title
-      description
-      price
-      image
-      largeImage
+      edges {
+        id
+        title
+        description
+        price
+        image
+        largeImage
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
     }
   }
 `;
@@ -30,7 +36,7 @@ const ItemList = () => (
 
         return (
           <Card.Group stackable doubling itemsPerRow={3}>
-            {data.myItems.map(item => (
+            {data.myItems.edges.map(item => (
               <Card key={item.id}>
                 <Image src={item.image} />
                 <Card.Content>

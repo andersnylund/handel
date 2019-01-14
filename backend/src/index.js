@@ -12,7 +12,7 @@ import models, { sequelize } from './models';
 import { createData } from './testData';
 
 dotenv.config();
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isDevelopment = false; // process.env.NODE_ENV === 'development';
 
 const app = express();
 app.use(cors());
