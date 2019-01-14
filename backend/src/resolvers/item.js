@@ -1,4 +1,5 @@
 import { combineResolvers } from 'graphql-resolvers';
+import { Op } from 'sequelize';
 
 import { isAuthenticated } from './authorization';
 
@@ -10,6 +11,19 @@ export default {
         const items = await Item.findAll({
           where: {
             userId: me.id,
+          },
+        });
+        return items;
+      }
+    ),
+    items: combineResolvers(
+      isAuthenticated,
+      async (parent, args, { models: { Item }, me }) => {
+        const items = await Item.findAll({
+          where: {
+            userId: {
+              [Op.not]: me.id,
+            },
           },
         });
         return items;
