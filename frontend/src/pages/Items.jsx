@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import withAuthorization from '../session/withAuthorization';
-import Item from '../components/Item';
+import TradeItems from '../components/TradeItems';
 
 const GET_ITEMS = gql`
   {
@@ -25,12 +25,15 @@ const GET_ITEMS = gql`
   }
 `;
 
-const Items = ({ session }) => (
+const Items = () => (
   <Fragment>
     <Header as="h2">Items</Header>
     <Query query={GET_ITEMS}>
-      {({ data, loading, error }) => {
-        return <Item />;
+      {({ data, loading }) => {
+        if (loading) {
+          return <div>Loading...</div>;
+        }
+        return <TradeItems items={data.items.edges} />;
       }}
     </Query>
   </Fragment>
