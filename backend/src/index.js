@@ -9,7 +9,7 @@ import { getMe } from './utils';
 import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
-import { createUsers } from './testData';
+import { createData } from './testData';
 
 dotenv.config();
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -48,7 +48,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 sequelize.sync({ force: isDevelopment }).then(async () => {
   if (isDevelopment) {
-    await createUsers(models);
+    await createData(models);
   }
 
   app.listen({ port: 8000 }, () => {
