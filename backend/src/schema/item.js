@@ -3,7 +3,6 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     myItems(cursor: String, limit: Int): ItemConnection!
-    items(cursor: String, limit: Int): ItemConnection!
   }
 
   extend type Mutation {

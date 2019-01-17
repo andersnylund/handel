@@ -52,17 +52,6 @@ export default {
         return getItems(Item, cursor, limit, where);
       }
     ),
-    items: combineResolvers(
-      isAuthenticated,
-      async (parent, { cursor, limit = 100 }, { models: { Item }, me }) => {
-        const where = {
-          userId: {
-            [Op.not]: me.id,
-          },
-        };
-        return getItems(Item, cursor, limit, where);
-      }
-    ),
   },
   Mutation: {
     addItem: combineResolvers(

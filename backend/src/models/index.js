@@ -16,6 +16,7 @@ const sequelize = new Sequelize(
 const models = {
   User: sequelize.import('./user'),
   Item: sequelize.import('./item'),
+  Offer: sequelize.import('./offer'),
 };
 
 Object.keys(models).forEach(key => {

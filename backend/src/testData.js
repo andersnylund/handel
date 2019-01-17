@@ -11,7 +11,7 @@ export const createData = async models => {
     password: 'john.doe',
   });
 
-  await models.Item.create({
+  const item1 = await models.Item.create({
     title: 'Used laptop',
     description: 'MacBook Pro 15" i7',
     price: 1000,
@@ -33,7 +33,7 @@ export const createData = async models => {
     userId: user1.id,
   });
 
-  await models.Item.create({
+  const item2 = await models.Item.create({
     title: 'Lumilinko',
     description: 'Malli: Honda HS970. Työleveys 70cm.',
     price: 1850,
@@ -66,6 +66,12 @@ export const createData = async models => {
     largeImage:
       'https://res.cloudinary.com/andersnylund/image/upload/v1547367037/handel/ba06tzvclzwqz9jkpr7l.png',
     userId: user2.id,
+  });
+
+  await models.Offer.create({
+    makerId: item1.id,
+    receiverId: item2.id,
+    type: 'ACCEPT',
   });
 };
 
