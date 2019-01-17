@@ -3,12 +3,12 @@ import { Router, Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
 import NavBar from './components/NavBar';
-import Items from './pages/Items';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
-import Account from './pages/Account';
-import MyItems from './pages/MyItems';
-import AddItem from './pages/AddItem';
+import TradingPage from './pages/TradingPage';
+import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
+import AccountPage from './pages/AccountPage';
+import MyItemsPage from './pages/MyItemsPage';
+import AddItemPage from './pages/AddItemPage';
 import withSession from './session/withSession';
 
 import * as routes from './constants/routes';
@@ -19,31 +19,31 @@ const App = ({ session, refetch }) => (
     <Fragment>
       <NavBar session={session} />
       <Container>
-        <Route exact path={routes.ITEMS} component={() => <Items />} />
+        <Route exact path={routes.ITEMS} component={() => <TradingPage />} />
         <Route
           exact
           path={routes.LOGIN}
-          component={() => <Login refetch={refetch} />}
+          component={() => <LoginPage refetch={refetch} />}
         />
         <Route
           exact
           path={routes.SIGN_UP}
-          component={() => <SignUp refetch={refetch} />}
+          component={() => <SignUpPage refetch={refetch} />}
         />
         <Route
           exact
           path={routes.ACCOUNT}
-          component={() => <Account refetch={refetch} />}
+          component={() => <AccountPage refetch={refetch} />}
         />
         <Route
           exact
           path={routes.ADD_ITEM}
-          component={() => <AddItem refetch={refetch} />}
+          component={() => <AddItemPage refetch={refetch} />}
         />
         <Route
           exact
           path={routes.MY_ITEMS}
-          component={() => <MyItems refetch={refetch} />}
+          component={() => <MyItemsPage refetch={refetch} />}
         />
       </Container>
     </Fragment>

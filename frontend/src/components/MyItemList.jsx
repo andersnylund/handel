@@ -25,7 +25,7 @@ export const GET_MY_ITEMS = gql`
 const MyItemList = () => (
   <Fragment>
     <Query query={GET_MY_ITEMS}>
-      {({ data, loading, error }) => {
+      {({ data, loading }) => {
         if (loading) {
           return (
             <Segment loading>

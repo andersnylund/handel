@@ -3,7 +3,7 @@ import { Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
-import Logout from '../pages/Logout';
+import Logout from './Logout';
 
 const authorizedMenu = () => (
   <Dropdown icon="bars" item>
