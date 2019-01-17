@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Form, Header, Button } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
 
@@ -72,6 +72,7 @@ class Login extends React.Component {
             )}
           </Mutation>
         </Form>
+        <Link to={routes.SIGN_UP}>Dont have an account yet? Sign up here</Link>
       </Fragment>
     );
   }
