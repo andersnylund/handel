@@ -139,5 +139,16 @@ export default {
         return result;
       }
     ),
+    removeItem: combineResolvers(
+      isAuthenticated,
+      async (parent, { id }, { models: { Item }, me }) => {
+        const item = await Item.findByPk(id);
+        if (!item || item.userId !== me.id) {
+          throw new UserInputError('Item not found');
+        }
+        await item.destroy();
+        return true;
+      }
+    ),
   },
 };

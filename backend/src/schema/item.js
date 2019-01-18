@@ -23,6 +23,7 @@ export default gql`
       image: String
       largeImage: String
     ): Item!
+    removeItem(id: ID!): Boolean!
   }
 
   type ItemConnection {
