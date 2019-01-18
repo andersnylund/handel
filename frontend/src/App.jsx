@@ -13,6 +13,7 @@ import withSession from './session/withSession';
 
 import * as routes from './constants/routes';
 import history from './constants/history';
+import EditItemPage from './pages/EditItemPage';
 
 const App = ({ session, refetch }) => (
   <Router history={history}>
@@ -39,6 +40,10 @@ const App = ({ session, refetch }) => (
           exact
           path={routes.ADD_ITEM}
           component={() => <AddItemPage refetch={refetch} />}
+        />
+        <Route
+          path={routes.EDIT_ITEM}
+          component={() => <EditItemPage refetch={refetch} />}
         />
         <Route
           exact

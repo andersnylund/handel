@@ -27,6 +27,7 @@ const MyItems = ({ history }) => (
       circular
       icon="add"
       color="blue"
+      size="massive"
       onClick={event => onClickAddNew(event, history)}
     />
   </Fragment>

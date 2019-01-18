@@ -12,7 +12,6 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 
-import * as routes from '../constants/routes';
 import withAuthorization from '../session/withAuthorization';
 import { GET_MY_ITEMS } from '../components/MyItemList';
 
@@ -53,10 +52,13 @@ const initialState = {
 class AddItem extends React.Component {
   state = {
     ...initialState,
+    uploadingFile: false,
   };
 
   uploadFile = async event => {
-    // TODO disable form while uploading
+    this.setState({
+      uploadingFile: true,
+    });
 
     const { files } = event.target;
     const data = new FormData();
@@ -73,12 +75,11 @@ class AddItem extends React.Component {
     await this.setState({
       image: file.secure_url,
       largeImage: file.eager[0].secure_url,
+      uploadingFile: false,
     });
   };
 
   onSubmit = async (event, mutation) => {
-    const { history } = this.props;
-
     event.preventDefault();
     await mutation();
     this.setState({
@@ -90,7 +91,6 @@ class AddItem extends React.Component {
         ...prev,
         message: null,
       }));
-      history.push(routes.MY_ITEMS);
     }, 3000);
   };
 
@@ -109,73 +109,76 @@ class AddItem extends React.Component {
       image,
       largeImage,
       message,
+      uploadingFile,
     } = this.state;
 
     return (
       <Fragment>
-        <Form>
-          <Header as="h2">Add new item</Header>
-          <Form.Field>
-            <Input
-              name="title"
-              placeholder="Title"
-              type="text"
-              value={title}
-              onChange={this.onChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <TextArea
-              name="description"
-              placeholder="Description"
-              type="text"
-              value={description}
-              onChange={this.onChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Input
-              name="price"
-              labelPosition="right"
-              placeholder="Price"
-              type="number"
-              value={price}
-              onChange={this.onChange}
-            >
-              <input />
-              <Label basic>€</Label>
-            </Input>
-          </Form.Field>
-          <Form.Field>
-            <Input
-              name="file"
-              placeholder="Upload an image"
-              type="file"
-              onChange={this.uploadFile}
-            />
-          </Form.Field>
-          <Mutation
-            mutation={ADD_ITEM}
-            variables={{
-              title,
-              description,
-              price: Number(price),
-              image,
-              largeImage,
-            }}
-            refetchQueries={[{ query: GET_MY_ITEMS }]}
-          >
-            {addItem => (
-              <Button
-                type="submit"
-                onClick={event => this.onSubmit(event, addItem)}
-              >
-                Add
-              </Button>
-            )}
-          </Mutation>
-        </Form>
-        {message && <Message color="green">New item added!</Message>}
+        <Mutation
+          mutation={ADD_ITEM}
+          variables={{
+            title,
+            description,
+            price: Number(price),
+            image,
+            largeImage,
+          }}
+          refetchQueries={[{ query: GET_MY_ITEMS }]}
+        >
+          {(addItem, { loading }) => (
+            <Fragment>
+              <Header as="h2">Add new item</Header>
+              <Form loading={loading || uploadingFile}>
+                <Form.Field>
+                  <Input
+                    name="title"
+                    placeholder="Title"
+                    type="text"
+                    value={title}
+                    onChange={this.onChange}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <TextArea
+                    name="description"
+                    placeholder="Description"
+                    type="text"
+                    value={description}
+                    onChange={this.onChange}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Input
+                    name="price"
+                    labelPosition="right"
+                    placeholder="Price"
+                    type="number"
+                    value={price}
+                    onChange={this.onChange}
+                  >
+                    <input />
+                    <Label basic>€</Label>
+                  </Input>
+                </Form.Field>
+                <Form.Field>
+                  <Input
+                    name="file"
+                    placeholder="Upload an image"
+                    type="file"
+                    onChange={this.uploadFile}
+                  />
+                </Form.Field>
+                <Button
+                  type="submit"
+                  onClick={event => this.onSubmit(event, addItem)}
+                >
+                  Add
+                </Button>
+              </Form>
+            </Fragment>
+          )}
+        </Mutation>
+        {message && <Message color="green">{message}</Message>}
       </Fragment>
     );
   }

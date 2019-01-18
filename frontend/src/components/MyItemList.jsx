@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { Image, Segment, Card } from 'semantic-ui-react';
+import { Image, Segment, Card, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 export const GET_MY_ITEMS = gql`
   {
@@ -43,6 +44,12 @@ const MyItemList = () => (
                   <Card.Header>{item.title}</Card.Header>
                   <Card.Meta>{`${item.price} €`}</Card.Meta>
                   <Card.Description>{item.description}</Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <Link to={`/edit-item/${item.id}`}>
+                    <Icon name="edit" />
+                    Edit
+                  </Link>
                 </Card.Content>
               </Card>
             ))}

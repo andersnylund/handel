@@ -30,8 +30,8 @@ const SelectMyItem = ({ onChangeItem }) => (
               onChange={onChangeItem}
               options={options}
               selection
-              fluid
-              placeholder="Select an item to trade against"
+              scrolling
+              placeholder="Select an item to trade with"
             />
           </Fragment>
         );

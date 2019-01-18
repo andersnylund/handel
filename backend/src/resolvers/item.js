@@ -54,6 +54,16 @@ export default {
         };
       }
     ),
+    getMyItem: combineResolvers(
+      isAuthenticated,
+      async (parent, { id }, { models: { Item }, me }) => {
+        const item = await Item.findByPk(id);
+        if (!item || item.userId !== me.id) {
+          throw new UserInputError('Item not found');
+        }
+        return item;
+      }
+    ),
     nextItem: combineResolvers(
       isAuthenticated,
       async (parent, { myItemId }, { models: { Item, Offer }, me }) => {
@@ -105,6 +115,28 @@ export default {
           userId: me.id,
         });
         return item;
+      }
+    ),
+    editItem: combineResolvers(
+      isAuthenticated,
+      async (
+        parent,
+        { id, title, description, price, image, largeImage },
+        { models: { Item }, me }
+      ) => {
+        const item = await Item.findByPk(id);
+        if (!item || item.userId !== me.id) {
+          throw new UserInputError('Item not found');
+        }
+
+        const result = await item.update({
+          ...(title && { title }),
+          ...(description && { description }),
+          ...(price && { price }),
+          ...(image && { image }),
+          ...(largeImage && { largeImage }),
+        });
+        return result;
       }
     ),
   },

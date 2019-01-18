@@ -36,20 +36,23 @@ class TradingPage extends Component {
 
     return (
       <Fragment>
-        <Header as="h2">Items</Header>
+        {myItemId && <Header as="h3">Trading with</Header>}
         <SelectMyItem onChangeItem={this.handleChangeItem} />
         {myItemId && (
-          <Query query={NEXT_ITEM} variables={{ myItemId }}>
-            {({ data, loading }) => {
-              if (loading) {
-                return <div>Loading...</div>;
-              }
-              if (!data.nextItem) {
-                return <div>No more items to trade against :( </div>;
-              }
-              return <Item item={data.nextItem} myItemId={myItemId} />;
-            }}
-          </Query>
+          <Fragment>
+            <Header as="h3">Against</Header>
+            <Query query={NEXT_ITEM} variables={{ myItemId }}>
+              {({ data, loading }) => {
+                if (loading) {
+                  return <div>Loading...</div>;
+                }
+                if (!data.nextItem) {
+                  return <div>No more items to trade against :( </div>;
+                }
+                return <Item item={data.nextItem} myItemId={myItemId} />;
+              }}
+            </Query>
+          </Fragment>
         )}
       </Fragment>
     );
