@@ -12,7 +12,7 @@ import models, { sequelize } from './models';
 import { createData } from './testData';
 
 dotenv.config();
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isDevelopment = false; // process.env.NODE_ENV === 'development';
 
 const app = express();
 app.use(cors());
@@ -21,7 +21,7 @@ app.use(helmet());
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
-  debug: isDevelopment,
+  debug: true,
   formatError: error => {
     // remove the internal sequelize error message
     // leave only the important validation error

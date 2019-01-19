@@ -14,6 +14,7 @@ import withSession from './session/withSession';
 import * as routes from './constants/routes';
 import history from './constants/history';
 import EditItemPage from './pages/EditItemPage';
+import DealsPage from './pages/DealsPage';
 
 const App = ({ session, refetch }) => (
   <Router history={history}>
@@ -49,6 +50,11 @@ const App = ({ session, refetch }) => (
           exact
           path={routes.MY_ITEMS}
           component={() => <MyItemsPage refetch={refetch} />}
+        />
+        <Route
+          exact
+          path={routes.MY_DEALS}
+          component={() => <DealsPage refetch={refetch} />}
         />
       </Container>
     </Fragment>
