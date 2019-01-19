@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     myItems(cursor: String, limit: Int): ItemConnection!
+    getMyItem(id: ID!): Item!
     nextItem(myItemId: ID!): Item
   }
 
@@ -14,6 +15,15 @@ export default gql`
       image: String!
       largeImage: String!
     ): Item!
+    editItem(
+      id: ID!
+      title: String
+      description: String
+      price: Int
+      image: String
+      largeImage: String
+    ): Item!
+    removeItem(id: ID!): Boolean!
   }
 
   type ItemConnection {

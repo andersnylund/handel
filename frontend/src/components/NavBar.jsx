@@ -8,11 +8,14 @@ import Logout from './Logout';
 const authorizedMenu = () => (
   <Dropdown icon="bars" item>
     <Dropdown.Menu>
-      <Dropdown.Item>
+      {/* <Dropdown.Item>
         <Link to={routes.ACCOUNT}>Account</Link>
+      </Dropdown.Item> */}
+      <Dropdown.Item>
+        <Link to={routes.MY_ITEMS}>Items</Link>
       </Dropdown.Item>
       <Dropdown.Item>
-        <Link to={routes.MY_ITEMS}>My Items</Link>
+        <Link to={routes.MY_DEALS}>Deals</Link>
       </Dropdown.Item>
       <Dropdown.Item>
         <Logout />
