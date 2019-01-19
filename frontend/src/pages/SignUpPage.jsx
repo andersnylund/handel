@@ -16,9 +16,9 @@ const SIGN_UP = gql`
 
 class Login extends React.Component {
   state = {
-    username: 'newuser',
-    email: 'newuser@example.com',
-    password: 'verysecretpassword',
+    username: '',
+    email: '',
+    password: '',
   };
 
   handleChange = e => {

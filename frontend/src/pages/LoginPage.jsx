@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Form, Header, Button } from 'semantic-ui-react';
+import { Form, Header, Button, Message } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter, Link } from 'react-router-dom';
@@ -16,8 +16,8 @@ const LOGIN = gql`
 
 class Login extends React.Component {
   state = {
-    login: 'andersnylund',
-    password: 'verysecretpassword',
+    login: '',
+    password: '',
   };
 
   handleChange = e => {
@@ -40,7 +40,12 @@ class Login extends React.Component {
     const { login, password } = this.state;
     return (
       <Fragment>
-        <Header as="h2">Login</Header>
+        <Header as="h2">Welcome to handel</Header>
+        <Message color="red">
+          This is a testing version of the early version of the service. I take
+          no responsibility or liability of anything you do with the service. I
+          may delete all data at any point.
+        </Message>
         <Form>
           <Form.Field>
             <input
@@ -72,7 +77,7 @@ class Login extends React.Component {
             )}
           </Mutation>
         </Form>
-        <Link to={routes.SIGN_UP}>Dont have an account yet? Sign up here</Link>
+        <Link to={routes.SIGN_UP}>Sign up here</Link>
       </Fragment>
     );
   }

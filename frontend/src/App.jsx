@@ -6,7 +6,7 @@ import NavBar from './components/NavBar';
 import TradingPage from './pages/TradingPage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
-import AccountPage from './pages/AccountPage';
+// import AccountPage from './pages/AccountPage';
 import MyItemsPage from './pages/MyItemsPage';
 import AddItemPage from './pages/AddItemPage';
 import withSession from './session/withSession';
@@ -32,11 +32,11 @@ const App = ({ session, refetch }) => (
           path={routes.SIGN_UP}
           component={() => <SignUpPage refetch={refetch} />}
         />
-        <Route
+        {/* <Route
           exact
           path={routes.ACCOUNT}
           component={() => <AccountPage refetch={refetch} />}
-        />
+        /> */}
         <Route
           exact
           path={routes.ADD_ITEM}
