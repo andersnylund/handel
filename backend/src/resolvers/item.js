@@ -3,12 +3,7 @@ import { Op } from 'sequelize';
 import { UserInputError } from 'apollo-server';
 
 import { isAuthenticated } from './authorization';
-
-const toCursorHash = string =>
-  Buffer.from(JSON.stringify(string)).toString('base64');
-
-const fromCursorHash = string =>
-  JSON.parse(Buffer.from(string, 'base64').toString('utf-8'));
+import { fromCursorHash, toCursorHash } from '../utils';
 
 export default {
   Query: {

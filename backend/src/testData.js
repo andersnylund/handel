@@ -22,7 +22,7 @@ export const createData = async models => {
     userId: user1.id,
   });
 
-  await models.Item.create({
+  const item3 = await models.Item.create({
     title: 'Bike',
     description: 'Tunturi',
     price: 60,
@@ -44,7 +44,7 @@ export const createData = async models => {
     userId: user2.id,
   });
 
-  await models.Item.create({
+  const item4 = await models.Item.create({
     title: 'Martela Picco-tuoli, useita',
     description:
       'Martela Picco-tuoli. Käsinojilla. Harmaa verhoilu, harmaat metalliosat, pyökkiset puuosat. VK178 ',
@@ -71,6 +71,24 @@ export const createData = async models => {
   await models.Offer.create({
     makerId: item1.id,
     receiverId: item2.id,
+    type: 'ACCEPT',
+  });
+
+  await models.Offer.create({
+    makerId: item2.id,
+    receiverId: item1.id,
+    type: 'ACCEPT',
+  });
+
+  await models.Offer.create({
+    makerId: item3.id,
+    receiverId: item2.id,
+    type: 'ACCEPT',
+  });
+
+  await models.Offer.create({
+    makerId: item2.id,
+    receiverId: item3.id,
     type: 'ACCEPT',
   });
 };

@@ -19,4 +19,10 @@ export const getMe = async req => {
   return null;
 };
 
-export default { getMe };
+export const toCursorHash = string =>
+  Buffer.from(JSON.stringify(string)).toString('base64');
+
+export const fromCursorHash = string =>
+  JSON.parse(Buffer.from(string, 'base64').toString('utf-8'));
+
+export default { getMe, toCursorHash, fromCursorHash };
