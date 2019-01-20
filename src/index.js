@@ -4,6 +4,7 @@ import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import chalk from 'chalk';
+import path from 'path';
 
 import { getMe } from './utils';
 import schema from './schema';
@@ -12,16 +13,19 @@ import models, { sequelize } from './models';
 import { createData } from './testData';
 
 dotenv.config();
-const isDevelopment = false; // process.env.NODE_ENV === 'development';
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 const app = express();
 app.use(cors());
 app.use(helmet());
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
-  debug: true,
+  debug: isDevelopment,
   formatError: error => {
     // remove the internal sequelize error message
     // leave only the important validation error
@@ -46,15 +50,27 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: '/graphql' });
 
+const port = process.env.PORT || 8000;
+
 sequelize.sync({ force: isDevelopment }).then(async () => {
   if (isDevelopment) {
     await createData(models);
   }
 
-  app.listen({ port: 8000 }, () => {
+  app.listen({ port }, () => {
     // eslint-disable-next-line no-console
-    console.log(chalk.green('Apollo Server on http://localhost:8000/graphql'));
+    console.log(
+      chalk.green(`Apollo Server on http://localhost:${port}/graphql`)
+    );
+    // eslint-disable-next-line no-console
+    console.log(chalk.green(`NODE_ENV=${process.env.NODE_ENV}`));
   });
+});
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../client/build/index.html'));
 });
 
 export default { getMe };
