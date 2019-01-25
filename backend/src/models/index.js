@@ -3,15 +3,22 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-  process.env.DATABASE,
-  process.env.DATABASE_USER,
-  process.env.DATABASE_PASSWORD,
-  {
-    dialect: 'postgres',
-    operatorsAliases: false,
-  }
-);
+// eslint-disable-next-line import/no-mutable-exports
+let sequelize;
+
+if (process.env.NODE_ENV !== 'production') {
+  sequelize = new Sequelize(
+    process.env.DATABASE,
+    process.env.DATABASE_USER,
+    process.env.DATABASE_PASSWORD,
+    {
+      dialect: 'postgres',
+      operatorsAliases: false,
+    }
+  );
+} else {
+  sequelize = new Sequelize(process.env.DATABASE_URL);
+}
 
 const models = {
   User: sequelize.import('./user'),
