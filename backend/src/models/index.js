@@ -21,7 +21,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const models = {
-  User: sequelize.import('./user'),
   Item: sequelize.import('./item'),
   Offer: sequelize.import('./offer'),
 };

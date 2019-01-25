@@ -5,12 +5,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import chalk from 'chalk';
 import path from 'path';
+import jwt from 'jsonwebtoken';
 
-import { getMe } from './utils';
+import { getKey, options, getMe } from './utils';
 import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
-import { createData } from './testData';
 
 dotenv.config();
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -41,24 +41,28 @@ const server = new ApolloServer({
     };
   },
   context: async ({ req }) => {
-    const me = await getMe(req);
+    const token = req.headers.authorization;
+    console.log(chalk.red(token));
+    const me = new Promise((resolve, reject) => {
+      jwt.verify(token, getKey, options, (err, decoded) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(decoded.email);
+      });
+    });
     return {
       models,
       me,
-      secret: process.env.SECRET,
     };
   },
 });
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3001;
 
-sequelize.sync({ force: isDevelopment }).then(async () => {
-  if (isDevelopment) {
-    await createData(models);
-  }
-
+sequelize.sync().then(async () => {
   app.listen({ port }, () => {
     // eslint-disable-next-line no-console
     console.log(
@@ -74,5 +78,3 @@ sequelize.sync({ force: isDevelopment }).then(async () => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, relativeFrontendBuildPath, '/index.html'));
 });
-
-export default { getMe };

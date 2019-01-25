@@ -9,6 +9,7 @@ import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import App from './App';
+import auth from './auth/Auth';
 import 'semantic-ui-css/semantic.min.css';
 
 const API_URL = '/graphql';
@@ -29,15 +30,14 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const authLink = new ApolloLink((operation, forward) => {
-  operation.setContext(
-    ({ headers = {}, localToken = localStorage.getItem('token') }) => {
-      if (localToken) {
-        // eslint-disable-next-line no-param-reassign
-        headers.authorization = `Bearer ${localToken}`;
-      }
-      return { headers };
+  operation.setContext(({ headers = {}, idToken = auth.getIdToken() }) => {
+    console.log('​headers', headers);
+    if (idToken) {
+      // eslint-disable-next-line no-param-reassign
+      headers.authorization = `Bearer ${idToken}`;
     }
-  );
+    return { headers };
+  });
 
   return forward(operation);
 });
