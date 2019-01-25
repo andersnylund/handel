@@ -12,7 +12,6 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 
-import withAuthorization from '../session/withAuthorization';
 import { GET_MY_ITEMS } from '../components/MyItemList';
 
 const ADD_ITEM = gql`
@@ -184,6 +183,4 @@ class AddItem extends React.Component {
   }
 }
 
-export default withAuthorization(session => session && session.me)(
-  withRouter(AddItem)
-);
+export default withRouter(AddItem);

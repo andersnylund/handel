@@ -1,86 +1,21 @@
 import React, { Fragment } from 'react';
-import { Form, Header, Button, Message } from 'semantic-ui-react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import { Header, Button, Message } from 'semantic-ui-react';
 import { withRouter, Link } from 'react-router-dom';
 
-import * as routes from '../constants/routes';
-
-const LOGIN = gql`
-  mutation($login: String!, $password: String!) {
-    login(login: $login, password: $password) {
-      token
-    }
-  }
-`;
-
-class Login extends React.Component {
-  state = {
-    login: '',
-    password: '',
-  };
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  onSubmit = async (event, loginMutation) => {
-    const { history, refetch } = this.props;
-
-    event.preventDefault();
-    const { data } = await loginMutation();
-    await localStorage.setItem('token', data.login.token);
-    await refetch();
-    history.push(routes.ITEMS);
-  };
-
-  render() {
-    const { login, password } = this.state;
-    return (
-      <Fragment>
-        <Header as="h2">Welcome to handel</Header>
-        <Message color="red">
-          This is a testing version of the early version of the service. I take
-          no responsibility or liability of anything you do with the service. I
-          may delete all data at any point.
-        </Message>
-        <Form>
-          <Form.Field>
-            <input
-              name="login"
-              placeholder="Username or email"
-              id="login"
-              value={login}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <input
-              name="password"
-              placeholder="Password"
-              id="password"
-              type="password"
-              value={password}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Mutation mutation={LOGIN} variables={{ login, password }}>
-            {loginMutation => (
-              <Button
-                type="submit"
-                onClick={event => this.onSubmit(event, loginMutation)}
-              >
-                Login
-              </Button>
-            )}
-          </Mutation>
-        </Form>
-        <Link to={routes.SIGN_UP}>Sign up here</Link>
-      </Fragment>
-    );
-  }
-}
+const Login = ({ auth: { isAuthenticated, login } }) => (
+  <Fragment>
+    <Header as="h2">Welcome to handel</Header>
+    <Message color="red">
+      This is a testing version of the early version of the service. I take no
+      responsibility or liability of anything you do with the service. I may
+      delete all data at any point.
+    </Message>
+    {isAuthenticated() ? (
+      <Link to="/profile">View profile</Link>
+    ) : (
+      <Button onClick={login}>Log In</Button>
+    )}
+  </Fragment>
+);
 
 export default withRouter(Login);

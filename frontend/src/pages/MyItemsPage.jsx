@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
 import MyItemList from '../components/MyItemList';
-import withAuthorization from '../session/withAuthorization';
 
 const AddButton = styled(Button)`
   position: -webkit-sticky;
@@ -33,6 +32,4 @@ const MyItems = ({ history }) => (
   </Fragment>
 );
 
-export default withAuthorization(session => session && session.me)(
-  withRouter(MyItems)
-);
+export default withRouter(MyItems);
