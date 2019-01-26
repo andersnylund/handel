@@ -11,7 +11,7 @@ export default {
       async (
         parent,
         { cursor, limit = 100 },
-        { models: { Item, Offer, User }, me }
+        { models: { Item, Offer }, user }
       ) => {
         const cursorOptions = cursor
           ? {
@@ -23,7 +23,7 @@ export default {
 
         const myItemIds = await Item.findAll({
           where: {
-            userId: me.id,
+            userId: user.sub,
           },
         }).map(item => item.id);
 
@@ -67,12 +67,13 @@ export default {
           myAnsweredOffers.map(async offer => {
             const myItem = await Item.findByPk(offer.receiverId);
             const otherItem = await Item.findByPk(offer.makerId);
-            const otherUser = await User.findByPk(otherItem.userId);
 
             return {
               myItem,
               otherItem,
-              participant: otherUser,
+              participant: {
+                userId: otherItem.userId,
+              },
               offer,
             };
           })

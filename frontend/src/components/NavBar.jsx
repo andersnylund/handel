@@ -1,10 +1,10 @@
 import React from 'react';
-import { Menu, Dropdown } from 'semantic-ui-react';
+import { Menu, Dropdown, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import * as routes from '../constants/routes';
 
-const authorizedMenu = () => (
+const authorizedMenu = logout => (
   <Dropdown icon="bars" item>
     <Dropdown.Menu>
       <Dropdown.Item>
@@ -12,6 +12,9 @@ const authorizedMenu = () => (
       </Dropdown.Item>
       <Dropdown.Item>
         <Link to={routes.MY_DEALS}>Deals</Link>
+      </Dropdown.Item>
+      <Dropdown.Item>
+        <Button onClick={logout}>Logout</Button>
       </Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
@@ -29,7 +32,7 @@ const NavBar = ({ auth: { isAuthenticated, login, logout } }) => (
       <Link to={routes.ITEMS}>Handel</Link>
     </Menu.Item>
     <Menu.Menu position="right">
-      {isAuthenticated() ? authorizedMenu() : unauthorizedMenu()}
+      {isAuthenticated() ? authorizedMenu(logout) : unauthorizedMenu()}
     </Menu.Menu>
   </Menu>
 );

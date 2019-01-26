@@ -9,7 +9,7 @@ export default {
   Query: {
     myItems: combineResolvers(
       isAuthenticated,
-      async (parent, { cursor, limit = 100 }, { models: { Item }, me }) => {
+      async (parent, { cursor, limit = 100 }, { models: { Item }, user }) => {
         const cursorOptions = cursor
           ? {
               createdAt: {
@@ -22,7 +22,7 @@ export default {
           order: [['createdAt', 'DESC']],
           limit: limit + 1,
           where: {
-            userId: me.id,
+            userId: user.sub,
             ...cursorOptions,
           },
         });
@@ -51,9 +51,9 @@ export default {
     ),
     getMyItem: combineResolvers(
       isAuthenticated,
-      async (parent, { id }, { models: { Item }, me }) => {
+      async (parent, { id }, { models: { Item }, user }) => {
         const item = await Item.findByPk(id);
-        if (!item || item.userId !== me.id) {
+        if (!item || item.userId !== user.sub) {
           throw new UserInputError('Item not found');
         }
         return item;
@@ -61,7 +61,7 @@ export default {
     ),
     nextItem: combineResolvers(
       isAuthenticated,
-      async (parent, { myItemId }, { models: { Item, Offer }, me }) => {
+      async (parent, { myItemId }, { models: { Item, Offer }, user }) => {
         const myItem = await Item.findByPk(myItemId);
 
         if (!myItem) {
@@ -70,7 +70,7 @@ export default {
 
         const myItems = await Item.findAll({
           where: {
-            userId: me.id,
+            userId: user.sub,
           },
         }).map(item => item.id);
 
@@ -99,7 +99,7 @@ export default {
       async (
         parent,
         { title, description, price, image, largeImage },
-        { models: { Item }, me }
+        { models: { Item }, user }
       ) => {
         const item = await Item.create({
           title,
@@ -107,7 +107,7 @@ export default {
           price,
           image,
           largeImage,
-          userId: me.id,
+          userId: user.sub,
         });
         return item;
       }
@@ -117,10 +117,10 @@ export default {
       async (
         parent,
         { id, title, description, price, image, largeImage },
-        { models: { Item }, me }
+        { models: { Item }, user }
       ) => {
         const item = await Item.findByPk(id);
-        if (!item || item.userId !== me.id) {
+        if (!item || item.userId !== user.sub) {
           throw new UserInputError('Item not found');
         }
 
@@ -136,9 +136,9 @@ export default {
     ),
     removeItem: combineResolvers(
       isAuthenticated,
-      async (parent, { id }, { models: { Item }, me }) => {
+      async (parent, { id }, { models: { Item }, user }) => {
         const item = await Item.findByPk(id);
-        if (!item || item.userId !== me.id) {
+        if (!item || item.userId !== user.sub) {
           throw new UserInputError('Item not found');
         }
         await item.destroy();

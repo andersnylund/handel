@@ -17,7 +17,6 @@ export default gql`
   }
 
   type Participant {
-    username: String!
-    email: String!
+    userId: String!
   }
 `;

@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, withRouter } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
 import NavBar from './components/NavBar';
@@ -26,7 +26,7 @@ class App extends Component {
   render() {
     const { auth } = this.state;
     return (
-      <Fragment>
+      <>
         <NavBar auth={auth} />
         <Container>
           <Route exact path={routes.ITEMS} component={() => <TradingPage />} />
@@ -52,9 +52,9 @@ class App extends Component {
           />
           <Route exact path={routes.MY_DEALS} component={() => <DealsPage />} />
         </Container>
-      </Fragment>
+      </>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

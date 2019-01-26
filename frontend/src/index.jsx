@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
@@ -9,7 +9,6 @@ import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import App from './App';
-import auth from './auth/Auth';
 import 'semantic-ui-css/semantic.min.css';
 
 const API_URL = '/graphql';
@@ -30,11 +29,12 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const authLink = new ApolloLink((operation, forward) => {
-  operation.setContext(({ headers = {}, idToken = auth.getIdToken() }) => {
-    console.log('​headers', headers);
+  operation.setContext(({ headers = {} }) => {
+    const idToken = localStorage.getItem('id_token');
+    // TODO use Auth.js
     if (idToken) {
       // eslint-disable-next-line no-param-reassign
-      headers.authorization = `Bearer ${idToken}`;
+      headers.authorization = idToken;
     }
     return { headers };
   });
@@ -52,10 +52,10 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <Router>
-      <Route component={App} />
-    </Router>
-  </ApolloProvider>,
+  <Router>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </Router>,
   document.getElementById('root')
 );

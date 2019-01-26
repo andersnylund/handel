@@ -7,10 +7,10 @@ import chalk from 'chalk';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 
-import { getKey, options, getMe } from './utils';
+import { getKey, options } from './utils';
 import schema from './schema';
 import resolvers from './resolvers';
-import models, { sequelize } from './models';
+import models from './models';
 
 dotenv.config();
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -42,19 +42,28 @@ const server = new ApolloServer({
   },
   context: async ({ req }) => {
     const token = req.headers.authorization;
-    console.log(chalk.red(token));
-    const me = new Promise((resolve, reject) => {
-      jwt.verify(token, getKey, options, (err, decoded) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(decoded.email);
-      });
-    });
-    return {
-      models,
-      me,
-    };
+    try {
+      const user = await Promise.resolve(
+        new Promise((resolve, reject) => {
+          // eslint-disable-next-line consistent-return
+          jwt.verify(token, getKey, options, (err, decoded) => {
+            if (err) {
+              return reject(err);
+            }
+            resolve(decoded);
+          });
+        })
+      );
+      return {
+        models,
+        user,
+      };
+    } catch (e) {
+      return {
+        models,
+        user: null,
+      };
+    }
   },
 });
 
@@ -62,15 +71,13 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 const port = process.env.PORT || 3001;
 
-sequelize.sync().then(async () => {
-  app.listen({ port }, () => {
-    // eslint-disable-next-line no-console
-    console.log(
-      chalk.green(`Apollo Server on http://localhost:${port}/graphql`)
-    );
-    // eslint-disable-next-line no-console
-    console.log(chalk.green(`NODE_ENV=${process.env.NODE_ENV}`));
-  });
+app.listen({ port }, () => {
+  // eslint-disable-next-line no-console
+  console.log(
+    chalk.yellow(`Apollo Server on http://localhost:${port}/graphql`)
+  );
+  // eslint-disable-next-line no-console
+  console.log(chalk.yellow(`NODE_ENV=${process.env.NODE_ENV}`));
 });
 
 // The "catchall" handler: for any request that doesn't

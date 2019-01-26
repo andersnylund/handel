@@ -9,7 +9,7 @@ export default class Auth {
       clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
       redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
       responseType: 'token id_token',
-      scope: 'openid profile email',
+      scope: 'openid email',
     });
   }
 
@@ -31,7 +31,6 @@ export default class Auth {
   };
 
   setSession = authResult => {
-    console.log(authResult);
     // set the time that the access token will expire
     const expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
@@ -52,7 +51,10 @@ export default class Auth {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     this.userProfile = null;
-    this.history.push('/');
+    this.auth0.logout({
+      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      returnTo: 'http://localhost:3000',
+    });
   };
 
   getAccessToken = () => {

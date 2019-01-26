@@ -40,6 +40,13 @@ const item = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    userId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   });
 
   return Item;

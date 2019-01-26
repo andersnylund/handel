@@ -20,8 +20,7 @@ const GET_DEALS = gql`
           image
         }
         participant {
-          username
-          email
+          userId
         }
       }
     }
@@ -68,12 +67,7 @@ const DealsList = () => (
                   <Divider horizontal>with</Divider>
 
                   <Grid.Column>
-                    <Header>
-                      {deal.participant.username}
-                      <Header.Subheader>
-                        {deal.participant.email}
-                      </Header.Subheader>
-                    </Header>
+                    <Header>{deal.participant.userId}</Header>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
