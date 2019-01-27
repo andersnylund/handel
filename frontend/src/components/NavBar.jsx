@@ -1,6 +1,8 @@
 import React from 'react';
 import { Menu, Dropdown, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { instanceOf } from 'prop-types';
+import Auth from '../auth/Auth';
 
 const authorizedMenu = logout => (
   <Dropdown icon="bars" item>
@@ -34,5 +36,9 @@ const NavBar = ({ auth: { isAuthenticated, login, logout } }) => (
     </Menu.Menu>
   </Menu>
 );
+
+NavBar.propTypes = {
+  auth: instanceOf(Auth).isRequired,
+};
 
 export default NavBar;

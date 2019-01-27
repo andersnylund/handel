@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
+import { object } from 'prop-types';
 
 import NavBar from './components/NavBar';
 import TradingPage from './pages/TradingPage';
 import LoginPage from './pages/LoginPage';
 import MyItemsPage from './pages/MyItemsPage';
 import AddItemPage from './pages/AddItemPage';
-
 import EditItemPage from './pages/EditItemPage';
 import DealsPage from './pages/DealsPage';
 import Auth from './auth/Auth';
+import AuthContext from './auth/AuthContext';
 import Callback from './auth/Callback';
+import PrivateRoute from './auth/PrivateRoute';
+import LandingPage from './pages/LandingPage';
 
 class App extends Component {
   constructor(props) {
@@ -25,10 +28,10 @@ class App extends Component {
   render() {
     const { auth } = this.state;
     return (
-      <>
+      <AuthContext.Provider value={auth}>
         <NavBar auth={auth} />
         <Container>
-          <Route exact path="/" component={() => <TradingPage />} />
+          <Route exact path="/" component={LandingPage} />
           <Route
             path="/callback"
             render={props => <Callback auth={auth} {...props} />}
@@ -38,14 +41,19 @@ class App extends Component {
             path="/login"
             component={() => <LoginPage auth={auth} />}
           />
-          <Route exact path="/add-item" component={() => <AddItemPage />} />
-          <Route path="/edit-item/:id" component={() => <EditItemPage />} />
-          <Route exact path="/my-items" component={() => <MyItemsPage />} />
-          <Route exact path="/my-deals" component={() => <DealsPage />} />
+          <PrivateRoute exact path="/trade" component={TradingPage} />
+          <PrivateRoute exact path="/add-item" component={AddItemPage} />
+          <PrivateRoute path="/edit-item/:id" component={EditItemPage} />
+          <PrivateRoute exact path="/my-items" component={MyItemsPage} />
+          <PrivateRoute exact path="/my-deals" component={DealsPage} />
         </Container>
-      </>
+      </AuthContext.Provider>
     );
   }
 }
+
+App.propTypes = {
+  history: object.isRequired,
+};
 
 export default withRouter(App);
