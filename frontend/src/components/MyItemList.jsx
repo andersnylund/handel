@@ -40,20 +40,27 @@ const REMOVE_ITEM = gql`
 class MyItemList extends React.Component {
   state = {
     isModalOpen: false,
+    mutation: null,
   };
 
-  onRemoveItem = async (event, mutation) => {
+  handleRemoveItem = async (event, mutation) => {
     event.preventDefault();
     await mutation();
     this.handleClose();
   };
 
-  handleOpen = () => this.setState({ isModalOpen: true });
+  handleOpen = mutation => {
+    this.setState({ isModalOpen: true, mutation });
+  };
 
-  handleClose = () => this.setState({ isModalOpen: false });
+  handleClose = () =>
+    this.setState({
+      isModalOpen: false,
+      mutation: null,
+    });
 
   render() {
-    const { isModalOpen } = this.state;
+    const { isModalOpen, mutation } = this.state;
 
     return (
       <Fragment>
@@ -66,13 +73,6 @@ class MyItemList extends React.Component {
                 </Segment>
               );
             }
-
-            const removeButton = (
-              <Label color="red" onClick={this.handleOpen}>
-                <Icon name="remove" />
-                Remove
-              </Label>
-            );
 
             return (
               <Card.Group stackable doubling itemsPerRow={3}>
@@ -99,29 +99,15 @@ class MyItemList extends React.Component {
                               <Icon name="edit" />
                               <Link to={`/edit-item/${item.id}`}>Edit</Link>
                             </Label>
-                            <Modal
-                              size="mini"
-                              trigger={removeButton}
-                              open={isModalOpen}
-                              onClose={this.handleClose}
+                            <Label
+                              color="red"
+                              onClick={() =>
+                                this.handleOpen(removeItemMutation)
+                              }
                             >
-                              <Modal.Header>Remove item?</Modal.Header>
-                              <Modal.Actions>
-                                <Button
-                                  color="red"
-                                  inverted
-                                  onClick={event =>
-                                    this.onRemoveItem(event, removeItemMutation)
-                                  }
-                                >
-                                  <Icon name="remove" />
-                                  Remove
-                                </Button>
-                                <Button onClick={this.handleClose}>
-                                  Cancel
-                                </Button>
-                              </Modal.Actions>
-                            </Modal>
+                              <Icon name="remove" />
+                              Remove
+                            </Label>
                           </Label.Group>
                         </Card.Content>
                       </Card>
@@ -132,6 +118,20 @@ class MyItemList extends React.Component {
             );
           }}
         </Query>
+        <Modal size="mini" open={isModalOpen} onClose={this.handleClose}>
+          <Modal.Header>Remove item?</Modal.Header>
+          <Modal.Actions>
+            <Button
+              color="red"
+              inverted
+              onClick={event => this.handleRemoveItem(event, mutation)}
+            >
+              <Icon name="remove" />
+              Remove
+            </Button>
+            <Button onClick={this.handleClose}>Cancel</Button>
+          </Modal.Actions>
+        </Modal>
       </Fragment>
     );
   }

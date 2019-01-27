@@ -3,7 +3,6 @@ import { Header, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
-import * as routes from '../constants/routes';
 import MyItemList from '../components/MyItemList';
 
 const AddButton = styled(Button)`
@@ -15,7 +14,7 @@ const AddButton = styled(Button)`
 
 const onClickAddNew = (event, history) => {
   event.preventDefault();
-  history.push(routes.ADD_ITEM);
+  history.push('/add-item');
 };
 
 const MyItems = ({ history }) => (
@@ -26,7 +25,7 @@ const MyItems = ({ history }) => (
       circular
       icon="add"
       color="blue"
-      size="massive"
+      size="huge"
       onClick={event => onClickAddNew(event, history)}
     />
   </Fragment>

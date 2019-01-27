@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken';
 import { getKey, options } from './utils';
 import schema from './schema';
 import resolvers from './resolvers';
-import models from './models';
+import models, { sequelize } from './models';
 
 dotenv.config();
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -71,13 +71,15 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 const port = process.env.PORT || 3001;
 
-app.listen({ port }, () => {
-  // eslint-disable-next-line no-console
-  console.log(
-    chalk.yellow(`Apollo Server on http://localhost:${port}/graphql`)
-  );
-  // eslint-disable-next-line no-console
-  console.log(chalk.yellow(`NODE_ENV=${process.env.NODE_ENV}`));
+sequelize.sync().then(() => {
+  app.listen({ port }, () => {
+    // eslint-disable-next-line no-console
+    console.log(
+      chalk.yellow(`Apollo Server on http://localhost:${port}/graphql`)
+    );
+    // eslint-disable-next-line no-console
+    console.log(chalk.yellow(`NODE_ENV=${process.env.NODE_ENV}`));
+  });
 });
 
 // The "catchall" handler: for any request that doesn't

@@ -8,7 +8,6 @@ import LoginPage from './pages/LoginPage';
 import MyItemsPage from './pages/MyItemsPage';
 import AddItemPage from './pages/AddItemPage';
 
-import * as routes from './constants/routes';
 import EditItemPage from './pages/EditItemPage';
 import DealsPage from './pages/DealsPage';
 import Auth from './auth/Auth';
@@ -29,28 +28,20 @@ class App extends Component {
       <>
         <NavBar auth={auth} />
         <Container>
-          <Route exact path={routes.ITEMS} component={() => <TradingPage />} />
+          <Route exact path="/" component={() => <TradingPage />} />
           <Route
             path="/callback"
             render={props => <Callback auth={auth} {...props} />}
           />
           <Route
             exact
-            path={routes.LOGIN}
+            path="/login"
             component={() => <LoginPage auth={auth} />}
           />
-          <Route
-            exact
-            path={routes.ADD_ITEM}
-            component={() => <AddItemPage />}
-          />
-          <Route path={routes.EDIT_ITEM} component={() => <EditItemPage />} />
-          <Route
-            exact
-            path={routes.MY_ITEMS}
-            component={() => <MyItemsPage />}
-          />
-          <Route exact path={routes.MY_DEALS} component={() => <DealsPage />} />
+          <Route exact path="/add-item" component={() => <AddItemPage />} />
+          <Route path="/edit-item/:id" component={() => <EditItemPage />} />
+          <Route exact path="/my-items" component={() => <MyItemsPage />} />
+          <Route exact path="/my-deals" component={() => <DealsPage />} />
         </Container>
       </>
     );
