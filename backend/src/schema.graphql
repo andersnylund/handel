@@ -1,0 +1,11 @@
+# The shape of the public facing API
+
+# import * from './generated/prisma.graphql'
+
+type Mutation {
+  test(id: ID!): String
+}
+
+type Query {
+  item(id: ID!): String
+}

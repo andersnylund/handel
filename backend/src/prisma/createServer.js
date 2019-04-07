@@ -5,8 +5,8 @@ import db from './db';
 
 // Create the GraphQL Yoga server
 
-function createServer() {
-  return new GraphQLServer({
+const createServer = () =>
+  new GraphQLServer({
     typeDefs: 'src/schema.graphql',
     resolvers: {
       Mutation,
@@ -17,6 +17,5 @@ function createServer() {
     },
     context: req => ({ ...req, db }),
   });
-}
 
 export default createServer;
