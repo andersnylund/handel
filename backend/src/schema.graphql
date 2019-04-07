@@ -3,9 +3,25 @@
 # import * from './generated/prisma.graphql'
 
 type Mutation {
-  test(id: ID!): String
+  addItem(
+    title: String!
+    description: String!
+    price: Int!
+    image: String!
+    largeImage: String!
+  ): Item!
+  editItem(
+    id: ID!
+    title: String
+    description: String
+    price: Int
+    image: String
+    largeImage: String
+  ): Item
+  removeItem(id: ID!): Boolean!
 }
 
 type Query {
-  item(id: ID!): String
+  myItems: [Item!]!
+  getMyItem(id: ID!): Item
 }

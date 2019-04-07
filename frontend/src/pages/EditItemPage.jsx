@@ -137,7 +137,7 @@ class EditItemPage extends React.Component {
                   id,
                   title,
                   description,
-                  price: Number(price),
+                  price: price ? Number(price) : undefined,
                   image,
                   largeImage,
                 }}

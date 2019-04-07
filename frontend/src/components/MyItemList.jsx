@@ -15,18 +15,12 @@ import { Link } from 'react-router-dom';
 export const GET_MY_ITEMS = gql`
   {
     myItems {
-      edges {
-        id
-        title
-        description
-        price
-        image
-        largeImage
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
+      id
+      title
+      description
+      price
+      image
+      largeImage
     }
   }
 `;
@@ -76,7 +70,7 @@ class MyItemList extends React.Component {
 
             return (
               <Card.Group stackable doubling itemsPerRow={3}>
-                {data.myItems.edges.map(item => (
+                {data.myItems.map(item => (
                   <Mutation
                     key={item.id}
                     mutation={REMOVE_ITEM}

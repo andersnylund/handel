@@ -19,10 +19,12 @@ const httpLink = new HttpLink({
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
+    // eslint-disable-next-line no-console
     console.error(graphQLErrors);
     // do something with graphql error
   }
   if (networkError) {
+    // eslint-disable-next-line no-console
     console.error(networkError);
     // do something with network error
   }

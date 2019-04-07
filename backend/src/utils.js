@@ -20,10 +20,4 @@ export const options = {
   algorithms: ['RS256'],
 };
 
-export const toCursorHash = string =>
-  Buffer.from(JSON.stringify(string)).toString('base64');
-
-export const fromCursorHash = string =>
-  JSON.parse(Buffer.from(string, 'base64').toString('utf-8'));
-
-export default { getKey, options, toCursorHash, fromCursorHash };
+export default { getKey, options };

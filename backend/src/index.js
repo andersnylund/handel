@@ -1,11 +1,37 @@
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
+
 import createServer from './prisma/createServer';
+import { getKey, options } from './utils';
 
 dotenv.config();
 
 const server = createServer();
+
+// decode the jwt so we can get the userId on each request
+server.express.use(async (req, res, next) => {
+  const token = req.headers.authorization;
+  try {
+    const user = await Promise.resolve(
+      new Promise((resolve, reject) => {
+        // eslint-disable-next-line consistent-return
+        jwt.verify(token, getKey, options, (err, decoded) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(decoded);
+        });
+      }),
+    );
+    req.user = user;
+    next();
+  } catch (e) {
+    req.user = null;
+    next();
+  }
+});
 
 server.start(
   {
@@ -19,6 +45,7 @@ server.start(
     },
   },
   deets => {
+    // eslint-disable-next-line no-console
     console.log('deets:', deets);
     // eslint-disable-next-line no-console
     console.log(`Server is now running on port http://localhost:${deets.port}`);
