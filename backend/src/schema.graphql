@@ -19,6 +19,7 @@ type Mutation {
     largeImage: String
   ): Item
   removeItem(id: ID!): Boolean!
+  makeOffer(myItemId: ID!, otherItemId: ID!, type: OfferType!): Offer!
 }
 
 type Query {

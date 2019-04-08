@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Apr 07 2019 08:21:45 GMT+0300 (Eastern European Summer Time)
+# timestamp: Mon Apr 08 2019 22:05:29 GMT+0300 (Eastern European Summer Time)
 
 type AggregateItem {
   count: Int!
@@ -479,7 +479,7 @@ interface Node {
 
 type Offer implements Node {
   id: ID!
-  type: String!
+  type: OfferType!
   maker: Item!
   receiver: Item!
 }
@@ -496,7 +496,7 @@ type OfferConnection {
 
 input OfferCreateInput {
   id: ID
-  type: String!
+  type: OfferType!
   maker: ItemCreateOneInput!
   receiver: ItemCreateOneInput!
 }
@@ -523,7 +523,7 @@ enum OfferOrderByInput {
 
 type OfferPreviousValues {
   id: ID!
-  type: String!
+  type: OfferType!
 }
 
 type OfferSubscriptionPayload {
@@ -565,14 +565,19 @@ input OfferSubscriptionWhereInput {
   node: OfferWhereInput
 }
 
+enum OfferType {
+  ACCEPT
+  REJECT
+}
+
 input OfferUpdateInput {
-  type: String
+  type: OfferType
   maker: ItemUpdateOneRequiredInput
   receiver: ItemUpdateOneRequiredInput
 }
 
 input OfferUpdateManyMutationInput {
-  type: String
+  type: OfferType
 }
 
 input OfferWhereInput {
@@ -624,46 +629,16 @@ input OfferWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  type: String
+  type: OfferType
 
   """All values that are not equal to given value."""
-  type_not: String
+  type_not: OfferType
 
   """All values that are contained in given list."""
-  type_in: [String!]
+  type_in: [OfferType!]
 
   """All values that are not contained in given list."""
-  type_not_in: [String!]
-
-  """All values less than the given value."""
-  type_lt: String
-
-  """All values less than or equal the given value."""
-  type_lte: String
-
-  """All values greater than the given value."""
-  type_gt: String
-
-  """All values greater than or equal the given value."""
-  type_gte: String
-
-  """All values containing the given string."""
-  type_contains: String
-
-  """All values not containing the given string."""
-  type_not_contains: String
-
-  """All values starting with the given string."""
-  type_starts_with: String
-
-  """All values not starting with the given string."""
-  type_not_starts_with: String
-
-  """All values ending with the given string."""
-  type_ends_with: String
-
-  """All values not ending with the given string."""
-  type_not_ends_with: String
+  type_not_in: [OfferType!]
   maker: ItemWhereInput
   receiver: ItemWhereInput
 }

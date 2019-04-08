@@ -10,7 +10,12 @@ type Item {
 
 type Offer {
   id: ID! @unique
-  type: String!
+  type: OfferType!
   maker: Item! @relation(name: "Maker")
   receiver: Item! @relation(name: "Receiver")
+}
+
+enum OfferType {
+  ACCEPT
+  REJECT
 }

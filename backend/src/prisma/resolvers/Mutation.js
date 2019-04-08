@@ -66,6 +66,39 @@ const Mutations = {
 
     return true;
   },
+
+  makeOffer: async (parent, args, ctx) => {
+    const myItem = await ctx.db.query.item({
+      where: {
+        id: args.myItemId,
+      },
+    });
+    const otherItem = await ctx.db.query.item({
+      where: {
+        id: args.otherItemId,
+      },
+    });
+    if (!myItem || !otherItem) {
+      throw new Error('Item ID not found!');
+    }
+    const result = await ctx.db.mutation.createOffer({
+      data: {
+        type: args.type,
+        maker: {
+          connect: {
+            id: myItem.id,
+          },
+        },
+        receiver: {
+          connect: {
+            id: otherItem.id,
+          },
+        },
+      },
+    });
+
+    return result;
+  },
 };
 
 export default Mutations;

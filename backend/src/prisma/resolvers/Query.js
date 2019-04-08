@@ -50,18 +50,21 @@ const Queries = {
     });
     const myItemIds = myItems.map(item => item.id);
 
-    const offersWithItem = await ctx.db.query.offers({
-      where: {
-        maker: {
-          id: myItem.id,
+    const offeredItems = await ctx.db.query.offers(
+      {
+        where: {
+          maker: {
+            id: myItem.id,
+          },
         },
       },
-    });
-    const offerIdsWithMyItem = offersWithItem.map(item => item.id);
+      `{ receiver { id } }`,
+    );
+    const offeredItemIds = offeredItems.map(item => item.receiver.id);
 
     const result = await ctx.db.query.items({
       where: {
-        id_not_in: [...myItemIds, ...offerIdsWithMyItem],
+        id_not_in: [...myItemIds, ...offeredItemIds],
       },
       first: 1,
     });
