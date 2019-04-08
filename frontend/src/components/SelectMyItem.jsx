@@ -11,7 +11,7 @@ const SelectMyItem = ({ onChangeItem }) => (
       if (loading) {
         return <div>Loading...</div>;
       }
-      const options = data.myItems.edges.map(item => ({
+      const options = data.myItems.map(item => ({
         key: item.id,
         value: item.id,
         text: item.title,

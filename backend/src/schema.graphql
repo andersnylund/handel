@@ -24,4 +24,5 @@ type Mutation {
 type Query {
   myItems: [Item!]!
   getMyItem(id: ID!): Item
+  nextItem(myItemId: ID!): Item
 }

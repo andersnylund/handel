@@ -26,6 +26,48 @@ const Queries = {
 
     return item;
   },
+
+  nextItem: async (parent, args, ctx) => {
+    if (!ctx.request.user) {
+      throw new Error('You must be logged in');
+    }
+
+    const myItem = await ctx.db.query.item({
+      where: {
+        id: args.myItemId,
+      },
+    });
+
+    // TODO test and abstract away this
+    if (!myItem || myItem.userId !== ctx.request.user.sub) {
+      throw new Error('Item not found');
+    }
+
+    const myItems = await ctx.db.query.items({
+      where: {
+        userId: ctx.request.user.sub,
+      },
+    });
+    const myItemIds = myItems.map(item => item.id);
+
+    const offersWithItem = await ctx.db.query.offers({
+      where: {
+        maker: {
+          id: myItem.id,
+        },
+      },
+    });
+    const offerIdsWithMyItem = offersWithItem.map(item => item.id);
+
+    const result = await ctx.db.query.items({
+      where: {
+        id_not_in: [...myItemIds, ...offerIdsWithMyItem],
+      },
+      first: 1,
+    });
+    const first = result[0];
+    return first;
+  },
 };
 
 export default Queries;
