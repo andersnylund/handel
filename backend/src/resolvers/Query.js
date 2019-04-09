@@ -1,10 +1,12 @@
+const { prisma } = require('../generated/prisma-client');
+
 const Queries = {
   myItems: (parent, args, ctx) => {
     if (!ctx.request.user) {
       throw new Error('You must be logged in');
     }
 
-    const items = ctx.db.query.items({
+    const items = prisma.items({
       where: {
         userId: ctx.request.user.sub,
       },
@@ -18,10 +20,8 @@ const Queries = {
       throw new Error('You must be logged in');
     }
 
-    const item = ctx.db.query.item({
-      where: {
-        id: args.id,
-      },
+    const item = prisma.item({
+      id: args.id,
     });
 
     return item;
@@ -32,10 +32,8 @@ const Queries = {
       throw new Error('You must be logged in');
     }
 
-    const myItem = await ctx.db.query.item({
-      where: {
-        id: args.myItemId,
-      },
+    const myItem = await prisma.item({
+      id: args.myItemId,
     });
 
     // TODO test and abstract away this
@@ -43,26 +41,25 @@ const Queries = {
       throw new Error('Item not found');
     }
 
-    const myItems = await ctx.db.query.items({
+    const myItems = await prisma.items({
       where: {
         userId: ctx.request.user.sub,
       },
     });
     const myItemIds = myItems.map(item => item.id);
 
-    const offeredItems = await ctx.db.query.offers(
-      {
+    const offeredItems = await prisma
+      .offers({
         where: {
           maker: {
             id: myItem.id,
           },
         },
-      },
-      `{ receiver { id } }`,
-    );
+      })
+      .$fragment('{ receiver { id } }');
     const offeredItemIds = offeredItems.map(item => item.receiver.id);
 
-    const result = await ctx.db.query.items({
+    const result = await prisma.items({
       where: {
         id_not_in: [...myItemIds, ...offeredItemIds],
       },
@@ -77,7 +74,7 @@ const Queries = {
       throw new Error('You must be logged in');
     }
 
-    const myItems = await ctx.db.query.items({
+    const myItems = await prisma.items({
       where: {
         userId: ctx.request.user.sub,
       },
@@ -85,23 +82,22 @@ const Queries = {
 
     const myItemIds = myItems.map(item => item.id);
 
-    const myOffers = await ctx.db.query.offers(
-      {
+    const myOffers = await prisma
+      .offers({
         where: {
           maker: {
             id_in: [...myItemIds],
           },
         },
-      },
-      '{ receiver { id }}',
-    );
+      })
+      .$fragment('{ receiver { id }}');
 
     const myOfferReceiverItemIds = await myOffers.map(
       offer => offer.receiver.id,
     );
 
-    const myAnsweredOffers = await ctx.db.query.offers(
-      {
+    const myAnsweredOffers = await prisma
+      .offers({
         where: {
           maker: {
             id_in: [...myOfferReceiverItemIds],
@@ -110,9 +106,10 @@ const Queries = {
             id_in: [...myItemIds],
           },
         },
-      },
-      '{ id type maker { id title description price image largeImage userId } receiver { id title description price image largeImage userId } }',
-    );
+      })
+      .$fragment(
+        '{ id type maker { id title description price image largeImage userId } receiver { id title description price image largeImage userId } }',
+      );
 
     return myAnsweredOffers.map(offer => ({
       myItem: offer.maker,

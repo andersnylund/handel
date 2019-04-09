@@ -1,10 +1,13 @@
+import { prisma } from '../generated/prisma-client';
+
 const Mutations = {
   addItem: async (parent, args, ctx) => {
     if (!ctx.request.user) {
       throw new Error('You must be logged in');
     }
-    const item = ctx.db.mutation.createItem({
-      data: { ...args, userId: ctx.request.user.sub },
+    const item = prisma.createItem({
+      ...args,
+      userId: ctx.request.user.sub,
     });
 
     return item;
@@ -15,10 +18,8 @@ const Mutations = {
       throw new Error('You must be logged in');
     }
 
-    const item = await ctx.db.query.item({
-      where: {
-        id: args.id,
-      },
+    const item = await prisma.item({
+      id: args.id,
     });
 
     // TODO test this
@@ -31,7 +32,7 @@ const Mutations = {
     // remove the ID from the updates
     delete updates.id;
     // run the update mehtod
-    return ctx.db.mutation.updateItem(
+    return prisma.updateItem(
       {
         data: updates,
         where: {
@@ -47,10 +48,8 @@ const Mutations = {
       throw new Error('You must be logged in');
     }
 
-    const item = await ctx.db.query.item({
-      where: {
-        id: args.id,
-      },
+    const item = await prisma.item({
+      id: args.id,
     });
 
     // TODO test and abstract away this
@@ -58,41 +57,39 @@ const Mutations = {
       throw new Error('Item not found');
     }
 
-    await ctx.db.mutation.deleteItem({
-      where: {
-        id: args.id,
-      },
+    await prisma.deleteItem({
+      id: args.id,
     });
 
     return true;
   },
 
   makeOffer: async (parent, args, ctx) => {
-    const myItem = await ctx.db.query.item({
-      where: {
-        id: args.myItemId,
-      },
+    if (!ctx.request.user) {
+      throw new Error('You must be logged in');
+    }
+
+    // TODO check if myItem is owned by the right person
+
+    const myItem = await prisma.item({
+      id: args.myItemId,
     });
-    const otherItem = await ctx.db.query.item({
-      where: {
-        id: args.otherItemId,
-      },
+    const otherItem = await prisma.item({
+      id: args.otherItemId,
     });
     if (!myItem || !otherItem) {
       throw new Error('Item ID not found!');
     }
-    const result = await ctx.db.mutation.createOffer({
-      data: {
-        type: args.type,
-        maker: {
-          connect: {
-            id: myItem.id,
-          },
+    const result = await prisma.createOffer({
+      type: args.type,
+      maker: {
+        connect: {
+          id: myItem.id,
         },
-        receiver: {
-          connect: {
-            id: otherItem.id,
-          },
+      },
+      receiver: {
+        connect: {
+          id: otherItem.id,
         },
       },
     });
