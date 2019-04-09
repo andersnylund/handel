@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import createServer from './prisma/createServer';
+import createServer from './createServer';
 import { getKey, options } from './utils';
 
 dotenv.config();
@@ -46,9 +46,7 @@ server.start(
   },
   deets => {
     // eslint-disable-next-line no-console
-    console.log('deets:', deets);
-    // eslint-disable-next-line no-console
-    console.log(`Server is now running on port http://localhost:${deets.port}`);
+    console.log('Server running: \n', deets);
   },
 );
 
