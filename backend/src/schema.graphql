@@ -1,5 +1,6 @@
 # The shape of the public facing API
 
+# TODO find out if these generated files are necessary when the are also found from the prisma-client
 # import * from './generated/prisma.graphql'
 
 type Mutation {

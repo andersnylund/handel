@@ -2,13 +2,13 @@
 // Please don't change this file manually but run `prisma generate` to update it.
 // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-import { DocumentNode } from 'graphql';
+import { DocumentNode } from "graphql";
 import {
   makePrismaClientClass,
   BaseClientOptions,
-  Model,
-} from 'prisma-client-lib';
-import { typeDefs } from './prisma-schema';
+  Model
+} from "prisma-client-lib";
+import { typeDefs } from "./prisma-schema";
 
 export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
@@ -30,7 +30,7 @@ export interface Prisma {
   $exists: Exists;
   $graphql: <T = any>(
     query: string,
-    variables?: { [key: string]: any },
+    variables?: { [key: string]: any }
   ) => Promise<T>;
 
   /**
@@ -38,43 +38,51 @@ export interface Prisma {
    */
 
   item: (where: ItemWhereUniqueInput) => ItemPromise;
-  items: (args?: {
-    where?: ItemWhereInput;
-    orderBy?: ItemOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Item>;
-  itemsConnection: (args?: {
-    where?: ItemWhereInput;
-    orderBy?: ItemOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => ItemConnectionPromise;
+  items: (
+    args?: {
+      where?: ItemWhereInput;
+      orderBy?: ItemOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Item>;
+  itemsConnection: (
+    args?: {
+      where?: ItemWhereInput;
+      orderBy?: ItemOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => ItemConnectionPromise;
   offer: (where: OfferWhereUniqueInput) => OfferPromise;
-  offers: (args?: {
-    where?: OfferWhereInput;
-    orderBy?: OfferOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Offer>;
-  offersConnection: (args?: {
-    where?: OfferWhereInput;
-    orderBy?: OfferOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => OfferConnectionPromise;
+  offers: (
+    args?: {
+      where?: OfferWhereInput;
+      orderBy?: OfferOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Offer>;
+  offersConnection: (
+    args?: {
+      where?: OfferWhereInput;
+      orderBy?: OfferOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => OfferConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -82,35 +90,35 @@ export interface Prisma {
    */
 
   createItem: (data: ItemCreateInput) => ItemPromise;
-  updateItem: (args: {
-    data: ItemUpdateInput;
-    where: ItemWhereUniqueInput;
-  }) => ItemPromise;
-  updateManyItems: (args: {
-    data: ItemUpdateManyMutationInput;
-    where?: ItemWhereInput;
-  }) => BatchPayloadPromise;
-  upsertItem: (args: {
-    where: ItemWhereUniqueInput;
-    create: ItemCreateInput;
-    update: ItemUpdateInput;
-  }) => ItemPromise;
+  updateItem: (
+    args: { data: ItemUpdateInput; where: ItemWhereUniqueInput }
+  ) => ItemPromise;
+  updateManyItems: (
+    args: { data: ItemUpdateManyMutationInput; where?: ItemWhereInput }
+  ) => BatchPayloadPromise;
+  upsertItem: (
+    args: {
+      where: ItemWhereUniqueInput;
+      create: ItemCreateInput;
+      update: ItemUpdateInput;
+    }
+  ) => ItemPromise;
   deleteItem: (where: ItemWhereUniqueInput) => ItemPromise;
   deleteManyItems: (where?: ItemWhereInput) => BatchPayloadPromise;
   createOffer: (data: OfferCreateInput) => OfferPromise;
-  updateOffer: (args: {
-    data: OfferUpdateInput;
-    where: OfferWhereUniqueInput;
-  }) => OfferPromise;
-  updateManyOffers: (args: {
-    data: OfferUpdateManyMutationInput;
-    where?: OfferWhereInput;
-  }) => BatchPayloadPromise;
-  upsertOffer: (args: {
-    where: OfferWhereUniqueInput;
-    create: OfferCreateInput;
-    update: OfferUpdateInput;
-  }) => OfferPromise;
+  updateOffer: (
+    args: { data: OfferUpdateInput; where: OfferWhereUniqueInput }
+  ) => OfferPromise;
+  updateManyOffers: (
+    args: { data: OfferUpdateManyMutationInput; where?: OfferWhereInput }
+  ) => BatchPayloadPromise;
+  upsertOffer: (
+    args: {
+      where: OfferWhereUniqueInput;
+      create: OfferCreateInput;
+      update: OfferUpdateInput;
+    }
+  ) => OfferPromise;
   deleteOffer: (where: OfferWhereUniqueInput) => OfferPromise;
   deleteManyOffers: (where?: OfferWhereInput) => BatchPayloadPromise;
 
@@ -123,10 +131,10 @@ export interface Prisma {
 
 export interface Subscription {
   item: (
-    where?: ItemSubscriptionWhereInput,
+    where?: ItemSubscriptionWhereInput
   ) => ItemSubscriptionPayloadSubscription;
   offer: (
-    where?: OfferSubscriptionWhereInput,
+    where?: OfferSubscriptionWhereInput
   ) => OfferSubscriptionPayloadSubscription;
 }
 
@@ -139,38 +147,38 @@ export interface ClientConstructor<T> {
  */
 
 export type ItemOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'title_ASC'
-  | 'title_DESC'
-  | 'description_ASC'
-  | 'description_DESC'
-  | 'price_ASC'
-  | 'price_DESC'
-  | 'image_ASC'
-  | 'image_DESC'
-  | 'largeImage_ASC'
-  | 'largeImage_DESC'
-  | 'userId_ASC'
-  | 'userId_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC';
+  | "id_ASC"
+  | "id_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "price_ASC"
+  | "price_DESC"
+  | "image_ASC"
+  | "image_DESC"
+  | "largeImage_ASC"
+  | "largeImage_DESC"
+  | "userId_ASC"
+  | "userId_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
-export type OfferType = 'ACCEPT' | 'REJECT';
+export type OfferType = "ACCEPT" | "REJECT";
 
 export type OfferOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'type_ASC'
-  | 'type_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC';
+  | "id_ASC"
+  | "id_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
-export type MutationType = 'CREATED' | 'UPDATED' | 'DELETED';
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export interface OfferUpdateInput {
   type?: OfferType;
@@ -731,17 +739,17 @@ export type String = string;
 
 export const models: Model[] = [
   {
-    name: 'Item',
-    embedded: false,
+    name: "Item",
+    embedded: false
   },
   {
-    name: 'Offer',
-    embedded: false,
+    name: "Offer",
+    embedded: false
   },
   {
-    name: 'OfferType',
-    embedded: false,
-  },
+    name: "OfferType",
+    embedded: false
+  }
 ];
 
 /**
