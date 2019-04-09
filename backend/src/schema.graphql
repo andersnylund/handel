@@ -26,4 +26,15 @@ type Query {
   myItems: [Item!]!
   getMyItem(id: ID!): Item
   nextItem(myItemId: ID!): Item
+  myDeals: [Deal!]!
+}
+
+type Deal {
+  myItem: Item!
+  otherItem: Item!
+  participant: Participant!
+}
+
+type Participant {
+  userId: String!
 }

@@ -71,6 +71,58 @@ const Queries = {
     const first = result[0];
     return first;
   },
+
+  myDeals: async (parent, args, ctx) => {
+    if (!ctx.request.user) {
+      throw new Error('You must be logged in');
+    }
+
+    const myItems = await ctx.db.query.items({
+      where: {
+        userId: ctx.request.user.sub,
+      },
+    });
+
+    const myItemIds = myItems.map(item => item.id);
+
+    const myOffers = await ctx.db.query.offers(
+      {
+        where: {
+          maker: {
+            id_in: [...myItemIds],
+          },
+        },
+      },
+      '{ receiver { id }}',
+    );
+
+    const myOfferReceiverItemIds = await myOffers.map(
+      offer => offer.receiver.id,
+    );
+
+    const myAnsweredOffers = await ctx.db.query.offers(
+      {
+        where: {
+          maker: {
+            id_in: [...myOfferReceiverItemIds],
+          },
+          receiver: {
+            id_in: [...myItemIds],
+          },
+        },
+      },
+      '{ id type maker { id title description price image largeImage userId } receiver { id title description price image largeImage userId } }',
+    );
+
+    return myAnsweredOffers.map(offer => ({
+      myItem: offer.maker,
+      otherItem: offer.receiver,
+      participant: {
+        userId: offer.receiver.userId,
+      },
+      offer,
+    }));
+  },
 };
 
 export default Queries;
