@@ -41,23 +41,25 @@ const Queries = {
       throw new Error('Item not found');
     }
 
-    const myItems = await prisma.items({
-      where: {
-        userId: ctx.request.user.sub,
-      },
-    });
-    const myItemIds = myItems.map(item => item.id);
-
-    const offeredItems = await prisma
-      .offers({
+    const myItemIds = (await Promise.resolve(
+      prisma.items({
         where: {
-          maker: {
-            id: myItem.id,
-          },
+          userId: ctx.request.user.sub,
         },
-      })
-      .$fragment('{ receiver { id } }');
-    const offeredItemIds = offeredItems.map(item => item.receiver.id);
+      }),
+    )).map(item => item.id);
+
+    const offeredItemIds = (await Promise.resolve(
+      prisma
+        .offers({
+          where: {
+            maker: {
+              id: myItem.id,
+            },
+          },
+        })
+        .$fragment('{ receiver { id } }'),
+    )).map(item => item.receiver.id);
 
     const result = await prisma.items({
       where: {
@@ -74,27 +76,25 @@ const Queries = {
       throw new Error('You must be logged in');
     }
 
-    const myItems = await prisma.items({
-      where: {
-        userId: ctx.request.user.sub,
-      },
-    });
-
-    const myItemIds = myItems.map(item => item.id);
-
-    const myOffers = await prisma
-      .offers({
+    const myItemIds = (await Promise.resolve(
+      prisma.items({
         where: {
-          maker: {
-            id_in: [...myItemIds],
-          },
+          userId: ctx.request.user.sub,
         },
-      })
-      .$fragment('{ receiver { id }}');
+      }),
+    )).map(item => item.id);
 
-    const myOfferReceiverItemIds = await myOffers.map(
-      offer => offer.receiver.id,
-    );
+    const myOfferReceiverItemIds = (await Promise.resolve(
+      prisma
+        .offers({
+          where: {
+            maker: {
+              id_in: [...myItemIds],
+            },
+          },
+        })
+        .$fragment('{ receiver { id }}'),
+    )).map(offer => offer.receiver.id);
 
     const myAnsweredOffers = await prisma
       .offers({
