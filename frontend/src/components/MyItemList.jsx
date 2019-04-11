@@ -3,12 +3,12 @@ import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import {
   Image,
-  Segment,
   Card,
   Icon,
   Modal,
   Button,
   Label,
+  Loader,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
@@ -61,11 +61,7 @@ class MyItemList extends React.Component {
         <Query query={GET_MY_ITEMS}>
           {({ data, loading }) => {
             if (loading) {
-              return (
-                <Segment loading>
-                  <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
-                </Segment>
-              );
+              return <Loader active>Loading</Loader>;
             }
 
             return (
@@ -89,11 +85,16 @@ class MyItemList extends React.Component {
                         </Card.Content>
                         <Card.Content extra>
                           <Label.Group>
-                            <Label color="blue">
+                            <Label
+                              color="blue"
+                              as={Link}
+                              to={`/edit-item/${item.id}`}
+                            >
                               <Icon name="edit" />
-                              <Link to={`/edit-item/${item.id}`}>Edit</Link>
+                              Edit
                             </Label>
                             <Label
+                              as={Button}
                               color="red"
                               onClick={() =>
                                 this.handleOpen(removeItemMutation)

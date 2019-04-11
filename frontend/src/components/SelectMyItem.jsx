@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Dropdown, Header } from 'semantic-ui-react';
+import { Dropdown, Header, Loader } from 'semantic-ui-react';
 import { Query } from 'react-apollo';
 import { func } from 'prop-types';
 
@@ -9,7 +9,7 @@ const SelectMyItem = ({ onChangeItem }) => (
   <Query query={GET_MY_ITEMS}>
     {({ data, loading }) => {
       if (loading) {
-        return <div>Loading...</div>;
+        return <Loader active>Loading</Loader>;
       }
       const options = data.myItems.map(item => ({
         key: item.id,

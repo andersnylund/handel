@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Loader } from 'semantic-ui-react';
+import { shape, string, func } from 'prop-types';
 
 class Callback extends Component {
   componentDidMount = () => {
@@ -12,8 +14,17 @@ class Callback extends Component {
   };
 
   render() {
-    return <h1>Loading...</h1>;
+    return <Loader active>Loading...</Loader>;
   }
 }
+
+Callback.propTypes = {
+  location: shape({
+    hash: string.isRequired,
+  }).isRequired,
+  auth: shape({
+    handleAuthentication: func.isRequired,
+  }).isRequired,
+};
 
 export default Callback;
