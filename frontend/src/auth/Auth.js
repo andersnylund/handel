@@ -73,6 +73,7 @@ export default class Auth {
     return idToken;
   };
 
+  // eslint-disable-next-line consistent-return
   getProfile = cb => {
     if (this.userProfile) return cb(this.userProfile);
     this.auth0.client.userInfo(this.getAccessToken(), (err, profile) => {

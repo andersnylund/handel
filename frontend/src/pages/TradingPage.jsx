@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Header, Loader } from 'semantic-ui-react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import posed from 'react-pose';
 
 import Item from '../components/Item';
 import SelectMyItem from '../components/SelectMyItem';
-import posed from 'react-pose';
 
 export const NEXT_ITEM = gql`
   query($myItemId: ID!) {
@@ -19,6 +19,11 @@ export const NEXT_ITEM = gql`
     }
   }
 `;
+
+const Posed = posed.div({
+  before: { opacity: 0 },
+  after: { opacity: 1 },
+});
 
 const TradingPage = () => {
   const [itemId, setItemId] = useState(null);
@@ -37,7 +42,11 @@ const TradingPage = () => {
               if (!data.nextItem) {
                 return <div>No more items to trade against :( </div>;
               }
-              return <Item item={data.nextItem} myItemId={itemId} />;
+              return (
+                <Posed pose="after" initialPose="before">
+                  <Item item={data.nextItem} myItemId={itemId} />
+                </Posed>
+              );
             }}
           </Query>
         </>
