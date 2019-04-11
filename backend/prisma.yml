@@ -1,5 +1,4 @@
-# endpoint: http://localhost:4466
-endpoint: https://handel-cc01c3656d.herokuapp.com/handel/prod
+endpoint: ${env:PRISMA_ENDPOINT}
 datamodel: datamodel.prisma
 
 hooks:

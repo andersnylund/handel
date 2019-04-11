@@ -1,5 +1,5 @@
-# source: https://handel-cc01c3656d.herokuapp.com/handel/prod
-# timestamp: Thu Apr 11 2019 11:37:33 GMT+0300 (Eastern European Summer Time)
+# source: http://localhost:4466
+# timestamp: Thu Apr 11 2019 12:16:06 GMT+0300 (Eastern European Summer Time)
 
 type AggregateItem {
   count: Int!
@@ -35,6 +35,7 @@ type ItemConnection {
 }
 
 input ItemCreateInput {
+  id: ID
   title: String!
   description: String!
   price: Int!
@@ -494,6 +495,7 @@ type OfferConnection {
 }
 
 input OfferCreateInput {
+  id: ID
   type: OfferType!
   maker: ItemCreateOneInput!
   receiver: ItemCreateOneInput!
