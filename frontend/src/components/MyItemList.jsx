@@ -89,11 +89,16 @@ class MyItemList extends React.Component {
                         </Card.Content>
                         <Card.Content extra>
                           <Label.Group>
-                            <Label color="blue">
+                            <Label
+                              color="blue"
+                              as={Link}
+                              to={`/edit-item/${item.id}`}
+                            >
                               <Icon name="edit" />
-                              <Link to={`/edit-item/${item.id}`}>Edit</Link>
+                              Edit
                             </Label>
                             <Label
+                              as={Button}
                               color="red"
                               onClick={() =>
                                 this.handleOpen(removeItemMutation)

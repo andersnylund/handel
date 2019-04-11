@@ -11,6 +11,7 @@ import {
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
+import { shape, string } from 'prop-types';
 
 import { GET_MY_ITEMS } from '../components/MyItemList';
 
@@ -143,62 +144,60 @@ class EditItemPage extends React.Component {
                 }}
                 refetchQueries={[{ query: GET_MY_ITEMS }]}
               >
-                {(editItemMutation, { loading }) => {
-                  return (
-                    <Fragment>
-                      <Header as="h2">Edit item</Header>
-                      <Form loading={loading || uploadingFile}>
-                        <Form.Field>
-                          <Input
-                            name="title"
-                            placeholder="Title"
-                            type="text"
-                            defaultValue={data.getMyItem.title}
-                            onChange={this.onChange}
-                          />
-                        </Form.Field>
-                        <Form.Field>
-                          <TextArea
-                            name="description"
-                            placeholder="Description"
-                            type="text"
-                            defaultValue={data.getMyItem.description}
-                            onChange={this.onChange}
-                          />
-                        </Form.Field>
-                        <Form.Field>
-                          <Input
-                            name="price"
-                            labelPosition="right"
-                            placeholder="Price"
-                            type="number"
-                            defaultValue={data.getMyItem.price}
-                            onChange={this.onChange}
-                          >
-                            <input />
-                            <Label basic>€</Label>
-                          </Input>
-                        </Form.Field>
-                        <Form.Field>
-                          <Input
-                            name="file"
-                            placeholder="Upload an image"
-                            type="file"
-                            onChange={this.uploadFile}
-                          />
-                        </Form.Field>
-                        <Button
-                          type="submit"
-                          onClick={event =>
-                            this.onSubmit(event, editItemMutation)
-                          }
+                {(editItemMutation, { loading: isLoading }) => (
+                  <Fragment>
+                    <Header as="h2">Edit item</Header>
+                    <Form loading={isLoading || uploadingFile}>
+                      <Form.Field>
+                        <Input
+                          name="title"
+                          placeholder="Title"
+                          type="text"
+                          defaultValue={data.getMyItem.title}
+                          onChange={this.onChange}
+                        />
+                      </Form.Field>
+                      <Form.Field>
+                        <TextArea
+                          name="description"
+                          placeholder="Description"
+                          type="text"
+                          defaultValue={data.getMyItem.description}
+                          onChange={this.onChange}
+                        />
+                      </Form.Field>
+                      <Form.Field>
+                        <Input
+                          name="price"
+                          labelPosition="right"
+                          placeholder="Price"
+                          type="number"
+                          defaultValue={data.getMyItem.price}
+                          onChange={this.onChange}
                         >
-                          Edit
-                        </Button>
-                      </Form>
-                    </Fragment>
-                  );
-                }}
+                          <input />
+                          <Label basic>€</Label>
+                        </Input>
+                      </Form.Field>
+                      <Form.Field>
+                        <Input
+                          name="file"
+                          placeholder="Upload an image"
+                          type="file"
+                          onChange={this.uploadFile}
+                        />
+                      </Form.Field>
+                      <Button
+                        type="submit"
+                        onClick={event =>
+                          this.onSubmit(event, editItemMutation)
+                        }
+                      >
+                        Edit
+                      </Button>
+                    </Form>
+                  </Fragment>
+                )}
               </Mutation>
             );
           }}
@@ -208,5 +207,13 @@ class EditItemPage extends React.Component {
     );
   }
 }
+
+EditItemPage.propTypes = {
+  match: shape({
+    params: shape({
+      id: string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 export default withRouter(EditItemPage);

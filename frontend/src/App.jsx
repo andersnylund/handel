@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
-import { object } from 'prop-types';
+import { shape, func } from 'prop-types';
 
 import NavBar from './components/NavBar';
 import TradingPage from './pages/TradingPage';
-import LoginPage from './pages/LoginPage';
 import MyItemsPage from './pages/MyItemsPage';
 import AddItemPage from './pages/AddItemPage';
 import EditItemPage from './pages/EditItemPage';
@@ -31,15 +30,10 @@ class App extends Component {
       <AuthContext.Provider value={auth}>
         <NavBar auth={auth} />
         <Container>
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/" component={() => <LandingPage auth={auth} />} />
           <Route
             path="/callback"
             render={props => <Callback auth={auth} {...props} />}
-          />
-          <Route
-            exact
-            path="/login"
-            component={() => <LoginPage auth={auth} />}
           />
           <PrivateRoute exact path="/trade" component={TradingPage} />
           <PrivateRoute exact path="/add-item" component={AddItemPage} />
@@ -53,7 +47,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  history: object.isRequired,
+  history: shape({
+    push: func.isRequired,
+  }).isRequired,
 };
 
 export default withRouter(App);

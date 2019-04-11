@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Header, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { shape, func } from 'prop-types';
 
 import MyItemList from '../components/MyItemList';
 
@@ -30,5 +31,11 @@ const MyItems = ({ history }) => (
     />
   </Fragment>
 );
+
+MyItems.propTypes = {
+  history: shape({
+    push: func.isRequired,
+  }).isRequired,
+};
 
 export default withRouter(MyItems);
