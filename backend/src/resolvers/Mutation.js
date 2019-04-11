@@ -8,6 +8,7 @@ const Mutations = {
     const item = prisma.createItem({
       ...args,
       userId: ctx.request.user.sub,
+      email: ctx.request.user.email,
     });
 
     return item;
