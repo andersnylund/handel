@@ -3,7 +3,7 @@ import { Header, Message } from 'semantic-ui-react';
 
 const LandingPage = () => (
   <>
-    <Header as="h2">Welcome to handel</Header>
+    <Header as="h2">Handel</Header>
     <Message color="red">
       DO NOT USE A REAL EMAIL OR PASSWORD!
       <br />

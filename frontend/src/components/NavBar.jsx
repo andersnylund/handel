@@ -8,6 +8,9 @@ const authorizedMenu = logout => (
   <Dropdown icon="bars" item>
     <Dropdown.Menu>
       <Dropdown.Item>
+        <Link to="/trade">Trade</Link>
+      </Dropdown.Item>
+      <Dropdown.Item>
         <Link to="/my-items">Items</Link>
       </Dropdown.Item>
       <Dropdown.Item>
