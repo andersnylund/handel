@@ -1,7 +1,15 @@
 import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Segment, Grid, Divider, Header, Image, Card } from 'semantic-ui-react';
+import {
+  Segment,
+  Grid,
+  Divider,
+  Header,
+  Image,
+  Card,
+  Loader,
+} from 'semantic-ui-react';
 
 const GET_DEALS = gql`
   {
@@ -29,7 +37,7 @@ const DealsList = () => (
   <Query query={GET_DEALS}>
     {({ data, loading }) => {
       if (loading) {
-        return <div>loading...</div>;
+        return <Loader active>Loading</Loader>;
       }
       return (
         <Fragment>

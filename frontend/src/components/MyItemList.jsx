@@ -3,12 +3,12 @@ import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import {
   Image,
-  Segment,
   Card,
   Icon,
   Modal,
   Button,
   Label,
+  Loader,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
@@ -61,11 +61,7 @@ class MyItemList extends React.Component {
         <Query query={GET_MY_ITEMS}>
           {({ data, loading }) => {
             if (loading) {
-              return (
-                <Segment loading>
-                  <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
-                </Segment>
-              );
+              return <Loader active>Loading</Loader>;
             }
 
             return (
