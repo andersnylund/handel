@@ -6,23 +6,20 @@ import { Segment, Grid, Divider, Header, Image, Card } from 'semantic-ui-react';
 const GET_DEALS = gql`
   {
     myDeals {
-      edges {
-        myItem {
-          title
-          description
-          price
-          image
-        }
-        otherItem {
-          title
-          description
-          price
-          image
-        }
-        participant {
-          username
-          email
-        }
+      myItem {
+        title
+        description
+        price
+        image
+      }
+      otherItem {
+        title
+        description
+        price
+        image
+      }
+      participant {
+        userId
       }
     }
   }
@@ -36,8 +33,9 @@ const DealsList = () => (
       }
       return (
         <Fragment>
-          {data.myDeals.edges.map(deal => (
-            <Segment placeholder>
+          {data.myDeals.map((deal, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <Segment placeholder key={i}>
               <Grid
                 columns={1}
                 stackable
@@ -68,12 +66,7 @@ const DealsList = () => (
                   <Divider horizontal>with</Divider>
 
                   <Grid.Column>
-                    <Header>
-                      {deal.participant.username}
-                      <Header.Subheader>
-                        {deal.participant.email}
-                      </Header.Subheader>
-                    </Header>
+                    <Header>{deal.participant.userId}</Header>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>

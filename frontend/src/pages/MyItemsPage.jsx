@@ -3,9 +3,7 @@ import { Header, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
-import * as routes from '../constants/routes';
 import MyItemList from '../components/MyItemList';
-import withAuthorization from '../session/withAuthorization';
 
 const AddButton = styled(Button)`
   position: -webkit-sticky;
@@ -16,7 +14,7 @@ const AddButton = styled(Button)`
 
 const onClickAddNew = (event, history) => {
   event.preventDefault();
-  history.push(routes.ADD_ITEM);
+  history.push('/add-item');
 };
 
 const MyItems = ({ history }) => (
@@ -27,12 +25,10 @@ const MyItems = ({ history }) => (
       circular
       icon="add"
       color="blue"
-      size="massive"
+      size="huge"
       onClick={event => onClickAddNew(event, history)}
     />
   </Fragment>
 );
 
-export default withAuthorization(session => session && session.me)(
-  withRouter(MyItems)
-);
+export default withRouter(MyItems);

@@ -1,0 +1,41 @@
+# The shape of the public facing API
+
+# TODO find out if these generated files are necessary when the are also found from the prisma-client
+# import * from './generated/prisma.graphql'
+
+type Mutation {
+  addItem(
+    title: String!
+    description: String!
+    price: Int!
+    image: String!
+    largeImage: String!
+  ): Item!
+  editItem(
+    id: ID!
+    title: String
+    description: String
+    price: Int
+    image: String
+    largeImage: String
+  ): Item
+  removeItem(id: ID!): Boolean!
+  makeOffer(myItemId: ID!, otherItemId: ID!, type: OfferType!): Offer!
+}
+
+type Query {
+  myItems: [Item!]!
+  getMyItem(id: ID!): Item
+  nextItem(myItemId: ID!): Item
+  myDeals: [Deal!]!
+}
+
+type Deal {
+  myItem: Item!
+  otherItem: Item!
+  participant: Participant!
+}
+
+type Participant {
+  userId: String!
+}

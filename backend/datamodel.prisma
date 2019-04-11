@@ -1,0 +1,21 @@
+type Item {
+  id: ID! @unique
+  title: String!
+  description: String!
+  price: Int!
+  image: String!
+  largeImage: String!
+  userId: String!
+}
+
+type Offer {
+  id: ID! @unique
+  type: OfferType!
+  maker: Item! @relation(name: "Maker")
+  receiver: Item! @relation(name: "Receiver")
+}
+
+enum OfferType {
+  ACCEPT
+  REJECT
+}

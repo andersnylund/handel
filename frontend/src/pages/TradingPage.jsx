@@ -3,7 +3,6 @@ import { Header } from 'semantic-ui-react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import withAuthorization from '../session/withAuthorization';
 import Item from '../components/Item';
 import SelectMyItem from '../components/SelectMyItem';
 
@@ -59,4 +58,4 @@ class TradingPage extends Component {
   }
 }
 
-export default withAuthorization(session => session && session.me)(TradingPage);
+export default TradingPage;

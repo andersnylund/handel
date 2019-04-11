@@ -1,24 +1,23 @@
 import React from 'react';
-import { Menu, Dropdown } from 'semantic-ui-react';
+import { Menu, Dropdown, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { instanceOf } from 'prop-types';
+import Auth from '../auth/Auth';
 
-import * as routes from '../constants/routes';
-import Logout from './Logout';
-
-const authorizedMenu = () => (
+const authorizedMenu = logout => (
   <Dropdown icon="bars" item>
     <Dropdown.Menu>
-      {/* <Dropdown.Item>
-        <Link to={routes.ACCOUNT}>Account</Link>
-      </Dropdown.Item> */}
       <Dropdown.Item>
-        <Link to={routes.MY_ITEMS}>Items</Link>
+        <Link to="/trade">Trade</Link>
       </Dropdown.Item>
       <Dropdown.Item>
-        <Link to={routes.MY_DEALS}>Deals</Link>
+        <Link to="/my-items">Items</Link>
       </Dropdown.Item>
       <Dropdown.Item>
-        <Logout />
+        <Link to="/my-deals">Deals</Link>
+      </Dropdown.Item>
+      <Dropdown.Item>
+        <Button onClick={logout}>Logout</Button>
       </Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
@@ -26,19 +25,23 @@ const authorizedMenu = () => (
 
 const unauthorizedMenu = () => (
   <Menu.Item>
-    <Link to={routes.LOGIN}>Login</Link>
+    <Link to="/login">Login</Link>
   </Menu.Item>
 );
 
-const NavBar = ({ session }) => (
+const NavBar = ({ auth: { isAuthenticated, login, logout } }) => (
   <Menu>
     <Menu.Item>
-      <Link to={routes.ITEMS}>Handel</Link>
+      <Link to="/">Handel</Link>
     </Menu.Item>
     <Menu.Menu position="right">
-      {session && session.me ? authorizedMenu() : unauthorizedMenu()}
+      {isAuthenticated() ? authorizedMenu(logout) : unauthorizedMenu()}
     </Menu.Menu>
   </Menu>
 );
+
+NavBar.propTypes = {
+  auth: instanceOf(Auth).isRequired,
+};
 
 export default NavBar;

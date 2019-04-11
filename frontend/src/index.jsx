@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
@@ -18,25 +19,27 @@ const httpLink = new HttpLink({
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
+    // eslint-disable-next-line no-console
     console.error(graphQLErrors);
     // do something with graphql error
   }
   if (networkError) {
+    // eslint-disable-next-line no-console
     console.error(networkError);
     // do something with network error
   }
 });
 
 const authLink = new ApolloLink((operation, forward) => {
-  operation.setContext(
-    ({ headers = {}, localToken = localStorage.getItem('token') }) => {
-      if (localToken) {
-        // eslint-disable-next-line no-param-reassign
-        headers.authorization = `Bearer ${localToken}`;
-      }
-      return { headers };
+  operation.setContext(({ headers = {} }) => {
+    const idToken = localStorage.getItem('id_token');
+    // TODO use Auth.js
+    if (idToken) {
+      // eslint-disable-next-line no-param-reassign
+      headers.authorization = idToken;
     }
-  );
+    return { headers };
+  });
 
   return forward(operation);
 });
@@ -51,8 +54,10 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <Router>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </Router>,
   document.getElementById('root')
 );

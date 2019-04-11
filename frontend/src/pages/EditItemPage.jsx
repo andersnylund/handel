@@ -12,7 +12,6 @@ import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 
-import withAuthorization from '../session/withAuthorization';
 import { GET_MY_ITEMS } from '../components/MyItemList';
 
 const GET_MY_ITEM = gql`
@@ -138,7 +137,7 @@ class EditItemPage extends React.Component {
                   id,
                   title,
                   description,
-                  price: Number(price),
+                  price: price ? Number(price) : undefined,
                   image,
                   largeImage,
                 }}
@@ -210,6 +209,4 @@ class EditItemPage extends React.Component {
   }
 }
 
-export default withAuthorization(session => session && session.me)(
-  withRouter(EditItemPage)
-);
+export default withRouter(EditItemPage);
