@@ -91,6 +91,7 @@ const Queries = {
             maker: {
               id_in: [...myItemIds],
             },
+            type: 'ACCEPT',
           },
         })
         .$fragment('{ receiver { id }}'),
@@ -105,6 +106,7 @@ const Queries = {
           receiver: {
             id_in: [...myItemIds],
           },
+          type: 'ACCEPT',
         },
       })
       .$fragment(
