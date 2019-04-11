@@ -91,6 +91,7 @@ const Queries = {
             maker: {
               id_in: [...myItemIds],
             },
+            type: 'ACCEPT',
           },
         })
         .$fragment('{ receiver { id }}'),
@@ -105,17 +106,18 @@ const Queries = {
           receiver: {
             id_in: [...myItemIds],
           },
+          type: 'ACCEPT',
         },
       })
       .$fragment(
-        '{ id type maker { id title description price image largeImage userId } receiver { id title description price image largeImage userId } }',
+        '{ id type maker { id title description price image largeImage email } receiver { id title description price image largeImage email } }',
       );
 
     return myAnsweredOffers.map(offer => ({
       myItem: offer.maker,
       otherItem: offer.receiver,
       participant: {
-        userId: offer.receiver.userId,
+        email: offer.receiver.email,
       },
       offer,
     }));

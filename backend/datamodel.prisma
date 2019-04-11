@@ -6,6 +6,7 @@ type Item {
   image: String!
   largeImage: String!
   userId: String!
+  email: String!
 }
 
 type Offer {
