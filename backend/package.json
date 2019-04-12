@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/index.js",
     "build": "rm -rf build && mkdir build && babel src --out-dir build",
-    "dev-start": "cross-env NODE_ENV=development PRISMA_ENDPOINT=http://localhost:4466 nodemon --exec babel-node src/index.js",
+    "dev-start": "cross-env NODE_ENV=development nodemon --exec babel-node src/index.js",
     "test": "jest",
     "deploy": "prisma generate && prisma deploy"
   },

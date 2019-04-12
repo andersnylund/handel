@@ -1,12 +1,10 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import path from 'path';
 
+import './env';
 import createServer from './createServer';
 import { getKey, options } from './utils';
-
-dotenv.config();
 
 const server = createServer();
 
