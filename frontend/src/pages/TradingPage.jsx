@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Header, Loader } from 'semantic-ui-react';
+import { Header, Loader, Message } from 'semantic-ui-react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import posed from 'react-pose';
+import styled from 'styled-components';
 
 import Item from '../components/Item';
 import SelectMyItem from '../components/SelectMyItem';
@@ -25,33 +26,51 @@ const Posed = posed.div({
   after: { opacity: 1 },
 });
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const TradingPage = () => {
   const [itemId, setItemId] = useState(null);
   return (
-    <>
-      {itemId && <Header as="h3">Trading with</Header>}
+    <Container>
+      <Message>
+        <Message.Header>Trade</Message.Header>
+        <p>
+          Select an item to trade with. Other items to trade against will pop up
+          and you can either accept or reject them
+        </p>
+      </Message>
       <SelectMyItem onChangeItem={(e, { value }) => setItemId(value)} />
       {itemId && (
         <>
-          <Header as="h3">Against</Header>
           <Query query={NEXT_ITEM} variables={{ myItemId: itemId }}>
             {({ data, loading }) => {
               if (loading) {
                 return <Loader active>Loading</Loader>;
               }
               if (!data.nextItem) {
-                return <div>No more items to trade against :( </div>;
+                return (
+                  <Message color="yellow">
+                    No more items to trade against :(
+                  </Message>
+                );
               }
               return (
-                <Posed pose="after" initialPose="before">
-                  <Item item={data.nextItem} myItemId={itemId} />
-                </Posed>
+                <>
+                  <Header as="h3">Against</Header>
+                  <Posed pose="after" initialPose="before">
+                    <Item item={data.nextItem} myItemId={itemId} />
+                  </Posed>
+                </>
               );
             }}
           </Query>
         </>
       )}
-    </>
+    </Container>
   );
 };
 

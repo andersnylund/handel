@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import {
@@ -40,47 +40,46 @@ const DealsList = () => (
         return <Loader active>Loading</Loader>;
       }
       return (
-        <Fragment>
+        <>
           {data.myDeals.map((deal, i) => (
             // eslint-disable-next-line react/no-array-index-key
-            <Segment placeholder key={i}>
+            <Segment padded placeholder key={i}>
               <Grid
                 columns={1}
-                stackable
-                verticalAlign="middle"
+                // stackable
                 textAlign="center"
               >
-                <Grid.Row verticalAlign="middle">
-                  <Grid.Column>
+                <Grid.Column>
+                  <Grid.Row>
                     <Card>
                       <Image src={deal.myItem.image} />
                       <Card.Content>
                         <Card.Header>{deal.myItem.title}</Card.Header>
                       </Card.Content>
                     </Card>
-                  </Grid.Column>
+                  </Grid.Row>
 
                   <Divider horizontal>against</Divider>
 
-                  <Grid.Column>
+                  <Grid.Row>
                     <Card>
                       <Image src={deal.otherItem.image} />
                       <Card.Content>
                         <Card.Header>{deal.otherItem.title}</Card.Header>
                       </Card.Content>
                     </Card>
-                  </Grid.Column>
+                  </Grid.Row>
 
                   <Divider horizontal>with</Divider>
 
-                  <Grid.Column>
+                  <Grid.Row>
                     <Header>{deal.participant.email}</Header>
-                  </Grid.Column>
-                </Grid.Row>
+                  </Grid.Row>
+                </Grid.Column>
               </Grid>
             </Segment>
           ))}
-        </Fragment>
+        </>
       );
     }}
   </Query>
