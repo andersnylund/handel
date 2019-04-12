@@ -65,7 +65,7 @@ class MyItemList extends React.Component {
             }
 
             return (
-              <Card.Group stackable doubling itemsPerRow={3}>
+              <Card.Group stackable centered itemsPerRow={3}>
                 {data.myItems.map(item => (
                   <Mutation
                     key={item.id}
@@ -75,7 +75,7 @@ class MyItemList extends React.Component {
                   >
                     {removeItemMutation => (
                       <Card>
-                        <Image src={item.image} />
+                        <Image centered src={item.image} />
                         <Card.Content>
                           <Card.Header>{item.title}</Card.Header>
                           <Card.Meta>{`${item.price} €`}</Card.Meta>

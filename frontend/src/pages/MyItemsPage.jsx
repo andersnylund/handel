@@ -1,16 +1,21 @@
-import React, { Fragment } from 'react';
-import { Header, Button } from 'semantic-ui-react';
+import React from 'react';
+import { Message, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { shape, func } from 'prop-types';
 
 import MyItemList from '../components/MyItemList';
 
+const Container = styled.div`
+  text-align: center;
+`;
+
 const AddButton = styled(Button)`
   position: -webkit-sticky;
   position: sticky;
   bottom: 1rem;
   float: right;
+  right: 1rem;
 `;
 
 const onClickAddNew = (event, history) => {
@@ -19,8 +24,11 @@ const onClickAddNew = (event, history) => {
 };
 
 const MyItems = ({ history }) => (
-  <Fragment>
-    <Header as="h2">My Items</Header>
+  <Container>
+    <Message>
+      <Message.Header>Items</Message.Header>
+      <p>Each of your item. Add more items from the blue plus button</p>
+    </Message>
     <MyItemList />
     <AddButton
       circular
@@ -29,7 +37,7 @@ const MyItems = ({ history }) => (
       size="huge"
       onClick={event => onClickAddNew(event, history)}
     />
-  </Fragment>
+  </Container>
 );
 
 MyItems.propTypes = {
