@@ -8,16 +8,18 @@ services:
     environment:
       PRISMA_CONFIG: |
         port: 4466
+        managementApiSecret: 1cfdf058-6e05-4f24-ab54-bf592531c753
         databases:
           default:
             connector: postgres
             host: postgres
-            port: 5432
             user: prisma
             password: prisma
+            rawAccess: true
+            port: 5432
             migrations: true
   postgres:
-    image: postgres:10.3
+    image: postgres
     restart: always
     environment:
       POSTGRES_USER: prisma

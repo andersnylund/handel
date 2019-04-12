@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Thu Apr 11 2019 21:03:29 GMT+0300 (Eastern European Summer Time)
+# timestamp: Fri Apr 12 2019 21:47:06 GMT+0300 (Eastern European Summer Time)
 
 type AggregateItem {
   count: Int!
@@ -492,6 +492,9 @@ input ItemWhereUniqueInput {
   id: ID
 }
 
+"""Raw JSON value"""
+scalar Json
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -511,6 +514,7 @@ type Mutation {
   updateManyItems(data: ItemUpdateManyMutationInput!, where: ItemWhereInput): BatchPayload!
   deleteManyOffers(where: OfferWhereInput): BatchPayload!
   deleteManyItems(where: ItemWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -708,6 +712,10 @@ type PageInfo {
 
   """When paginating forwards, the cursor to continue."""
   endCursor: String
+}
+
+enum PrismaDatabase {
+  default
 }
 
 type Query {
