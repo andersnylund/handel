@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Form,
   Button,
@@ -39,26 +39,26 @@ const ADD_ITEM = gql`
   }
 `;
 
-const initialState = {
-  title: '',
-  description: '',
-  price: 0,
-  image: '',
-  largeImage: '',
-  message: null,
-};
+const AddItem = () => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [image, setImage] = useState('');
+  const [largeImage, setLargeImage] = useState('');
+  const [message, setMessage] = useState(null);
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
 
-class AddItem extends React.Component {
-  state = {
-    ...initialState,
-    uploadingFile: false,
+  const onSubmit = async (event, mutation) => {
+    event.preventDefault();
+    await mutation();
+    setMessage('Item created!');
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
   };
 
-  uploadFile = async event => {
-    this.setState({
-      uploadingFile: true,
-    });
-
+  const uploadFile = async event => {
+    setIsUploadingFile(true);
     const { files } = event.target;
     const data = new FormData();
     data.append('file', files[0]);
@@ -71,120 +71,92 @@ class AddItem extends React.Component {
       }
     );
     const file = await response.json();
-    await this.setState({
-      image: file.secure_url,
-      largeImage: file.eager[0].secure_url,
-      uploadingFile: false,
-    });
+    setImage(file.secure_url);
+    setLargeImage(file.eager[0].secure_url);
+    setIsUploadingFile(false);
   };
 
-  onSubmit = async (event, mutation) => {
-    event.preventDefault();
-    await mutation();
-    this.setState({
-      ...initialState,
-      message: 'New item added!',
-    });
-    setTimeout(() => {
-      this.setState(prev => ({
-        ...prev,
-        message: null,
-      }));
-    }, 3000);
-  };
+  const formIsValid =
+    title !== '' &&
+    description !== '' &&
+    price !== '' &&
+    image !== '' &&
+    largeImage !== '';
 
-  onChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  render() {
-    const {
-      title,
-      description,
-      price,
-      image,
-      largeImage,
-      message,
-      uploadingFile,
-    } = this.state;
-
-    return (
-      <Container>
-        <Mutation
-          mutation={ADD_ITEM}
-          variables={{
-            title,
-            description,
-            price: Number(price),
-            image,
-            largeImage,
-          }}
-          refetchQueries={[{ query: GET_MY_ITEMS }]}
-        >
-          {(addItem, { loading }) => (
-            <>
-              <Message>
-                <Message.Header>Add new item</Message.Header>
-                <p>Item that you don&apos;t longer want or need</p>
-              </Message>
-              <Form loading={loading || uploadingFile}>
-                <Form.Field>
-                  <Input
-                    name="title"
-                    placeholder="Title"
-                    type="text"
-                    value={title}
-                    onChange={this.onChange}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <TextArea
-                    name="description"
-                    placeholder="Description"
-                    type="text"
-                    value={description}
-                    onChange={this.onChange}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Input
-                    name="price"
-                    labelPosition="right"
-                    placeholder="Price"
-                    type="number"
-                    value={price}
-                    onChange={this.onChange}
-                  >
-                    <input />
-                    <Label basic>€</Label>
-                  </Input>
-                </Form.Field>
-                <Form.Field>
-                  <Input
-                    name="file"
-                    placeholder="Upload an image"
-                    type="file"
-                    onChange={this.uploadFile}
-                  />
-                </Form.Field>
-                <Button
-                  type="submit"
-                  color="green"
-                  onClick={event => this.onSubmit(event, addItem)}
+  return (
+    <Container>
+      <Mutation
+        mutation={ADD_ITEM}
+        variables={{
+          title,
+          description,
+          price: Number(price),
+          image,
+          largeImage,
+        }}
+        refetchQueries={[{ query: GET_MY_ITEMS }]}
+      >
+        {(addItem, { loading }) => (
+          <>
+            <Message>
+              <Message.Header>Add new item</Message.Header>
+              <p>Item that you don&apos;t longer want or need</p>
+            </Message>
+            <Form loading={loading || isUploadingFile}>
+              <Form.Field>
+                <Input
+                  name="title"
+                  placeholder="Title"
+                  type="text"
+                  value={title}
+                  onChange={e => setTitle(e.target.value)}
+                />
+              </Form.Field>
+              <Form.Field>
+                <TextArea
+                  name="description"
+                  placeholder="Description"
+                  type="text"
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
+                />
+              </Form.Field>
+              <Form.Field required>
+                <Input
+                  name="price"
+                  labelPosition="right"
+                  placeholder="Price"
+                  type="number"
+                  value={price}
+                  onChange={e => setPrice(e.target.value)}
                 >
-                  Add
-                </Button>
-              </Form>
-            </>
-          )}
-        </Mutation>
-        {message && <Message color="green">{message}</Message>}
-      </Container>
-    );
-  }
-}
+                  <input />
+                  <Label basic>€</Label>
+                </Input>
+              </Form.Field>
+              <Form.Field>
+                <Input
+                  name="file"
+                  placeholder="Upload an image"
+                  type="file"
+                  onChange={uploadFile}
+                />
+              </Form.Field>
+              <Button
+                type="submit"
+                color="green"
+                onClick={event => onSubmit(event, addItem)}
+                disabled={!formIsValid}
+              >
+                Add
+              </Button>
+            </Form>
+          </>
+        )}
+      </Mutation>
+      {message && <Message color="green">{message}</Message>}
+    </Container>
+  );
+};
 
 export default withRouter(AddItem);
