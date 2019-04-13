@@ -32,7 +32,10 @@ const unauthorizedMenu = login => (
 const NavBar = ({ auth: { isAuthenticated, logout, login } }) => (
   <Menu>
     <Menu.Item as={Link} to="/">
-      Handel
+      Handel&nbsp;
+      <span role="img" aria-label="hand-shake">
+        🤝
+      </span>
     </Menu.Item>
     <Menu.Menu position="right">
       {isAuthenticated() ? authorizedMenu(logout) : unauthorizedMenu(login)}

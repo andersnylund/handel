@@ -68,7 +68,7 @@ const LandingPage = () => (
     <StyledMessage color="red">
       This is a testing version of the early version of the service. I take no
       responsibility or liability of anything you do with the service. I may
-      delete all data at any point.
+      delete all content on this site without warning at any point.
     </StyledMessage>
     <Footer>
       Handshake icon made by{' '}

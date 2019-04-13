@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Card, Button, Image } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import { shape, string, number } from 'prop-types';
 
 import { NEXT_ITEM } from '../pages/TradingPage';
 
@@ -30,7 +31,10 @@ const Item = ({ item, myItemId }) => (
         >
           {makeOfferMutation => (
             <Button basic color="green" onClick={makeOfferMutation}>
-              Deal
+              Deal&nbsp;
+              <span role="img" aria-label="hand-shake">
+                🤝
+              </span>
             </Button>
           )}
         </Mutation>
@@ -41,7 +45,10 @@ const Item = ({ item, myItemId }) => (
         >
           {makeOfferMutation => (
             <Button basic color="red" onClick={makeOfferMutation}>
-              No deal
+              No deal&nbsp;
+              <span role="img" aria-label="stop-hand">
+                ✋
+              </span>
             </Button>
           )}
         </Mutation>
@@ -49,5 +56,17 @@ const Item = ({ item, myItemId }) => (
     </Card.Content>
   </Card>
 );
+
+Item.propTypes = {
+  item: shape({
+    id: string.isRequired,
+    description: string.isRequired,
+    image: string.isRequired,
+    largeImage: string.isRequired,
+    price: number.isRequired,
+    title: string.isRequired,
+  }).isRequired,
+  myItemId: string.isRequired,
+};
 
 export default Item;

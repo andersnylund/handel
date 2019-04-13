@@ -7,8 +7,7 @@ import { shape, func } from 'prop-types';
 import MyItemList from '../components/MyItemList';
 
 const AddButton = styled(Button)`
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   bottom: 1rem;
   float: right;
   right: 1rem;
