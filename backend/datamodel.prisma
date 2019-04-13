@@ -1,3 +1,8 @@
+type User {
+  sub: String!
+  email: String!
+}
+
 type Item {
   id: ID! @unique
   title: String!
@@ -5,8 +10,11 @@ type Item {
   price: Int!
   image: String!
   largeImage: String!
-  userId: String!
-  email: String!
+  user: User!
+}
+
+type Deal {
+  
 }
 
 type Offer {
