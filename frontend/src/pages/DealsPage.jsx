@@ -1,10 +1,10 @@
 import React from 'react';
-import { Message, Button } from 'semantic-ui-react';
+import { Message, Button, Container } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import DealsList from '../components/DealsList';
 
-const Container = styled.section`
+const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,7 +12,7 @@ const Container = styled.section`
 `;
 
 const MyItems = () => (
-  <Container>
+  <StyledContainer>
     <Message>
       <Message.Header>Deals</Message.Header>
       <p>
@@ -25,7 +25,7 @@ const MyItems = () => (
       </p>
     </Message>
     <DealsList />
-  </Container>
+  </StyledContainer>
 );
 
 export default MyItems;

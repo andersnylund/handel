@@ -1,14 +1,10 @@
 import React from 'react';
-import { Message, Button } from 'semantic-ui-react';
+import { Message, Button, Container } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { shape, func } from 'prop-types';
 
 import MyItemList from '../components/MyItemList';
-
-const Container = styled.div`
-  text-align: center;
-`;
 
 const AddButton = styled(Button)`
   position: -webkit-sticky;
