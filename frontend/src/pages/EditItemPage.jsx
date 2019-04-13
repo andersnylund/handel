@@ -1,12 +1,13 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {
   Form,
   Button,
   Input,
-  Header,
   Label,
   Message,
   TextArea,
+  Loader,
+  Container,
 } from 'semantic-ui-react';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -120,11 +121,11 @@ class EditItemPage extends React.Component {
     } = this.state;
 
     return (
-      <Fragment>
+      <Container>
         <Query query={GET_MY_ITEM} variables={{ id }}>
           {({ data, loading }) => {
             if (loading) {
-              return <div>Loading...</div>;
+              return <Loader active>Loading</Loader>;
             }
 
             if (!data || !data.getMyItem) {
@@ -145,8 +146,10 @@ class EditItemPage extends React.Component {
                 refetchQueries={[{ query: GET_MY_ITEMS }]}
               >
                 {(editItemMutation, { loading: isLoading }) => (
-                  <Fragment>
-                    <Header as="h2">Edit item</Header>
+                  <>
+                    <Message>
+                      <Message.Header>Edit item</Message.Header>
+                    </Message>
                     <Form loading={isLoading || uploadingFile}>
                       <Form.Field>
                         <Input
@@ -192,18 +195,19 @@ class EditItemPage extends React.Component {
                         onClick={event =>
                           this.onSubmit(event, editItemMutation)
                         }
+                        color="blue"
                       >
                         Edit
                       </Button>
                     </Form>
-                  </Fragment>
+                  </>
                 )}
               </Mutation>
             );
           }}
         </Query>
         {message && <Message color="green">{message}</Message>}
-      </Fragment>
+      </Container>
     );
   }
 }

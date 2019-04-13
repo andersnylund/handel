@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, Loader, Message } from 'semantic-ui-react';
+import { Header, Loader, Message, Container } from 'semantic-ui-react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import posed from 'react-pose';
@@ -26,16 +26,18 @@ const Posed = posed.div({
   after: { opacity: 1 },
 });
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const StyledContainer = styled(Container)`
+  &&& {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const TradingPage = () => {
   const [itemId, setItemId] = useState(null);
   return (
-    <Container>
+    <StyledContainer>
       <Message>
         <Message.Header>Trade</Message.Header>
         <p>
@@ -70,7 +72,7 @@ const TradingPage = () => {
           </Query>
         </>
       )}
-    </Container>
+    </StyledContainer>
   );
 };
 

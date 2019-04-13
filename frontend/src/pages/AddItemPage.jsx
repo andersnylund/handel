@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {
   Form,
   Button,
   Input,
-  Header,
   Label,
   Message,
   TextArea,
+  Container,
 } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -112,7 +112,7 @@ class AddItem extends React.Component {
     } = this.state;
 
     return (
-      <Fragment>
+      <Container>
         <Mutation
           mutation={ADD_ITEM}
           variables={{
@@ -125,8 +125,11 @@ class AddItem extends React.Component {
           refetchQueries={[{ query: GET_MY_ITEMS }]}
         >
           {(addItem, { loading }) => (
-            <Fragment>
-              <Header as="h2">Add new item</Header>
+            <>
+              <Message>
+                <Message.Header>Add new item</Message.Header>
+                <p>Item that you don&apos;t longer want or need</p>
+              </Message>
               <Form loading={loading || uploadingFile}>
                 <Form.Field>
                   <Input
@@ -169,16 +172,17 @@ class AddItem extends React.Component {
                 </Form.Field>
                 <Button
                   type="submit"
+                  color="green"
                   onClick={event => this.onSubmit(event, addItem)}
                 >
                   Add
                 </Button>
               </Form>
-            </Fragment>
+            </>
           )}
         </Mutation>
         {message && <Message color="green">{message}</Message>}
-      </Fragment>
+      </Container>
     );
   }
 }
