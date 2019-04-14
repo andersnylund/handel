@@ -1,6 +1,10 @@
 type User {
+  id: ID! @unique
   sub: String!
   email: String!
+  emailVerified: Boolean! @default(value: "false")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Item {
@@ -10,21 +14,29 @@ type Item {
   price: Int!
   image: String!
   largeImage: String!
-  user: User!
+  user: User
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Deal {
-  
-}
-
-type Offer {
   id: ID! @unique
-  type: OfferType!
-  maker: Item! @relation(name: "Maker")
-  receiver: Item! @relation(name: "Receiver")
+  dealParticipants: [DealParticipant]!
+  items: [Item]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
-enum OfferType {
+type DealParticipant {
+  id: ID! @unique
+  participant: User
+  approval: DealApproval!
+  lastSeen: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum DealApproval {
   ACCEPT
   REJECT
 }
