@@ -26,6 +26,7 @@ server.express.use(async (req, res, next) => {
     req.user = user;
     next();
   } catch (e) {
+    // TODO throw error message to client
     req.user = null;
     next();
   }

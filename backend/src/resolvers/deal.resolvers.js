@@ -1,8 +1,11 @@
+import { combineResolvers } from 'graphql-resolvers';
+
 import { prisma } from '../generated/prisma-client';
+import { isAuthenticated } from './authorization.resolvers';
 
 export default {
   Query: {
-    myDeals: async (parent, args, ctx) => {
+    myDeals: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
       if (!ctx.request.user) {
         throw new Error('You must be logged in');
       }
@@ -52,6 +55,6 @@ export default {
         },
         offer,
       }));
-    },
+    }),
   },
 };

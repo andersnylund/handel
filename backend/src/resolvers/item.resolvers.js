@@ -1,11 +1,11 @@
+import { combineResolvers } from 'graphql-resolvers';
+
 import { prisma } from '../generated/prisma-client';
+import { isAuthenticated } from './authorization.resolvers';
 
 export default {
   Mutation: {
-    addItem: async (parent, args, ctx) => {
-      if (!ctx.request.user) {
-        throw new Error('You must be logged in');
-      }
+    addItem: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
       const item = prisma.createItem({
         ...args,
         userId: ctx.request.user.sub,
@@ -13,36 +13,39 @@ export default {
       });
 
       return item;
-    },
-    editItem: async (parent, args, ctx, info) => {
-      if (!ctx.request.user) {
-        throw new Error('You must be logged in');
-      }
+    }),
+    editItem: combineResolvers(
+      isAuthenticated,
+      async (parent, args, ctx, info) => {
+        if (!ctx.request.user) {
+          throw new Error('You must be logged in');
+        }
 
-      const item = await prisma.item({
-        id: args.id,
-      });
+        const item = await prisma.item({
+          id: args.id,
+        });
 
-      // TODO test this
-      if (!item || item.userId !== ctx.request.user.sub) {
-        throw new Error('Item not found');
-      }
+        // TODO test this
+        if (!item || item.userId !== ctx.request.user.sub) {
+          throw new Error('Item not found');
+        }
 
-      // first take a copy of the updates
-      const updates = { ...args };
-      // remove the ID from the updates
-      delete updates.id;
-      // run the update mehtod
-      return prisma.updateItem(
-        {
-          data: updates,
-          where: {
-            id: args.id,
+        // first take a copy of the updates
+        const updates = { ...args };
+        // remove the ID from the updates
+        delete updates.id;
+        // run the update mehtod
+        return prisma.updateItem(
+          {
+            data: updates,
+            where: {
+              id: args.id,
+            },
           },
-        },
-        info,
-      );
-    },
+          info,
+        );
+      },
+    ),
     removeItem: async (parent, args, ctx) => {
       if (!ctx.request.user) {
         throw new Error('You must be logged in');
@@ -66,11 +69,7 @@ export default {
   },
 
   Query: {
-    myItems: (parent, args, ctx) => {
-      if (!ctx.request.user) {
-        throw new Error('You must be logged in');
-      }
-
+    myItems: combineResolvers(isAuthenticated, (parent, args, ctx) => {
       const items = prisma.items({
         where: {
           userId: ctx.request.user.sub,
@@ -78,21 +77,17 @@ export default {
       });
 
       return items;
-    },
+    }),
 
-    getMyItem: (parent, args, ctx) => {
-      if (!ctx.request.user) {
-        throw new Error('You must be logged in');
-      }
-
+    getMyItem: combineResolvers(isAuthenticated, (parent, args) => {
       const item = prisma.item({
         id: args.id,
       });
 
       return item;
-    },
+    }),
 
-    nextItem: async (parent, args, ctx) => {
+    nextItem: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
       if (!ctx.request.user) {
         throw new Error('You must be logged in');
       }
@@ -134,6 +129,6 @@ export default {
       });
       const first = result[0];
       return first;
-    },
+    }),
   },
 };

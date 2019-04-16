@@ -1,13 +1,6 @@
-import * as path from 'path';
-import { fileLoader } from 'merge-graphql-schemas';
+import itemResolvers from './item.resolvers';
+import dealResolvers from './deal.resolvers';
 
-/* MANUAL APPROACH: Update this file manually with each resolver file */
-// import userResolvers from "./user.resolvers";
-// import welcomeResolvers from "./welcome.resolvers";
-// const resolversArray = [userResolvers, welcomeResolvers];
+const resolversArray = [itemResolvers, dealResolvers];
 
-/*  AUTOMATED APPROACH: Put your resolvers anywhere 
-    with ".resolvers.[js/ts]" naming convention */
-const resolvers = fileLoader(path.join(__dirname, './**/*.resolvers.*'));
-
-export default resolvers;
+export default resolversArray;
