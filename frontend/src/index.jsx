@@ -48,7 +48,7 @@ const link = ApolloLink.from([authLink, errorLink, httpLink]);
 
 const cache = new InMemoryCache();
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   link,
   cache,
 });
@@ -61,3 +61,5 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root')
 );
+
+export default { client };

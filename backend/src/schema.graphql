@@ -4,6 +4,7 @@
 # import * from './generated/prisma.graphql'
 
 type Mutation {
+  register: Boolean!
   addItem(
     title: String!
     description: String!

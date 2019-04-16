@@ -1,4 +1,13 @@
 import auth0 from 'auth0-js';
+import gql from 'graphql-tag';
+
+import { client } from '../index';
+
+const AUTHORIZE = gql`
+  mutation {
+    register
+  }
+`;
 
 export default class Auth {
   constructor(history) {
@@ -18,14 +27,19 @@ export default class Auth {
   };
 
   handleAuthentication = () => {
-    this.auth0.parseHash((err, authResult) => {
+    this.auth0.parseHash(async (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
+        const response = await client.mutate({ mutation: AUTHORIZE });
+        if (response.errors) {
+          // eslint-disable-next-line no-console
+          console.error(response.errors);
+        }
         this.history.push('/');
       } else if (err) {
         this.history.push('/');
-        alert(`Error: ${err.error}. Check the console for further details.`);
-        console.log(err);
+        // eslint-disable-next-line no-console
+        console.error(err);
       }
     });
   };
@@ -75,9 +89,13 @@ export default class Auth {
 
   // eslint-disable-next-line consistent-return
   getProfile = cb => {
-    if (this.userProfile) return cb(this.userProfile);
+    if (this.userProfile) {
+      return cb(this.userProfile);
+    }
     this.auth0.client.userInfo(this.getAccessToken(), (err, profile) => {
-      if (profile) this.userProfile = profile;
+      if (profile) {
+        this.userProfile = profile;
+      }
       cb(profile, err);
     });
   };

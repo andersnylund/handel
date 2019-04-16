@@ -1,6 +1,6 @@
-import itemResolvers from './item.resolvers';
-import dealResolvers from './deal.resolvers';
+import * as path from 'path';
+import { fileLoader } from 'merge-graphql-schemas';
 
-const resolversArray = [itemResolvers, dealResolvers];
+const resolvers = fileLoader(path.join(__dirname, './**/*.resolvers.*'));
 
-export default resolversArray;
+export default resolvers;
