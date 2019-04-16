@@ -123,11 +123,13 @@ class EditItemPage extends React.Component {
     return (
       <Container>
         <Query query={GET_MY_ITEM} variables={{ id }}>
-          {({ data, loading }) => {
+          {({ data, loading, error }) => {
             if (loading) {
               return <Loader active>Loading</Loader>;
             }
-
+            if (error) {
+              return <Message color="red">Something went wrong!</Message>;
+            }
             if (!data || !data.getMyItem) {
               return <div>No item found for this ID</div>;
             }

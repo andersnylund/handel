@@ -49,9 +49,12 @@ const TradingPage = () => {
       {itemId && (
         <>
           <Query query={NEXT_ITEM} variables={{ myItemId: itemId }}>
-            {({ data, loading }) => {
+            {({ data, loading, error }) => {
               if (loading) {
                 return <Loader active>Loading</Loader>;
+              }
+              if (error) {
+                return <Message color="red">Something went wrong!</Message>;
               }
               if (!data.nextItem) {
                 return (

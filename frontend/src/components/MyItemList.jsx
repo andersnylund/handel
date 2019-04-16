@@ -9,6 +9,7 @@ import {
   Button,
   Label,
   Loader,
+  Message,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
@@ -59,11 +60,13 @@ class MyItemList extends React.Component {
     return (
       <Fragment>
         <Query query={GET_MY_ITEMS}>
-          {({ data, loading }) => {
+          {({ data, loading, error }) => {
             if (loading) {
               return <Loader active>Loading</Loader>;
             }
-
+            if (error) {
+              return <Message color="red">Something went wrong!</Message>;
+            }
             return (
               <Card.Group stackable centered itemsPerRow={3}>
                 {data.myItems.map(item => (

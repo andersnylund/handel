@@ -9,6 +9,7 @@ import {
   Image,
   Card,
   Loader,
+  Message,
 } from 'semantic-ui-react';
 
 const GET_DEALS = gql`
@@ -35,9 +36,12 @@ const GET_DEALS = gql`
 
 const DealsList = () => (
   <Query query={GET_DEALS}>
-    {({ data, loading }) => {
+    {({ data, loading, error }) => {
       if (loading) {
         return <Loader active>Loading</Loader>;
+      }
+      if (error) {
+        return <Message color="red">Something went wrong!</Message>;
       }
       return (
         <>

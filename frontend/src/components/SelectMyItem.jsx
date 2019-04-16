@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Dropdown, Header, Loader } from 'semantic-ui-react';
+import { Dropdown, Header, Loader, Message } from 'semantic-ui-react';
 import { Query } from 'react-apollo';
 import { func } from 'prop-types';
 
@@ -7,9 +7,12 @@ import { GET_MY_ITEMS } from './MyItemList';
 
 const SelectMyItem = ({ onChangeItem }) => (
   <Query query={GET_MY_ITEMS}>
-    {({ data, loading }) => {
+    {({ data, loading, error }) => {
       if (loading) {
         return <Loader active>Loading</Loader>;
+      }
+      if (error) {
+        return <Message color="red">Something went wrong!</Message>;
       }
       const options = data.myItems.map(item => ({
         key: item.id,

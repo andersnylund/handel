@@ -72,7 +72,9 @@ export default {
     myItems: combineResolvers(isAuthenticated, (parent, args, ctx) => {
       const items = prisma.items({
         where: {
-          userId: ctx.request.user.sub,
+          user: {
+            sub: ctx.request.user.sub,
+          },
         },
       });
 
