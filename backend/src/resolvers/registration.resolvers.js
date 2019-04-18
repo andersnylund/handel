@@ -7,7 +7,7 @@ export default {
   Mutation: {
     register: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
       // eslint-disable-next-line camelcase
-      const { sub, email_verified, email } = ctx.request.user;
+      const { sub, email_verified, email } = ctx.request.token;
       const users = await prisma.users({
         where: {
           sub,
@@ -22,7 +22,7 @@ export default {
         return true;
       }
       const user = users[0];
-      prisma.updateUser({
+      await prisma.updateUser({
         where: {
           id: user.id,
         },

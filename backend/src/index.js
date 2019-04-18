@@ -5,17 +5,18 @@ import path from 'path';
 import './env';
 import createServer from './createServer';
 import { getKey, options } from './utils';
+import { prisma } from './generated/prisma-client';
 
 const server = createServer();
 
 // decode the jwt so we can get the userId on each request
 server.express.use(async (req, res, next) => {
-  const token = req.headers.authorization;
+  const idToken = req.headers.authorization;
   try {
-    const user = await Promise.resolve(
+    const token = await Promise.resolve(
       new Promise((resolve, reject) => {
         // eslint-disable-next-line consistent-return
-        jwt.verify(token, getKey, options, (err, decoded) => {
+        jwt.verify(idToken, getKey, options, (err, decoded) => {
           if (err) {
             return reject(err);
           }
@@ -23,10 +24,17 @@ server.express.use(async (req, res, next) => {
         });
       }),
     );
-    req.user = user;
+    const users = await prisma.users({
+      where: {
+        sub: token.sub,
+      },
+    });
+    req.token = token;
+    req.user = users[0] ? users[0] : null;
     next();
   } catch (e) {
     // TODO throw error message to client
+    req.token = null;
     req.user = null;
     next();
   }

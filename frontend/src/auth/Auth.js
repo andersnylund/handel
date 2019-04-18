@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 import { client } from '../index';
 
-const AUTHORIZE = gql`
+const REGISTER = gql`
   mutation {
     register
   }
@@ -30,7 +30,7 @@ export default class Auth {
     this.auth0.parseHash(async (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        const response = await client.mutate({ mutation: AUTHORIZE });
+        const response = await client.mutate({ mutation: REGISTER });
         if (response.errors) {
           // eslint-disable-next-line no-console
           console.error(response.errors);
