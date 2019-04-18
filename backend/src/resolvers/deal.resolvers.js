@@ -5,6 +5,47 @@ import { isAuthenticated } from './authorization';
 
 export default {
   Query: {
+    nextItem: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
+      const myItem = await prisma
+        .item({
+          id: args.myItemId,
+        })
+        .$fragment(
+          '{ id title description price image largeImage user { id sub } }',
+        );
+
+      // TODO test and abstract away this
+      if (!myItem || myItem.user.sub !== ctx.request.user.sub) {
+        throw new Error('Item not found');
+      }
+
+      const myItemIds = (await Promise.resolve(
+        prisma.items({
+          where: {
+            user: {
+              sub: ctx.request.user.sub,
+            },
+          },
+        }),
+      )).map(item => item.id);
+
+      const allNotMyItems = await prisma.items({
+        where: {
+          id_not_in: myItemIds,
+        },
+      });
+
+      // const dealsWithMyItems = await prisma.deals({
+      //   where: {
+      //     items_some: {
+      //       id_in: myItemIds,
+      //     },
+      //   },
+      // });
+
+      return allNotMyItems[0];
+    }),
+
     myDeals: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
       if (!ctx.request.user) {
         throw new Error('You must be logged in');

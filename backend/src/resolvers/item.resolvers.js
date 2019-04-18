@@ -86,49 +86,5 @@ export default {
 
       return item;
     }),
-
-    nextItem: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
-      if (!ctx.request.user) {
-        throw new Error('You must be logged in');
-      }
-
-      const myItem = await prisma.item({
-        id: args.myItemId,
-      });
-
-      // TODO test and abstract away this
-      if (!myItem || myItem.userId !== ctx.request.user.sub) {
-        throw new Error('Item not found');
-      }
-
-      const myItemIds = (await Promise.resolve(
-        prisma.items({
-          where: {
-            userId: ctx.request.user.sub,
-          },
-        }),
-      )).map(item => item.id);
-
-      const offeredItemIds = (await Promise.resolve(
-        prisma
-          .offers({
-            where: {
-              maker: {
-                id: myItem.id,
-              },
-            },
-          })
-          .$fragment('{ receiver { id } }'),
-      )).map(item => item.receiver.id);
-
-      const result = await prisma.items({
-        where: {
-          id_not_in: [...myItemIds, ...offeredItemIds],
-        },
-        first: 1,
-      });
-      const first = result[0];
-      return first;
-    }),
   },
 };
