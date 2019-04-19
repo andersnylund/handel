@@ -6,9 +6,9 @@ import { shape, string, number } from 'prop-types';
 
 import { NEXT_ITEM } from '../pages/TradingPage';
 
-const MAKE_OFFER = gql`
-  mutation makeOffer($myItemId: ID!, $otherItemId: ID!, $type: OfferType!) {
-    makeOffer(myItemId: $myItemId, otherItemId: $otherItemId, type: $type) {
+const DEAL = gql`
+  mutation deal($myItemId: ID!, $otherItemId: ID!, $approval: DealApproval!) {
+    deal(myItemId: $myItemId, otherItemId: $otherItemId, approval: $approval) {
       id
     }
   }
@@ -25,12 +25,12 @@ const Item = ({ item, myItemId }) => (
     <Card.Content extra>
       <Fragment>
         <Mutation
-          mutation={MAKE_OFFER}
-          variables={{ myItemId, otherItemId: item.id, type: 'ACCEPT' }}
+          mutation={DEAL}
+          variables={{ myItemId, otherItemId: item.id, approval: 'ACCEPT' }}
           refetchQueries={[{ query: NEXT_ITEM, variables: { myItemId } }]}
         >
-          {makeOfferMutation => (
-            <Button basic color="green" onClick={makeOfferMutation}>
+          {makeDealMutation => (
+            <Button basic color="green" onClick={makeDealMutation}>
               Deal&nbsp;
               <span role="img" aria-label="hand-shake">
                 🤝
@@ -39,12 +39,12 @@ const Item = ({ item, myItemId }) => (
           )}
         </Mutation>
         <Mutation
-          mutation={MAKE_OFFER}
-          variables={{ myItemId, otherItemId: item.id, type: 'REJECT' }}
+          mutation={DEAL}
+          variables={{ myItemId, otherItemId: item.id, approval: 'REJECT' }}
           refetchQueries={[{ query: NEXT_ITEM, variables: { myItemId } }]}
         >
-          {makeOfferMutation => (
-            <Button basic color="red" onClick={makeOfferMutation}>
+          {makeDealMutation => (
+            <Button basic color="red" onClick={makeDealMutation}>
               No deal&nbsp;
               <span role="img" aria-label="stop-hand">
                 ✋

@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Thu Apr 18 2019 22:10:22 GMT+0300 (Eastern European Summer Time)
+# timestamp: Fri Apr 19 2019 12:15:19 GMT+0300 (Eastern European Summer Time)
 
 type AggregateDeal {
   count: Int!
@@ -24,8 +24,8 @@ type BatchPayload {
 
 scalar DateTime
 
-type Deal implements Node {
-  id: ID!
+type Deal {
+  id: UUID!
   dealParticipants(where: DealParticipantWhereInput, orderBy: DealParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DealParticipant!]
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
   createdAt: DateTime!
@@ -35,6 +35,7 @@ type Deal implements Node {
 enum DealApproval {
   ACCEPT
   REJECT
+  UNACKNOWLEDGED
 }
 
 """A connection to a list of items."""
@@ -48,7 +49,7 @@ type DealConnection {
 }
 
 input DealCreateInput {
-  id: ID
+  id: UUID
   dealParticipants: DealParticipantCreateManyWithoutDealInput
   items: ItemCreateManyInput
 }
@@ -59,7 +60,7 @@ input DealCreateOneWithoutDealParticipantsInput {
 }
 
 input DealCreateWithoutDealParticipantsInput {
-  id: ID
+  id: UUID
   items: ItemCreateManyInput
 }
 
@@ -81,11 +82,11 @@ enum DealOrderByInput {
   updatedAt_DESC
 }
 
-type DealParticipant implements Node {
-  id: ID!
+type DealParticipant {
+  id: UUID!
   deal: Deal
   participant: User
-  approval: DealApproval!
+  approval: DealApproval
   lastSeen: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -102,8 +103,8 @@ type DealParticipantConnection {
 }
 
 input DealParticipantCreateInput {
-  id: ID
-  approval: DealApproval!
+  id: UUID
+  approval: DealApproval
   lastSeen: DateTime!
   deal: DealCreateOneWithoutDealParticipantsInput
   participant: UserCreateOneWithoutDealParticipationsInput
@@ -120,15 +121,15 @@ input DealParticipantCreateManyWithoutParticipantInput {
 }
 
 input DealParticipantCreateWithoutDealInput {
-  id: ID
-  approval: DealApproval!
+  id: UUID
+  approval: DealApproval
   lastSeen: DateTime!
   participant: UserCreateOneWithoutDealParticipationsInput
 }
 
 input DealParticipantCreateWithoutParticipantInput {
-  id: ID
-  approval: DealApproval!
+  id: UUID
+  approval: DealApproval
   lastSeen: DateTime!
   deal: DealCreateOneWithoutDealParticipantsInput
 }
@@ -156,8 +157,8 @@ enum DealParticipantOrderByInput {
 }
 
 type DealParticipantPreviousValues {
-  id: ID!
-  approval: DealApproval!
+  id: UUID!
+  approval: DealApproval
   lastSeen: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -172,46 +173,16 @@ input DealParticipantScalarWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [DealParticipantScalarWhereInput!]
-  id: ID
+  id: UUID
 
   """All values that are not equal to given value."""
-  id_not: ID
+  id_not: UUID
 
   """All values that are contained in given list."""
-  id_in: [ID!]
+  id_in: [UUID!]
 
   """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
+  id_not_in: [UUID!]
   approval: DealApproval
 
   """All values that are not equal to given value."""
@@ -418,46 +389,16 @@ input DealParticipantWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [DealParticipantWhereInput!]
-  id: ID
+  id: UUID
 
   """All values that are not equal to given value."""
-  id_not: ID
+  id_not: UUID
 
   """All values that are contained in given list."""
-  id_in: [ID!]
+  id_in: [UUID!]
 
   """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
+  id_not_in: [UUID!]
   approval: DealApproval
 
   """All values that are not equal to given value."""
@@ -539,11 +480,11 @@ input DealParticipantWhereInput {
 }
 
 input DealParticipantWhereUniqueInput {
-  id: ID
+  id: UUID
 }
 
 type DealPreviousValues {
-  id: ID!
+  id: UUID!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -619,46 +560,16 @@ input DealWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [DealWhereInput!]
-  id: ID
+  id: UUID
 
   """All values that are not equal to given value."""
-  id_not: ID
+  id_not: UUID
 
   """All values that are contained in given list."""
-  id_in: [ID!]
+  id_in: [UUID!]
 
   """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
+  id_not_in: [UUID!]
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -712,11 +623,11 @@ input DealWhereInput {
 }
 
 input DealWhereUniqueInput {
-  id: ID
+  id: UUID
 }
 
-type Item implements Node {
-  id: ID!
+type Item {
+  id: UUID!
   title: String!
   description: String!
   price: Int!
@@ -738,7 +649,7 @@ type ItemConnection {
 }
 
 input ItemCreateInput {
-  id: ID
+  id: UUID
   title: String!
   description: String!
   price: Int!
@@ -758,7 +669,7 @@ input ItemCreateManyWithoutUserInput {
 }
 
 input ItemCreateWithoutUserInput {
-  id: ID
+  id: UUID
   title: String!
   description: String!
   price: Int!
@@ -795,7 +706,7 @@ enum ItemOrderByInput {
 }
 
 type ItemPreviousValues {
-  id: ID!
+  id: UUID!
   title: String!
   description: String!
   price: Int!
@@ -814,46 +725,16 @@ input ItemScalarWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [ItemScalarWhereInput!]
-  id: ID
+  id: UUID
 
   """All values that are not equal to given value."""
-  id_not: ID
+  id_not: UUID
 
   """All values that are contained in given list."""
-  id_in: [ID!]
+  id_in: [UUID!]
 
   """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
+  id_not_in: [UUID!]
   title: String
 
   """All values that are not equal to given value."""
@@ -1223,46 +1104,16 @@ input ItemWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [ItemWhereInput!]
-  id: ID
+  id: UUID
 
   """All values that are not equal to given value."""
-  id_not: ID
+  id_not: UUID
 
   """All values that are contained in given list."""
-  id_in: [ID!]
+  id_in: [UUID!]
 
   """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
+  id_not_in: [UUID!]
   title: String
 
   """All values that are not equal to given value."""
@@ -1493,11 +1344,8 @@ input ItemWhereInput {
 }
 
 input ItemWhereUniqueInput {
-  id: ID
+  id: UUID
 }
-
-"""Raw JSON value"""
-scalar Json
 
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -1529,7 +1377,6 @@ type Mutation {
   deleteManyDeals(where: DealWhereInput): BatchPayload!
   deleteManyDealParticipants(where: DealParticipantWhereInput): BatchPayload!
   deleteManyItems(where: ItemWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -1557,10 +1404,6 @@ type PageInfo {
 
   """When paginating forwards, the cursor to continue."""
   endCursor: String
-}
-
-enum PrismaDatabase {
-  default
 }
 
 type Query {
@@ -1591,8 +1434,8 @@ type Subscription {
   item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
 }
 
-type User implements Node {
-  id: ID!
+type User {
+  id: UUID!
   sub: String!
   email: String!
   emailVerified: Boolean!
@@ -1613,7 +1456,7 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  id: ID
+  id: UUID
   sub: String!
   email: String!
   emailVerified: Boolean
@@ -1632,7 +1475,7 @@ input UserCreateOneWithoutItemsInput {
 }
 
 input UserCreateWithoutDealParticipationsInput {
-  id: ID
+  id: UUID
   sub: String!
   email: String!
   emailVerified: Boolean
@@ -1640,7 +1483,7 @@ input UserCreateWithoutDealParticipationsInput {
 }
 
 input UserCreateWithoutItemsInput {
-  id: ID
+  id: UUID
   sub: String!
   email: String!
   emailVerified: Boolean
@@ -1672,7 +1515,7 @@ enum UserOrderByInput {
 }
 
 type UserPreviousValues {
-  id: ID!
+  id: UUID!
   sub: String!
   email: String!
   emailVerified: Boolean!
@@ -1784,46 +1627,16 @@ input UserWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [UserWhereInput!]
-  id: ID
+  id: UUID
 
   """All values that are not equal to given value."""
-  id_not: ID
+  id_not: UUID
 
   """All values that are contained in given list."""
-  id_in: [ID!]
+  id_in: [UUID!]
 
   """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
+  id_not_in: [UUID!]
   sub: String
 
   """All values that are not equal to given value."""
@@ -1961,5 +1774,10 @@ input UserWhereInput {
 }
 
 input UserWhereUniqueInput {
-  id: ID
+  id: UUID
+  sub: String
+  email: String
 }
+
+"""A type 4 UUID according to IETF RFC 4122."""
+scalar UUID

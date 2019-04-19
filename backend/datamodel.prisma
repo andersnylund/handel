@@ -1,45 +1,46 @@
 type User {
-  id: ID! @unique
-  sub: String!
-  email: String!
-  emailVerified: Boolean! @default(value: "false")
+  id: UUID! @id(strategy: AUTO)
+  sub: String! @unique
+  email: String! @unique
+  emailVerified: Boolean! @default(value: false)
   items: [Item]!
   dealParticipations: [DealParticipant]!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Item {
-  id: ID! @unique
+  id: UUID! @id(strategy: AUTO)
   title: String!
   description: String!
   price: Int!
   image: String!
   largeImage: String!
   user: User
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Deal {
-  id: ID! @unique
+  id: UUID! @id(strategy: AUTO)
   dealParticipants: [DealParticipant]!
   items: [Item]!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type DealParticipant {
-  id: ID! @unique
+  id: UUID! @id(strategy: AUTO)
   deal: Deal
   participant: User
-  approval: DealApproval!
+  approval: DealApproval
   lastSeen: DateTime!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 enum DealApproval {
   ACCEPT
   REJECT
+  UNACKNOWLEDGED
 }

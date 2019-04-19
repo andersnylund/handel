@@ -1,8 +1,8 @@
 import { skip } from 'graphql-resolvers';
 
 export const isAuthenticated = (parent, args, ctx) => {
-  const { user } = ctx.request;
-  if (!user) {
+  const { token } = ctx.request;
+  if (!token) {
     throw new Error('Not logged in');
   } else {
     return skip;

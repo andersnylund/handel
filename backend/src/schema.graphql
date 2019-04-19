@@ -21,22 +21,12 @@ type Mutation {
     largeImage: String
   ): Item
   removeItem(id: ID!): Boolean!
-  # makeOffer(myItemId: ID!, otherItemId: ID!, type: OfferType!): Offer!
+  deal(myItemId: ID!, otherItemId: ID!, approval: DealApproval!): Deal!
 }
 
 type Query {
   myItems: [Item!]!
   getMyItem(id: ID!): Item
   nextItem(myItemId: ID!): Item
-  myDeals: [Deal!]!
-}
-
-type Deal {
-  myItem: Item!
-  otherItem: Item!
-  participant: Participant!
-}
-
-type Participant {
-  email: String!
+  # myDeals: [Deal!]!
 }

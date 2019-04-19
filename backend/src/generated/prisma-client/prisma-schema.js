@@ -26,7 +26,7 @@ type BatchPayload {
 scalar DateTime
 
 type Deal {
-  id: ID!
+  id: UUID!
   dealParticipants(where: DealParticipantWhereInput, orderBy: DealParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DealParticipant!]
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
   createdAt: DateTime!
@@ -36,6 +36,7 @@ type Deal {
 enum DealApproval {
   ACCEPT
   REJECT
+  UNACKNOWLEDGED
 }
 
 type DealConnection {
@@ -45,6 +46,7 @@ type DealConnection {
 }
 
 input DealCreateInput {
+  id: UUID
   dealParticipants: DealParticipantCreateManyWithoutDealInput
   items: ItemCreateManyInput
 }
@@ -55,6 +57,7 @@ input DealCreateOneWithoutDealParticipantsInput {
 }
 
 input DealCreateWithoutDealParticipantsInput {
+  id: UUID
   items: ItemCreateManyInput
 }
 
@@ -73,10 +76,10 @@ enum DealOrderByInput {
 }
 
 type DealParticipant {
-  id: ID!
+  id: UUID!
   deal: Deal
   participant: User
-  approval: DealApproval!
+  approval: DealApproval
   lastSeen: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -89,9 +92,10 @@ type DealParticipantConnection {
 }
 
 input DealParticipantCreateInput {
+  id: UUID
   deal: DealCreateOneWithoutDealParticipantsInput
   participant: UserCreateOneWithoutDealParticipationsInput
-  approval: DealApproval!
+  approval: DealApproval
   lastSeen: DateTime!
 }
 
@@ -106,14 +110,16 @@ input DealParticipantCreateManyWithoutParticipantInput {
 }
 
 input DealParticipantCreateWithoutDealInput {
+  id: UUID
   participant: UserCreateOneWithoutDealParticipationsInput
-  approval: DealApproval!
+  approval: DealApproval
   lastSeen: DateTime!
 }
 
 input DealParticipantCreateWithoutParticipantInput {
+  id: UUID
   deal: DealCreateOneWithoutDealParticipantsInput
-  approval: DealApproval!
+  approval: DealApproval
   lastSeen: DateTime!
 }
 
@@ -136,28 +142,28 @@ enum DealParticipantOrderByInput {
 }
 
 type DealParticipantPreviousValues {
-  id: ID!
-  approval: DealApproval!
+  id: UUID!
+  approval: DealApproval
   lastSeen: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 input DealParticipantScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: UUID
+  id_not: UUID
+  id_in: [UUID!]
+  id_not_in: [UUID!]
+  id_lt: UUID
+  id_lte: UUID
+  id_gt: UUID
+  id_gte: UUID
+  id_contains: UUID
+  id_not_contains: UUID
+  id_starts_with: UUID
+  id_not_starts_with: UUID
+  id_ends_with: UUID
+  id_not_ends_with: UUID
   approval: DealApproval
   approval_not: DealApproval
   approval_in: [DealApproval!]
@@ -290,20 +296,20 @@ input DealParticipantUpsertWithWhereUniqueWithoutParticipantInput {
 }
 
 input DealParticipantWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: UUID
+  id_not: UUID
+  id_in: [UUID!]
+  id_not_in: [UUID!]
+  id_lt: UUID
+  id_lte: UUID
+  id_gt: UUID
+  id_gte: UUID
+  id_contains: UUID
+  id_not_contains: UUID
+  id_starts_with: UUID
+  id_not_starts_with: UUID
+  id_ends_with: UUID
+  id_not_ends_with: UUID
   deal: DealWhereInput
   participant: UserWhereInput
   approval: DealApproval
@@ -340,11 +346,11 @@ input DealParticipantWhereInput {
 }
 
 input DealParticipantWhereUniqueInput {
-  id: ID
+  id: UUID
 }
 
 type DealPreviousValues {
-  id: ID!
+  id: UUID!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -391,20 +397,20 @@ input DealUpsertWithoutDealParticipantsInput {
 }
 
 input DealWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: UUID
+  id_not: UUID
+  id_in: [UUID!]
+  id_not_in: [UUID!]
+  id_lt: UUID
+  id_lte: UUID
+  id_gt: UUID
+  id_gte: UUID
+  id_contains: UUID
+  id_not_contains: UUID
+  id_starts_with: UUID
+  id_not_starts_with: UUID
+  id_ends_with: UUID
+  id_not_ends_with: UUID
   dealParticipants_every: DealParticipantWhereInput
   dealParticipants_some: DealParticipantWhereInput
   dealParticipants_none: DealParticipantWhereInput
@@ -433,11 +439,11 @@ input DealWhereInput {
 }
 
 input DealWhereUniqueInput {
-  id: ID
+  id: UUID
 }
 
 type Item {
-  id: ID!
+  id: UUID!
   title: String!
   description: String!
   price: Int!
@@ -455,6 +461,7 @@ type ItemConnection {
 }
 
 input ItemCreateInput {
+  id: UUID
   title: String!
   description: String!
   price: Int!
@@ -474,6 +481,7 @@ input ItemCreateManyWithoutUserInput {
 }
 
 input ItemCreateWithoutUserInput {
+  id: UUID
   title: String!
   description: String!
   price: Int!
@@ -506,7 +514,7 @@ enum ItemOrderByInput {
 }
 
 type ItemPreviousValues {
-  id: ID!
+  id: UUID!
   title: String!
   description: String!
   price: Int!
@@ -517,20 +525,20 @@ type ItemPreviousValues {
 }
 
 input ItemScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: UUID
+  id_not: UUID
+  id_in: [UUID!]
+  id_not_in: [UUID!]
+  id_lt: UUID
+  id_lte: UUID
+  id_gt: UUID
+  id_gte: UUID
+  id_contains: UUID
+  id_not_contains: UUID
+  id_starts_with: UUID
+  id_not_starts_with: UUID
+  id_ends_with: UUID
+  id_not_ends_with: UUID
   title: String
   title_not: String
   title_in: [String!]
@@ -728,20 +736,20 @@ input ItemUpsertWithWhereUniqueWithoutUserInput {
 }
 
 input ItemWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: UUID
+  id_not: UUID
+  id_in: [UUID!]
+  id_not_in: [UUID!]
+  id_lt: UUID
+  id_lte: UUID
+  id_gt: UUID
+  id_gte: UUID
+  id_contains: UUID
+  id_not_contains: UUID
+  id_starts_with: UUID
+  id_not_starts_with: UUID
+  id_ends_with: UUID
+  id_not_ends_with: UUID
   title: String
   title_not: String
   title_in: [String!]
@@ -829,7 +837,7 @@ input ItemWhereInput {
 }
 
 input ItemWhereUniqueInput {
-  id: ID
+  id: UUID
 }
 
 scalar Long
@@ -901,7 +909,7 @@ type Subscription {
 }
 
 type User {
-  id: ID!
+  id: UUID!
   sub: String!
   email: String!
   emailVerified: Boolean!
@@ -918,6 +926,7 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: UUID
   sub: String!
   email: String!
   emailVerified: Boolean
@@ -936,6 +945,7 @@ input UserCreateOneWithoutItemsInput {
 }
 
 input UserCreateWithoutDealParticipationsInput {
+  id: UUID
   sub: String!
   email: String!
   emailVerified: Boolean
@@ -943,6 +953,7 @@ input UserCreateWithoutDealParticipationsInput {
 }
 
 input UserCreateWithoutItemsInput {
+  id: UUID
   sub: String!
   email: String!
   emailVerified: Boolean
@@ -970,7 +981,7 @@ enum UserOrderByInput {
 }
 
 type UserPreviousValues {
-  id: ID!
+  id: UUID!
   sub: String!
   email: String!
   emailVerified: Boolean!
@@ -1053,20 +1064,20 @@ input UserUpsertWithoutItemsInput {
 }
 
 input UserWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  id: UUID
+  id_not: UUID
+  id_in: [UUID!]
+  id_not_in: [UUID!]
+  id_lt: UUID
+  id_lte: UUID
+  id_gt: UUID
+  id_gte: UUID
+  id_contains: UUID
+  id_not_contains: UUID
+  id_starts_with: UUID
+  id_not_starts_with: UUID
+  id_ends_with: UUID
+  id_not_ends_with: UUID
   sub: String
   sub_not: String
   sub_in: [String!]
@@ -1125,8 +1136,12 @@ input UserWhereInput {
 }
 
 input UserWhereUniqueInput {
-  id: ID
+  id: UUID
+  sub: String
+  email: String
 }
+
+scalar UUID
 `
       }
     
