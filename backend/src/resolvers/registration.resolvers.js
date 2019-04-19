@@ -1,7 +1,7 @@
 import { combineResolvers } from 'graphql-resolvers';
 
 import { prisma } from '../generated/prisma-client';
-import { isAuthenticated } from './authorization';
+import { isAuthenticated } from './authorizationHelpers';
 
 export default {
   Mutation: {

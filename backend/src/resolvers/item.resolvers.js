@@ -1,7 +1,7 @@
 import { combineResolvers } from 'graphql-resolvers';
 
 import { prisma } from '../generated/prisma-client';
-import { isAuthenticated } from './authorization';
+import { isAuthenticated } from './authorizationHelpers';
 
 export default {
   Mutation: {
@@ -54,7 +54,7 @@ export default {
         );
 
       // TODO test and abstract away this
-      if (!item || item.user.sub !== ctx.request.token.sub) {
+      if (!item || item.user.sub !== ctx.request.user.sub) {
         throw new Error('Item not found');
       }
 
@@ -67,22 +67,22 @@ export default {
   },
 
   Query: {
-    myItems: combineResolvers(isAuthenticated, (parent, args, ctx) => {
-      const items = prisma.items({
-        where: {
-          user: {
-            sub: ctx.request.user.sub,
-          },
-        },
-      });
+    myItems: combineResolvers(isAuthenticated, (parent, args, ctx) =>
+      prisma
+        .user({
+          id: ctx.request.user.id,
+        })
+        .items({}),
+    ),
 
-      return items;
-    }),
-
-    getMyItem: combineResolvers(isAuthenticated, (parent, args) => {
+    getMyItem: combineResolvers(isAuthenticated, (parent, args, ctx) => {
       const item = prisma.item({
         id: args.id,
       });
+
+      if (!item || item.user.sub !== ctx.request.user.sub) {
+        throw new Error('Item not found');
+      }
 
       return item;
     }),

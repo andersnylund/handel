@@ -3,6 +3,8 @@ type User {
   sub: String!
   email: String!
   emailVerified: Boolean! @default(value: "false")
+  items: [Item]!
+  dealParticipations: [DealParticipant]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -29,6 +31,7 @@ type Deal {
 
 type DealParticipant {
   id: ID! @unique
+  deal: Deal
   participant: User
   approval: DealApproval!
   lastSeen: DateTime!

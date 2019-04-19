@@ -1,7 +1,7 @@
 import { combineResolvers } from 'graphql-resolvers';
 
 import { prisma } from '../generated/prisma-client';
-import { isAuthenticated } from './authorization';
+import { isAuthenticated } from './authorizationHelpers';
 
 export default {
   Query: {
@@ -19,29 +19,15 @@ export default {
         throw new Error('Item not found');
       }
 
-      const myItemIds = (await Promise.resolve(
-        prisma.items({
-          where: {
-            user: {
-              sub: ctx.request.user.sub,
-            },
-          },
-        }),
-      )).map(item => item.id);
-
       const allNotMyItems = await prisma.items({
         where: {
-          id_not_in: myItemIds,
+          NOT: {
+            user: {
+              id: ctx.request.user.id,
+            },
+          },
         },
       });
-
-      // const dealsWithMyItems = await prisma.deals({
-      //   where: {
-      //     items_some: {
-      //       id_in: myItemIds,
-      //     },
-      //   },
-      // });
 
       return allNotMyItems[0];
     }),
