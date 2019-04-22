@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Fri Apr 19 2019 12:15:19 GMT+0300 (Eastern European Summer Time)
+# timestamp: Fri Apr 19 2019 14:53:59 GMT+0300 (Eastern European Summer Time)
 
 type AggregateDeal {
   count: Int!
@@ -27,7 +27,6 @@ scalar DateTime
 type Deal {
   id: UUID!
   dealParticipants(where: DealParticipantWhereInput, orderBy: DealParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DealParticipant!]
-  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -51,7 +50,6 @@ type DealConnection {
 input DealCreateInput {
   id: UUID
   dealParticipants: DealParticipantCreateManyWithoutDealInput
-  items: ItemCreateManyInput
 }
 
 input DealCreateOneWithoutDealParticipantsInput {
@@ -61,7 +59,6 @@ input DealCreateOneWithoutDealParticipantsInput {
 
 input DealCreateWithoutDealParticipantsInput {
   id: UUID
-  items: ItemCreateManyInput
 }
 
 """An edge in a connection."""
@@ -86,6 +83,7 @@ type DealParticipant {
   id: UUID!
   deal: Deal
   participant: User
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
   approval: DealApproval
   lastSeen: DateTime!
   createdAt: DateTime!
@@ -108,6 +106,7 @@ input DealParticipantCreateInput {
   lastSeen: DateTime!
   deal: DealCreateOneWithoutDealParticipantsInput
   participant: UserCreateOneWithoutDealParticipationsInput
+  items: ItemCreateManyInput
 }
 
 input DealParticipantCreateManyWithoutDealInput {
@@ -125,6 +124,7 @@ input DealParticipantCreateWithoutDealInput {
   approval: DealApproval
   lastSeen: DateTime!
   participant: UserCreateOneWithoutDealParticipationsInput
+  items: ItemCreateManyInput
 }
 
 input DealParticipantCreateWithoutParticipantInput {
@@ -132,6 +132,7 @@ input DealParticipantCreateWithoutParticipantInput {
   approval: DealApproval
   lastSeen: DateTime!
   deal: DealCreateOneWithoutDealParticipantsInput
+  items: ItemCreateManyInput
 }
 
 """An edge in a connection."""
@@ -305,6 +306,7 @@ input DealParticipantUpdateInput {
   lastSeen: DateTime
   deal: DealUpdateOneWithoutDealParticipantsInput
   participant: UserUpdateOneWithoutDealParticipationsInput
+  items: ItemUpdateManyInput
 }
 
 input DealParticipantUpdateManyDataInput {
@@ -350,12 +352,14 @@ input DealParticipantUpdateWithoutDealDataInput {
   approval: DealApproval
   lastSeen: DateTime
   participant: UserUpdateOneWithoutDealParticipationsInput
+  items: ItemUpdateManyInput
 }
 
 input DealParticipantUpdateWithoutParticipantDataInput {
   approval: DealApproval
   lastSeen: DateTime
   deal: DealUpdateOneWithoutDealParticipantsInput
+  items: ItemUpdateManyInput
 }
 
 input DealParticipantUpdateWithWhereUniqueWithoutDealInput {
@@ -477,6 +481,9 @@ input DealParticipantWhereInput {
   updatedAt_gte: DateTime
   deal: DealWhereInput
   participant: UserWhereInput
+  items_every: ItemWhereInput
+  items_some: ItemWhereInput
+  items_none: ItemWhereInput
 }
 
 input DealParticipantWhereUniqueInput {
@@ -530,7 +537,6 @@ input DealSubscriptionWhereInput {
 
 input DealUpdateInput {
   dealParticipants: DealParticipantUpdateManyWithoutDealInput
-  items: ItemUpdateManyInput
 }
 
 input DealUpdateOneWithoutDealParticipantsInput {
@@ -538,17 +544,6 @@ input DealUpdateOneWithoutDealParticipantsInput {
   connect: DealWhereUniqueInput
   disconnect: Boolean
   delete: Boolean
-  update: DealUpdateWithoutDealParticipantsDataInput
-  upsert: DealUpsertWithoutDealParticipantsInput
-}
-
-input DealUpdateWithoutDealParticipantsDataInput {
-  items: ItemUpdateManyInput
-}
-
-input DealUpsertWithoutDealParticipantsInput {
-  update: DealUpdateWithoutDealParticipantsDataInput!
-  create: DealCreateWithoutDealParticipantsInput!
 }
 
 input DealWhereInput {
@@ -617,9 +612,6 @@ input DealWhereInput {
   dealParticipants_every: DealParticipantWhereInput
   dealParticipants_some: DealParticipantWhereInput
   dealParticipants_none: DealParticipantWhereInput
-  items_every: ItemWhereInput
-  items_some: ItemWhereInput
-  items_none: ItemWhereInput
 }
 
 input DealWhereUniqueInput {

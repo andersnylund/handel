@@ -276,6 +276,220 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
+export interface DealUpdateInput {
+  dealParticipants?: DealParticipantUpdateManyWithoutDealInput;
+}
+
+export type DealWhereUniqueInput = AtLeastOne<{
+  id: UUID;
+}>;
+
+export interface UserCreateWithoutDealParticipationsInput {
+  id?: UUID;
+  sub: String;
+  email: String;
+  emailVerified?: Boolean;
+  items?: ItemCreateManyWithoutUserInput;
+}
+
+export interface DealParticipantUpdateWithWhereUniqueWithoutParticipantInput {
+  where: DealParticipantWhereUniqueInput;
+  data: DealParticipantUpdateWithoutParticipantDataInput;
+}
+
+export interface ItemCreateManyWithoutUserInput {
+  create?: ItemCreateWithoutUserInput[] | ItemCreateWithoutUserInput;
+  connect?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
+}
+
+export interface UserUpdateOneWithoutDealParticipationsInput {
+  create?: UserCreateWithoutDealParticipationsInput;
+  update?: UserUpdateWithoutDealParticipationsDataInput;
+  upsert?: UserUpsertWithoutDealParticipationsInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface ItemCreateWithoutUserInput {
+  id?: UUID;
+  title: String;
+  description: String;
+  price: Int;
+  image: String;
+  largeImage: String;
+}
+
+export interface ItemSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ItemWhereInput;
+  AND?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
+  OR?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
+  NOT?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
+}
+
+export interface ItemCreateManyInput {
+  create?: ItemCreateInput[] | ItemCreateInput;
+  connect?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
+}
+
+export interface DealParticipantSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: DealParticipantWhereInput;
+  AND?:
+    | DealParticipantSubscriptionWhereInput[]
+    | DealParticipantSubscriptionWhereInput;
+  OR?:
+    | DealParticipantSubscriptionWhereInput[]
+    | DealParticipantSubscriptionWhereInput;
+  NOT?:
+    | DealParticipantSubscriptionWhereInput[]
+    | DealParticipantSubscriptionWhereInput;
+}
+
+export interface ItemCreateInput {
+  id?: UUID;
+  title: String;
+  description: String;
+  price: Int;
+  image: String;
+  largeImage: String;
+  user?: UserCreateOneWithoutItemsInput;
+}
+
+export interface UserUpdateManyMutationInput {
+  sub?: String;
+  email?: String;
+  emailVerified?: Boolean;
+}
+
+export interface UserCreateOneWithoutItemsInput {
+  create?: UserCreateWithoutItemsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface DealWhereInput {
+  id?: UUID;
+  id_not?: UUID;
+  id_in?: UUID[] | UUID;
+  id_not_in?: UUID[] | UUID;
+  id_lt?: UUID;
+  id_lte?: UUID;
+  id_gt?: UUID;
+  id_gte?: UUID;
+  id_contains?: UUID;
+  id_not_contains?: UUID;
+  id_starts_with?: UUID;
+  id_not_starts_with?: UUID;
+  id_ends_with?: UUID;
+  id_not_ends_with?: UUID;
+  dealParticipants_every?: DealParticipantWhereInput;
+  dealParticipants_some?: DealParticipantWhereInput;
+  dealParticipants_none?: DealParticipantWhereInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: DealWhereInput[] | DealWhereInput;
+  OR?: DealWhereInput[] | DealWhereInput;
+  NOT?: DealWhereInput[] | DealWhereInput;
+}
+
+export interface UserCreateWithoutItemsInput {
+  id?: UUID;
+  sub: String;
+  email: String;
+  emailVerified?: Boolean;
+  dealParticipations?: DealParticipantCreateManyWithoutParticipantInput;
+}
+
+export interface ItemUpdateManyMutationInput {
+  title?: String;
+  description?: String;
+  price?: Int;
+  image?: String;
+  largeImage?: String;
+}
+
+export interface DealParticipantCreateManyWithoutParticipantInput {
+  create?:
+    | DealParticipantCreateWithoutParticipantInput[]
+    | DealParticipantCreateWithoutParticipantInput;
+  connect?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
+}
+
+export interface DealParticipantUpdateManyMutationInput {
+  approval?: DealApproval;
+  lastSeen?: DateTimeInput;
+}
+
+export interface DealParticipantCreateWithoutParticipantInput {
+  id?: UUID;
+  deal?: DealCreateOneWithoutDealParticipantsInput;
+  items?: ItemCreateManyInput;
+  approval?: DealApproval;
+  lastSeen: DateTimeInput;
+}
+
+export interface DealParticipantUpdateInput {
+  deal?: DealUpdateOneWithoutDealParticipantsInput;
+  participant?: UserUpdateOneWithoutDealParticipationsInput;
+  items?: ItemUpdateManyInput;
+  approval?: DealApproval;
+  lastSeen?: DateTimeInput;
+}
+
+export interface DealCreateOneWithoutDealParticipantsInput {
+  create?: DealCreateWithoutDealParticipantsInput;
+  connect?: DealWhereUniqueInput;
+}
+
+export interface DealParticipantUpsertWithWhereUniqueWithoutDealInput {
+  where: DealParticipantWhereUniqueInput;
+  update: DealParticipantUpdateWithoutDealDataInput;
+  create: DealParticipantCreateWithoutDealInput;
+}
+
+export interface DealCreateWithoutDealParticipantsInput {
+  id?: UUID;
+}
+
+export interface ItemUpsertWithWhereUniqueNestedInput {
+  where: ItemWhereUniqueInput;
+  update: ItemUpdateDataInput;
+  create: ItemCreateInput;
+}
+
+export interface DealParticipantUpdateWithoutParticipantDataInput {
+  deal?: DealUpdateOneWithoutDealParticipantsInput;
+  items?: ItemUpdateManyInput;
+  approval?: DealApproval;
+  lastSeen?: DateTimeInput;
+}
+
+export interface DealParticipantUpdateManyDataInput {
+  approval?: DealApproval;
+  lastSeen?: DateTimeInput;
+}
+
 export interface DealParticipantUpdateManyWithoutDealInput {
   create?:
     | DealParticipantCreateWithoutDealInput[]
@@ -300,18 +514,7 @@ export interface DealParticipantUpdateManyWithoutDealInput {
     | DealParticipantUpdateManyWithWhereNestedInput;
 }
 
-export type DealWhereUniqueInput = AtLeastOne<{
-  id: UUID;
-}>;
-
-export interface UserUpdateWithoutDealParticipationsDataInput {
-  sub?: String;
-  email?: String;
-  emailVerified?: Boolean;
-  items?: ItemUpdateManyWithoutUserInput;
-}
-
-export interface UserWhereInput {
+export interface DealParticipantWhereInput {
   id?: UUID;
   id_not?: UUID;
   id_in?: UUID[] | UUID;
@@ -326,42 +529,23 @@ export interface UserWhereInput {
   id_not_starts_with?: UUID;
   id_ends_with?: UUID;
   id_not_ends_with?: UUID;
-  sub?: String;
-  sub_not?: String;
-  sub_in?: String[] | String;
-  sub_not_in?: String[] | String;
-  sub_lt?: String;
-  sub_lte?: String;
-  sub_gt?: String;
-  sub_gte?: String;
-  sub_contains?: String;
-  sub_not_contains?: String;
-  sub_starts_with?: String;
-  sub_not_starts_with?: String;
-  sub_ends_with?: String;
-  sub_not_ends_with?: String;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  emailVerified?: Boolean;
-  emailVerified_not?: Boolean;
+  deal?: DealWhereInput;
+  participant?: UserWhereInput;
   items_every?: ItemWhereInput;
   items_some?: ItemWhereInput;
   items_none?: ItemWhereInput;
-  dealParticipations_every?: DealParticipantWhereInput;
-  dealParticipations_some?: DealParticipantWhereInput;
-  dealParticipations_none?: DealParticipantWhereInput;
+  approval?: DealApproval;
+  approval_not?: DealApproval;
+  approval_in?: DealApproval[] | DealApproval;
+  approval_not_in?: DealApproval[] | DealApproval;
+  lastSeen?: DateTimeInput;
+  lastSeen_not?: DateTimeInput;
+  lastSeen_in?: DateTimeInput[] | DateTimeInput;
+  lastSeen_not_in?: DateTimeInput[] | DateTimeInput;
+  lastSeen_lt?: DateTimeInput;
+  lastSeen_lte?: DateTimeInput;
+  lastSeen_gt?: DateTimeInput;
+  lastSeen_gte?: DateTimeInput;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -378,74 +562,76 @@ export interface UserWhereInput {
   updatedAt_lte?: DateTimeInput;
   updatedAt_gt?: DateTimeInput;
   updatedAt_gte?: DateTimeInput;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
+  AND?: DealParticipantWhereInput[] | DealParticipantWhereInput;
+  OR?: DealParticipantWhereInput[] | DealParticipantWhereInput;
+  NOT?: DealParticipantWhereInput[] | DealParticipantWhereInput;
 }
 
-export interface ItemCreateWithoutUserInput {
+export interface DealParticipantUpdateWithWhereUniqueWithoutDealInput {
+  where: DealParticipantWhereUniqueInput;
+  data: DealParticipantUpdateWithoutDealDataInput;
+}
+
+export interface DealParticipantScalarWhereInput {
   id?: UUID;
-  title: String;
-  description: String;
-  price: Int;
-  image: String;
-  largeImage: String;
+  id_not?: UUID;
+  id_in?: UUID[] | UUID;
+  id_not_in?: UUID[] | UUID;
+  id_lt?: UUID;
+  id_lte?: UUID;
+  id_gt?: UUID;
+  id_gte?: UUID;
+  id_contains?: UUID;
+  id_not_contains?: UUID;
+  id_starts_with?: UUID;
+  id_not_starts_with?: UUID;
+  id_ends_with?: UUID;
+  id_not_ends_with?: UUID;
+  approval?: DealApproval;
+  approval_not?: DealApproval;
+  approval_in?: DealApproval[] | DealApproval;
+  approval_not_in?: DealApproval[] | DealApproval;
+  lastSeen?: DateTimeInput;
+  lastSeen_not?: DateTimeInput;
+  lastSeen_in?: DateTimeInput[] | DateTimeInput;
+  lastSeen_not_in?: DateTimeInput[] | DateTimeInput;
+  lastSeen_lt?: DateTimeInput;
+  lastSeen_lte?: DateTimeInput;
+  lastSeen_gt?: DateTimeInput;
+  lastSeen_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: DealParticipantScalarWhereInput[] | DealParticipantScalarWhereInput;
+  OR?: DealParticipantScalarWhereInput[] | DealParticipantScalarWhereInput;
+  NOT?: DealParticipantScalarWhereInput[] | DealParticipantScalarWhereInput;
 }
 
-export interface UserUpdateWithoutItemsDataInput {
-  sub?: String;
-  email?: String;
-  emailVerified?: Boolean;
-  dealParticipations?: DealParticipantUpdateManyWithoutParticipantInput;
+export interface DealParticipantUpdateWithoutDealDataInput {
+  participant?: UserUpdateOneWithoutDealParticipationsInput;
+  items?: ItemUpdateManyInput;
+  approval?: DealApproval;
+  lastSeen?: DateTimeInput;
 }
 
-export interface ItemCreateManyInput {
-  create?: ItemCreateInput[] | ItemCreateInput;
-  connect?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
-}
-
-export interface ItemUpdateManyWithoutUserInput {
-  create?: ItemCreateWithoutUserInput[] | ItemCreateWithoutUserInput;
-  delete?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
-  connect?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
-  set?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
-  disconnect?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
-  update?:
-    | ItemUpdateWithWhereUniqueWithoutUserInput[]
-    | ItemUpdateWithWhereUniqueWithoutUserInput;
-  upsert?:
-    | ItemUpsertWithWhereUniqueWithoutUserInput[]
-    | ItemUpsertWithWhereUniqueWithoutUserInput;
-  deleteMany?: ItemScalarWhereInput[] | ItemScalarWhereInput;
-  updateMany?:
-    | ItemUpdateManyWithWhereNestedInput[]
-    | ItemUpdateManyWithWhereNestedInput;
-}
-
-export interface ItemCreateInput {
-  id?: UUID;
-  title: String;
-  description: String;
-  price: Int;
-  image: String;
-  largeImage: String;
-  user?: UserCreateOneWithoutItemsInput;
-}
-
-export interface ItemSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: ItemWhereInput;
-  AND?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
-  OR?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
-  NOT?: ItemSubscriptionWhereInput[] | ItemSubscriptionWhereInput;
-}
-
-export interface UserCreateOneWithoutItemsInput {
-  create?: UserCreateWithoutItemsInput;
-  connect?: UserWhereUniqueInput;
+export interface DealUpdateOneWithoutDealParticipantsInput {
+  create?: DealCreateWithoutDealParticipantsInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: DealWhereUniqueInput;
 }
 
 export interface ItemWhereInput {
@@ -549,281 +735,42 @@ export interface ItemWhereInput {
   NOT?: ItemWhereInput[] | ItemWhereInput;
 }
 
-export interface UserCreateWithoutItemsInput {
+export interface DealCreateInput {
   id?: UUID;
-  sub: String;
-  email: String;
-  emailVerified?: Boolean;
-  dealParticipations?: DealParticipantCreateManyWithoutParticipantInput;
+  dealParticipants?: DealParticipantCreateManyWithoutDealInput;
 }
 
-export interface DealWhereInput {
-  id?: UUID;
-  id_not?: UUID;
-  id_in?: UUID[] | UUID;
-  id_not_in?: UUID[] | UUID;
-  id_lt?: UUID;
-  id_lte?: UUID;
-  id_gt?: UUID;
-  id_gte?: UUID;
-  id_contains?: UUID;
-  id_not_contains?: UUID;
-  id_starts_with?: UUID;
-  id_not_starts_with?: UUID;
-  id_ends_with?: UUID;
-  id_not_ends_with?: UUID;
-  dealParticipants_every?: DealParticipantWhereInput;
-  dealParticipants_some?: DealParticipantWhereInput;
-  dealParticipants_none?: DealParticipantWhereInput;
-  items_every?: ItemWhereInput;
-  items_some?: ItemWhereInput;
-  items_none?: ItemWhereInput;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: DealWhereInput[] | DealWhereInput;
-  OR?: DealWhereInput[] | DealWhereInput;
-  NOT?: DealWhereInput[] | DealWhereInput;
-}
-
-export interface DealParticipantCreateManyWithoutParticipantInput {
-  create?:
-    | DealParticipantCreateWithoutParticipantInput[]
-    | DealParticipantCreateWithoutParticipantInput;
-  connect?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
-}
-
-export interface UserUpdateInput {
+export interface UserUpdateWithoutDealParticipationsDataInput {
   sub?: String;
   email?: String;
   emailVerified?: Boolean;
   items?: ItemUpdateManyWithoutUserInput;
-  dealParticipations?: DealParticipantUpdateManyWithoutParticipantInput;
-}
-
-export interface DealParticipantCreateWithoutParticipantInput {
-  id?: UUID;
-  deal?: DealCreateOneWithoutDealParticipantsInput;
-  approval?: DealApproval;
-  lastSeen: DateTimeInput;
-}
-
-export interface ItemUpdateManyMutationInput {
-  title?: String;
-  description?: String;
-  price?: Int;
-  image?: String;
-  largeImage?: String;
-}
-
-export interface DealCreateOneWithoutDealParticipantsInput {
-  create?: DealCreateWithoutDealParticipantsInput;
-  connect?: DealWhereUniqueInput;
-}
-
-export interface ItemUpdateInput {
-  title?: String;
-  description?: String;
-  price?: Int;
-  image?: String;
-  largeImage?: String;
-  user?: UserUpdateOneWithoutItemsInput;
-}
-
-export interface DealCreateWithoutDealParticipantsInput {
-  id?: UUID;
-  items?: ItemCreateManyInput;
-}
-
-export interface DealParticipantUpdateInput {
-  deal?: DealUpdateOneWithoutDealParticipantsInput;
-  participant?: UserUpdateOneWithoutDealParticipationsInput;
-  approval?: DealApproval;
-  lastSeen?: DateTimeInput;
-}
-
-export interface DealUpdateInput {
-  dealParticipants?: DealParticipantUpdateManyWithoutDealInput;
-  items?: ItemUpdateManyInput;
-}
-
-export interface DealParticipantCreateInput {
-  id?: UUID;
-  deal?: DealCreateOneWithoutDealParticipantsInput;
-  participant?: UserCreateOneWithoutDealParticipationsInput;
-  approval?: DealApproval;
-  lastSeen: DateTimeInput;
-}
-
-export interface DealParticipantUpdateWithoutParticipantDataInput {
-  deal?: DealUpdateOneWithoutDealParticipantsInput;
-  approval?: DealApproval;
-  lastSeen?: DateTimeInput;
-}
-
-export interface UserUpsertWithoutItemsInput {
-  update: UserUpdateWithoutItemsDataInput;
-  create: UserCreateWithoutItemsInput;
-}
-
-export interface DealParticipantUpdateWithWhereUniqueWithoutDealInput {
-  where: DealParticipantWhereUniqueInput;
-  data: DealParticipantUpdateWithoutDealDataInput;
-}
-
-export interface DealParticipantWhereInput {
-  id?: UUID;
-  id_not?: UUID;
-  id_in?: UUID[] | UUID;
-  id_not_in?: UUID[] | UUID;
-  id_lt?: UUID;
-  id_lte?: UUID;
-  id_gt?: UUID;
-  id_gte?: UUID;
-  id_contains?: UUID;
-  id_not_contains?: UUID;
-  id_starts_with?: UUID;
-  id_not_starts_with?: UUID;
-  id_ends_with?: UUID;
-  id_not_ends_with?: UUID;
-  deal?: DealWhereInput;
-  participant?: UserWhereInput;
-  approval?: DealApproval;
-  approval_not?: DealApproval;
-  approval_in?: DealApproval[] | DealApproval;
-  approval_not_in?: DealApproval[] | DealApproval;
-  lastSeen?: DateTimeInput;
-  lastSeen_not?: DateTimeInput;
-  lastSeen_in?: DateTimeInput[] | DateTimeInput;
-  lastSeen_not_in?: DateTimeInput[] | DateTimeInput;
-  lastSeen_lt?: DateTimeInput;
-  lastSeen_lte?: DateTimeInput;
-  lastSeen_gt?: DateTimeInput;
-  lastSeen_gte?: DateTimeInput;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: DealParticipantWhereInput[] | DealParticipantWhereInput;
-  OR?: DealParticipantWhereInput[] | DealParticipantWhereInput;
-  NOT?: DealParticipantWhereInput[] | DealParticipantWhereInput;
-}
-
-export interface DealParticipantUpdateWithoutDealDataInput {
-  participant?: UserUpdateOneWithoutDealParticipationsInput;
-  approval?: DealApproval;
-  lastSeen?: DateTimeInput;
-}
-
-export interface DealUpsertWithoutDealParticipantsInput {
-  update: DealUpdateWithoutDealParticipantsDataInput;
-  create: DealCreateWithoutDealParticipantsInput;
-}
-
-export interface UserUpdateOneWithoutDealParticipationsInput {
-  create?: UserCreateWithoutDealParticipationsInput;
-  update?: UserUpdateWithoutDealParticipationsDataInput;
-  upsert?: UserUpsertWithoutDealParticipationsInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface DealUpdateOneWithoutDealParticipantsInput {
-  create?: DealCreateWithoutDealParticipantsInput;
-  update?: DealUpdateWithoutDealParticipantsDataInput;
-  upsert?: DealUpsertWithoutDealParticipantsInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: DealWhereUniqueInput;
-}
-
-export interface DealParticipantUpdateWithWhereUniqueWithoutParticipantInput {
-  where: DealParticipantWhereUniqueInput;
-  data: DealParticipantUpdateWithoutParticipantDataInput;
-}
-
-export interface DealCreateInput {
-  id?: UUID;
-  dealParticipants?: DealParticipantCreateManyWithoutDealInput;
-  items?: ItemCreateManyInput;
-}
-
-export interface DealParticipantUpdateManyWithoutParticipantInput {
-  create?:
-    | DealParticipantCreateWithoutParticipantInput[]
-    | DealParticipantCreateWithoutParticipantInput;
-  delete?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
-  connect?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
-  set?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
-  disconnect?:
-    | DealParticipantWhereUniqueInput[]
-    | DealParticipantWhereUniqueInput;
-  update?:
-    | DealParticipantUpdateWithWhereUniqueWithoutParticipantInput[]
-    | DealParticipantUpdateWithWhereUniqueWithoutParticipantInput;
-  upsert?:
-    | DealParticipantUpsertWithWhereUniqueWithoutParticipantInput[]
-    | DealParticipantUpsertWithWhereUniqueWithoutParticipantInput;
-  deleteMany?:
-    | DealParticipantScalarWhereInput[]
-    | DealParticipantScalarWhereInput;
-  updateMany?:
-    | DealParticipantUpdateManyWithWhereNestedInput[]
-    | DealParticipantUpdateManyWithWhereNestedInput;
 }
 
 export interface DealParticipantCreateWithoutDealInput {
   id?: UUID;
   participant?: UserCreateOneWithoutDealParticipationsInput;
+  items?: ItemCreateManyInput;
   approval?: DealApproval;
   lastSeen: DateTimeInput;
 }
 
-export interface ItemUpdateWithWhereUniqueWithoutUserInput {
-  where: ItemWhereUniqueInput;
-  data: ItemUpdateWithoutUserDataInput;
-}
-
-export interface UserCreateWithoutDealParticipationsInput {
-  id?: UUID;
-  sub: String;
-  email: String;
-  emailVerified?: Boolean;
-  items?: ItemCreateManyWithoutUserInput;
-}
-
-export interface ItemUpdateWithoutUserDataInput {
-  title?: String;
-  description?: String;
-  price?: Int;
-  image?: String;
-  largeImage?: String;
+export interface ItemUpdateManyWithoutUserInput {
+  create?: ItemCreateWithoutUserInput[] | ItemCreateWithoutUserInput;
+  delete?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
+  connect?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
+  set?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
+  disconnect?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
+  update?:
+    | ItemUpdateWithWhereUniqueWithoutUserInput[]
+    | ItemUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | ItemUpsertWithWhereUniqueWithoutUserInput[]
+    | ItemUpsertWithWhereUniqueWithoutUserInput;
+  deleteMany?: ItemScalarWhereInput[] | ItemScalarWhereInput;
+  updateMany?:
+    | ItemUpdateManyWithWhereNestedInput[]
+    | ItemUpdateManyWithWhereNestedInput;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -837,10 +784,9 @@ export interface UserSubscriptionWhereInput {
   NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
-export interface ItemUpsertWithWhereUniqueWithoutUserInput {
+export interface ItemUpdateWithWhereUniqueWithoutUserInput {
   where: ItemWhereUniqueInput;
-  update: ItemUpdateWithoutUserDataInput;
-  create: ItemCreateWithoutUserInput;
+  data: ItemUpdateWithoutUserDataInput;
 }
 
 export interface DealSubscriptionWhereInput {
@@ -853,6 +799,33 @@ export interface DealSubscriptionWhereInput {
   OR?: DealSubscriptionWhereInput[] | DealSubscriptionWhereInput;
   NOT?: DealSubscriptionWhereInput[] | DealSubscriptionWhereInput;
 }
+
+export interface ItemUpdateWithoutUserDataInput {
+  title?: String;
+  description?: String;
+  price?: Int;
+  image?: String;
+  largeImage?: String;
+}
+
+export interface UserCreateInput {
+  id?: UUID;
+  sub: String;
+  email: String;
+  emailVerified?: Boolean;
+  items?: ItemCreateManyWithoutUserInput;
+  dealParticipations?: DealParticipantCreateManyWithoutParticipantInput;
+}
+
+export interface ItemUpsertWithWhereUniqueWithoutUserInput {
+  where: ItemWhereUniqueInput;
+  update: ItemUpdateWithoutUserDataInput;
+  create: ItemCreateWithoutUserInput;
+}
+
+export type DealParticipantWhereUniqueInput = AtLeastOne<{
+  id: UUID;
+}>;
 
 export interface ItemScalarWhereInput {
   id?: UUID;
@@ -954,24 +927,20 @@ export interface ItemScalarWhereInput {
   NOT?: ItemScalarWhereInput[] | ItemScalarWhereInput;
 }
 
-export interface UserCreateInput {
-  id?: UUID;
-  sub: String;
-  email: String;
-  emailVerified?: Boolean;
-  items?: ItemCreateManyWithoutUserInput;
-  dealParticipations?: DealParticipantCreateManyWithoutParticipantInput;
-}
+export type ItemWhereUniqueInput = AtLeastOne<{
+  id: UUID;
+}>;
 
 export interface ItemUpdateManyWithWhereNestedInput {
   where: ItemScalarWhereInput;
   data: ItemUpdateManyDataInput;
 }
 
-export interface DealParticipantUpdateManyMutationInput {
-  approval?: DealApproval;
-  lastSeen?: DateTimeInput;
-}
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: UUID;
+  sub?: String;
+  email?: String;
+}>;
 
 export interface ItemUpdateManyDataInput {
   title?: String;
@@ -981,10 +950,10 @@ export interface ItemUpdateManyDataInput {
   largeImage?: String;
 }
 
-export interface ItemUpsertWithWhereUniqueNestedInput {
-  where: ItemWhereUniqueInput;
-  update: ItemUpdateDataInput;
-  create: ItemCreateInput;
+export interface DealParticipantUpsertWithWhereUniqueWithoutParticipantInput {
+  where: DealParticipantWhereUniqueInput;
+  update: DealParticipantUpdateWithoutParticipantDataInput;
+  create: DealParticipantCreateWithoutParticipantInput;
 }
 
 export interface UserUpsertWithoutDealParticipationsInput {
@@ -992,129 +961,11 @@ export interface UserUpsertWithoutDealParticipationsInput {
   create: UserCreateWithoutDealParticipationsInput;
 }
 
-export interface DealParticipantUpsertWithWhereUniqueWithoutParticipantInput {
-  where: DealParticipantWhereUniqueInput;
-  update: DealParticipantUpdateWithoutParticipantDataInput;
-  create: DealParticipantCreateWithoutParticipantInput;
-}
-
-export interface DealParticipantUpsertWithWhereUniqueWithoutDealInput {
-  where: DealParticipantWhereUniqueInput;
-  update: DealParticipantUpdateWithoutDealDataInput;
-  create: DealParticipantCreateWithoutDealInput;
-}
-
-export interface UserCreateOneWithoutDealParticipationsInput {
-  create?: UserCreateWithoutDealParticipationsInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface DealParticipantScalarWhereInput {
-  id?: UUID;
-  id_not?: UUID;
-  id_in?: UUID[] | UUID;
-  id_not_in?: UUID[] | UUID;
-  id_lt?: UUID;
-  id_lte?: UUID;
-  id_gt?: UUID;
-  id_gte?: UUID;
-  id_contains?: UUID;
-  id_not_contains?: UUID;
-  id_starts_with?: UUID;
-  id_not_starts_with?: UUID;
-  id_ends_with?: UUID;
-  id_not_ends_with?: UUID;
-  approval?: DealApproval;
-  approval_not?: DealApproval;
-  approval_in?: DealApproval[] | DealApproval;
-  approval_not_in?: DealApproval[] | DealApproval;
-  lastSeen?: DateTimeInput;
-  lastSeen_not?: DateTimeInput;
-  lastSeen_in?: DateTimeInput[] | DateTimeInput;
-  lastSeen_not_in?: DateTimeInput[] | DateTimeInput;
-  lastSeen_lt?: DateTimeInput;
-  lastSeen_lte?: DateTimeInput;
-  lastSeen_gt?: DateTimeInput;
-  lastSeen_gte?: DateTimeInput;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: DealParticipantScalarWhereInput[] | DealParticipantScalarWhereInput;
-  OR?: DealParticipantScalarWhereInput[] | DealParticipantScalarWhereInput;
-  NOT?: DealParticipantScalarWhereInput[] | DealParticipantScalarWhereInput;
-}
-
-export interface DealParticipantSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: DealParticipantWhereInput;
-  AND?:
-    | DealParticipantSubscriptionWhereInput[]
-    | DealParticipantSubscriptionWhereInput;
-  OR?:
-    | DealParticipantSubscriptionWhereInput[]
-    | DealParticipantSubscriptionWhereInput;
-  NOT?:
-    | DealParticipantSubscriptionWhereInput[]
-    | DealParticipantSubscriptionWhereInput;
-}
-
-export interface DealParticipantUpdateManyWithWhereNestedInput {
-  where: DealParticipantScalarWhereInput;
-  data: DealParticipantUpdateManyDataInput;
-}
-
-export type DealParticipantWhereUniqueInput = AtLeastOne<{
-  id: UUID;
-}>;
-
-export interface DealParticipantUpdateManyDataInput {
-  approval?: DealApproval;
-  lastSeen?: DateTimeInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: UUID;
-  sub?: String;
-  email?: String;
-}>;
-
-export interface UserUpdateOneWithoutItemsInput {
-  create?: UserCreateWithoutItemsInput;
-  update?: UserUpdateWithoutItemsDataInput;
-  upsert?: UserUpsertWithoutItemsInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface ItemUpdateDataInput {
-  title?: String;
-  description?: String;
-  price?: Int;
-  image?: String;
-  largeImage?: String;
-  user?: UserUpdateOneWithoutItemsInput;
-}
-
-export interface ItemUpdateWithWhereUniqueNestedInput {
-  where: ItemWhereUniqueInput;
-  data: ItemUpdateDataInput;
+export interface DealParticipantCreateManyWithoutDealInput {
+  create?:
+    | DealParticipantCreateWithoutDealInput[]
+    | DealParticipantCreateWithoutDealInput;
+  connect?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
 }
 
 export interface ItemUpdateManyInput {
@@ -1135,30 +986,171 @@ export interface ItemUpdateManyInput {
     | ItemUpdateManyWithWhereNestedInput;
 }
 
-export interface DealUpdateWithoutDealParticipantsDataInput {
-  items?: ItemUpdateManyInput;
+export interface UserWhereInput {
+  id?: UUID;
+  id_not?: UUID;
+  id_in?: UUID[] | UUID;
+  id_not_in?: UUID[] | UUID;
+  id_lt?: UUID;
+  id_lte?: UUID;
+  id_gt?: UUID;
+  id_gte?: UUID;
+  id_contains?: UUID;
+  id_not_contains?: UUID;
+  id_starts_with?: UUID;
+  id_not_starts_with?: UUID;
+  id_ends_with?: UUID;
+  id_not_ends_with?: UUID;
+  sub?: String;
+  sub_not?: String;
+  sub_in?: String[] | String;
+  sub_not_in?: String[] | String;
+  sub_lt?: String;
+  sub_lte?: String;
+  sub_gt?: String;
+  sub_gte?: String;
+  sub_contains?: String;
+  sub_not_contains?: String;
+  sub_starts_with?: String;
+  sub_not_starts_with?: String;
+  sub_ends_with?: String;
+  sub_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  emailVerified?: Boolean;
+  emailVerified_not?: Boolean;
+  items_every?: ItemWhereInput;
+  items_some?: ItemWhereInput;
+  items_none?: ItemWhereInput;
+  dealParticipations_every?: DealParticipantWhereInput;
+  dealParticipations_some?: DealParticipantWhereInput;
+  dealParticipations_none?: DealParticipantWhereInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: UserWhereInput[] | UserWhereInput;
+  OR?: UserWhereInput[] | UserWhereInput;
+  NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export type ItemWhereUniqueInput = AtLeastOne<{
-  id: UUID;
-}>;
+export interface ItemUpdateWithWhereUniqueNestedInput {
+  where: ItemWhereUniqueInput;
+  data: ItemUpdateDataInput;
+}
 
-export interface UserUpdateManyMutationInput {
+export interface ItemUpdateInput {
+  title?: String;
+  description?: String;
+  price?: Int;
+  image?: String;
+  largeImage?: String;
+  user?: UserUpdateOneWithoutItemsInput;
+}
+
+export interface UserUpsertWithoutItemsInput {
+  update: UserUpdateWithoutItemsDataInput;
+  create: UserCreateWithoutItemsInput;
+}
+
+export interface DealParticipantUpdateManyWithoutParticipantInput {
+  create?:
+    | DealParticipantCreateWithoutParticipantInput[]
+    | DealParticipantCreateWithoutParticipantInput;
+  delete?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
+  connect?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
+  set?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
+  disconnect?:
+    | DealParticipantWhereUniqueInput[]
+    | DealParticipantWhereUniqueInput;
+  update?:
+    | DealParticipantUpdateWithWhereUniqueWithoutParticipantInput[]
+    | DealParticipantUpdateWithWhereUniqueWithoutParticipantInput;
+  upsert?:
+    | DealParticipantUpsertWithWhereUniqueWithoutParticipantInput[]
+    | DealParticipantUpsertWithWhereUniqueWithoutParticipantInput;
+  deleteMany?:
+    | DealParticipantScalarWhereInput[]
+    | DealParticipantScalarWhereInput;
+  updateMany?:
+    | DealParticipantUpdateManyWithWhereNestedInput[]
+    | DealParticipantUpdateManyWithWhereNestedInput;
+}
+
+export interface UserUpdateWithoutItemsDataInput {
   sub?: String;
   email?: String;
   emailVerified?: Boolean;
+  dealParticipations?: DealParticipantUpdateManyWithoutParticipantInput;
 }
 
-export interface ItemCreateManyWithoutUserInput {
-  create?: ItemCreateWithoutUserInput[] | ItemCreateWithoutUserInput;
-  connect?: ItemWhereUniqueInput[] | ItemWhereUniqueInput;
+export interface UserUpdateOneWithoutItemsInput {
+  create?: UserCreateWithoutItemsInput;
+  update?: UserUpdateWithoutItemsDataInput;
+  upsert?: UserUpsertWithoutItemsInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
 }
 
-export interface DealParticipantCreateManyWithoutDealInput {
-  create?:
-    | DealParticipantCreateWithoutDealInput[]
-    | DealParticipantCreateWithoutDealInput;
-  connect?: DealParticipantWhereUniqueInput[] | DealParticipantWhereUniqueInput;
+export interface ItemUpdateDataInput {
+  title?: String;
+  description?: String;
+  price?: Int;
+  image?: String;
+  largeImage?: String;
+  user?: UserUpdateOneWithoutItemsInput;
+}
+
+export interface DealParticipantUpdateManyWithWhereNestedInput {
+  where: DealParticipantScalarWhereInput;
+  data: DealParticipantUpdateManyDataInput;
+}
+
+export interface DealParticipantCreateInput {
+  id?: UUID;
+  deal?: DealCreateOneWithoutDealParticipantsInput;
+  participant?: UserCreateOneWithoutDealParticipationsInput;
+  items?: ItemCreateManyInput;
+  approval?: DealApproval;
+  lastSeen: DateTimeInput;
+}
+
+export interface UserUpdateInput {
+  sub?: String;
+  email?: String;
+  emailVerified?: Boolean;
+  items?: ItemUpdateManyWithoutUserInput;
+  dealParticipations?: DealParticipantUpdateManyWithoutParticipantInput;
+}
+
+export interface UserCreateOneWithoutDealParticipationsInput {
+  create?: UserCreateWithoutDealParticipationsInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface NodeNode {
@@ -1196,23 +1188,20 @@ export interface UserPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface DealParticipantEdge {
-  node: DealParticipant;
-  cursor: String;
+export interface AggregateDeal {
+  count: Int;
 }
 
-export interface DealParticipantEdgePromise
-  extends Promise<DealParticipantEdge>,
+export interface AggregateDealPromise
+  extends Promise<AggregateDeal>,
     Fragmentable {
-  node: <T = DealParticipantPromise>() => T;
-  cursor: () => Promise<String>;
+  count: () => Promise<Int>;
 }
 
-export interface DealParticipantEdgeSubscription
-  extends Promise<AsyncIterator<DealParticipantEdge>>,
+export interface AggregateDealSubscription
+  extends Promise<AsyncIterator<AggregateDeal>>,
     Fragmentable {
-  node: <T = DealParticipantSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface DealParticipantPreviousValues {
@@ -1243,27 +1232,6 @@ export interface DealParticipantPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface DealParticipantConnection {
-  pageInfo: PageInfo;
-  edges: DealParticipantEdge[];
-}
-
-export interface DealParticipantConnectionPromise
-  extends Promise<DealParticipantConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<DealParticipantEdge>>() => T;
-  aggregate: <T = AggregateDealParticipantPromise>() => T;
-}
-
-export interface DealParticipantConnectionSubscription
-  extends Promise<AsyncIterator<DealParticipantConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<DealParticipantEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateDealParticipantSubscription>() => T;
-}
-
 export interface DealEdge {
   node: Deal;
   cursor: String;
@@ -1281,20 +1249,65 @@ export interface DealEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateDeal {
-  count: Int;
+export interface DealConnection {
+  pageInfo: PageInfo;
+  edges: DealEdge[];
 }
 
-export interface AggregateDealPromise
-  extends Promise<AggregateDeal>,
+export interface DealConnectionPromise
+  extends Promise<DealConnection>,
     Fragmentable {
-  count: () => Promise<Int>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<DealEdge>>() => T;
+  aggregate: <T = AggregateDealPromise>() => T;
 }
 
-export interface AggregateDealSubscription
-  extends Promise<AsyncIterator<AggregateDeal>>,
+export interface DealConnectionSubscription
+  extends Promise<AsyncIterator<DealConnection>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DealEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDealSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ItemPreviousValues {
@@ -1334,78 +1347,6 @@ export interface ItemPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface DealParticipant {
-  id: UUID;
-  approval?: DealApproval;
-  lastSeen: DateTimeOutput;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface DealParticipantPromise
-  extends Promise<DealParticipant>,
-    Fragmentable {
-  id: () => Promise<UUID>;
-  deal: <T = DealPromise>() => T;
-  participant: <T = UserPromise>() => T;
-  approval: () => Promise<DealApproval>;
-  lastSeen: () => Promise<DateTimeOutput>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface DealParticipantSubscription
-  extends Promise<AsyncIterator<DealParticipant>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  deal: <T = DealSubscription>() => T;
-  participant: <T = UserSubscription>() => T;
-  approval: () => Promise<AsyncIterator<DealApproval>>;
-  lastSeen: () => Promise<AsyncIterator<DateTimeOutput>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
 export interface AggregateItem {
   count: Int;
 }
@@ -1420,43 +1361,6 @@ export interface AggregateItemSubscription
   extends Promise<AsyncIterator<AggregateItem>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface DealConnection {
-  pageInfo: PageInfo;
-  edges: DealEdge[];
-}
-
-export interface DealConnectionPromise
-  extends Promise<DealConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<DealEdge>>() => T;
-  aggregate: <T = AggregateDealPromise>() => T;
-}
-
-export interface DealConnectionSubscription
-  extends Promise<AsyncIterator<DealConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<DealEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateDealSubscription>() => T;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface Item {
@@ -1517,133 +1421,45 @@ export interface ItemConnectionSubscription
   aggregate: <T = AggregateItemSubscription>() => T;
 }
 
-export interface Deal {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface DealPromise extends Promise<Deal>, Fragmentable {
-  id: () => Promise<UUID>;
-  dealParticipants: <T = FragmentableArray<DealParticipant>>(args?: {
-    where?: DealParticipantWhereInput;
-    orderBy?: DealParticipantOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  items: <T = FragmentableArray<Item>>(args?: {
-    where?: ItemWhereInput;
-    orderBy?: ItemOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface DealSubscription
-  extends Promise<AsyncIterator<Deal>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  dealParticipants: <
-    T = Promise<AsyncIterator<DealParticipantSubscription>>
-  >(args?: {
-    where?: DealParticipantWhereInput;
-    orderBy?: DealParticipantOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  items: <T = Promise<AsyncIterator<ItemSubscription>>>(args?: {
-    where?: ItemWhereInput;
-    orderBy?: ItemOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface UserSubscriptionPayload {
+export interface ItemSubscriptionPayload {
   mutation: MutationType;
-  node: User;
+  node: Item;
   updatedFields: String[];
-  previousValues: UserPreviousValues;
+  previousValues: ItemPreviousValues;
 }
 
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
+export interface ItemSubscriptionPayloadPromise
+  extends Promise<ItemSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
+  node: <T = ItemPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
+  previousValues: <T = ItemPreviousValuesPromise>() => T;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+export interface ItemSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ItemSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
+  node: <T = ItemSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  previousValues: <T = ItemPreviousValuesSubscription>() => T;
 }
 
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
+export interface BatchPayload {
+  count: Long;
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  count: () => Promise<Long>;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
-}
-
-export interface DealParticipantSubscriptionPayload {
-  mutation: MutationType;
-  node: DealParticipant;
-  updatedFields: String[];
-  previousValues: DealParticipantPreviousValues;
-}
-
-export interface DealParticipantSubscriptionPayloadPromise
-  extends Promise<DealParticipantSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = DealParticipantPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = DealParticipantPreviousValuesPromise>() => T;
-}
-
-export interface DealParticipantSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<DealParticipantSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = DealParticipantSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = DealParticipantPreviousValuesSubscription>() => T;
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface User {
@@ -1713,6 +1529,173 @@ export interface UserSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface DealParticipantEdge {
+  node: DealParticipant;
+  cursor: String;
+}
+
+export interface DealParticipantEdgePromise
+  extends Promise<DealParticipantEdge>,
+    Fragmentable {
+  node: <T = DealParticipantPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface DealParticipantEdgeSubscription
+  extends Promise<AsyncIterator<DealParticipantEdge>>,
+    Fragmentable {
+  node: <T = DealParticipantSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Deal {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface DealPromise extends Promise<Deal>, Fragmentable {
+  id: () => Promise<UUID>;
+  dealParticipants: <T = FragmentableArray<DealParticipant>>(args?: {
+    where?: DealParticipantWhereInput;
+    orderBy?: DealParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface DealSubscription
+  extends Promise<AsyncIterator<Deal>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  dealParticipants: <
+    T = Promise<AsyncIterator<DealParticipantSubscription>>
+  >(args?: {
+    where?: DealParticipantWhereInput;
+    orderBy?: DealParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ItemEdge {
+  node: Item;
+  cursor: String;
+}
+
+export interface ItemEdgePromise extends Promise<ItemEdge>, Fragmentable {
+  node: <T = ItemPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ItemEdgeSubscription
+  extends Promise<AsyncIterator<ItemEdge>>,
+    Fragmentable {
+  node: <T = ItemSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface DealParticipantSubscriptionPayload {
+  mutation: MutationType;
+  node: DealParticipant;
+  updatedFields: String[];
+  previousValues: DealParticipantPreviousValues;
+}
+
+export interface DealParticipantSubscriptionPayloadPromise
+  extends Promise<DealParticipantSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = DealParticipantPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = DealParticipantPreviousValuesPromise>() => T;
+}
+
+export interface DealParticipantSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<DealParticipantSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = DealParticipantSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = DealParticipantPreviousValuesSubscription>() => T;
+}
+
+export interface DealParticipant {
+  id: UUID;
+  approval?: DealApproval;
+  lastSeen: DateTimeOutput;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface DealParticipantPromise
+  extends Promise<DealParticipant>,
+    Fragmentable {
+  id: () => Promise<UUID>;
+  deal: <T = DealPromise>() => T;
+  participant: <T = UserPromise>() => T;
+  items: <T = FragmentableArray<Item>>(args?: {
+    where?: ItemWhereInput;
+    orderBy?: ItemOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  approval: () => Promise<DealApproval>;
+  lastSeen: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface DealParticipantSubscription
+  extends Promise<AsyncIterator<DealParticipant>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  deal: <T = DealSubscription>() => T;
+  participant: <T = UserSubscription>() => T;
+  items: <T = Promise<AsyncIterator<ItemSubscription>>>(args?: {
+    where?: ItemWhereInput;
+    orderBy?: ItemOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  approval: () => Promise<AsyncIterator<DealApproval>>;
+  lastSeen: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface DealPreviousValues {
   id: UUID;
   createdAt: DateTimeOutput;
@@ -1760,39 +1743,6 @@ export interface DealSubscriptionPayloadSubscription
   previousValues: <T = DealPreviousValuesSubscription>() => T;
 }
 
-export interface ItemEdge {
-  node: Item;
-  cursor: String;
-}
-
-export interface ItemEdgePromise extends Promise<ItemEdge>, Fragmentable {
-  node: <T = ItemPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ItemEdgeSubscription
-  extends Promise<AsyncIterator<ItemEdge>>,
-    Fragmentable {
-  node: <T = ItemSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface AggregateDealParticipant {
   count: Int;
 }
@@ -1809,30 +1759,92 @@ export interface AggregateDealParticipantSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface ItemSubscriptionPayload {
-  mutation: MutationType;
-  node: Item;
-  updatedFields: String[];
-  previousValues: ItemPreviousValues;
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
 }
 
-export interface ItemSubscriptionPayloadPromise
-  extends Promise<ItemSubscriptionPayload>,
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface DealParticipantConnection {
+  pageInfo: PageInfo;
+  edges: DealParticipantEdge[];
+}
+
+export interface DealParticipantConnectionPromise
+  extends Promise<DealParticipantConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<DealParticipantEdge>>() => T;
+  aggregate: <T = AggregateDealParticipantPromise>() => T;
+}
+
+export interface DealParticipantConnectionSubscription
+  extends Promise<AsyncIterator<DealParticipantConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DealParticipantEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDealParticipantSubscription>() => T;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = ItemPromise>() => T;
+  node: <T = UserPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = ItemPreviousValuesPromise>() => T;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
 }
 
-export interface ItemSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ItemSubscriptionPayload>>,
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ItemSubscription>() => T;
+  node: <T = UserSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ItemPreviousValuesSubscription>() => T;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+export type UUID = string;
+
+export type Long = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
+
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /*
 DateTime scalar input type, allowing Date
@@ -1845,29 +1857,9 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
-
-export type UUID = string;
-
-/*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
-
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
-
-export type Long = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 /**
  * Model Metadata

@@ -30,27 +30,7 @@ export default {
           },
         },
       });
-
       console.log('myDeals:', myDeals);
-
-      const nextItems = await prisma
-        .deals({
-          where: {
-            dealParticipants_some: {
-              AND: {
-                participant: {
-                  id: me.id,
-                },
-                approval: 'UNACKNOWLEDGED',
-              },
-            },
-          },
-        })
-        .$fragment('{ items { id } }');
-
-      // if (unapproved.length !== 0) {
-      //   // return unapproved.items.filter(item => );
-      // }
 
       const allNotMyItems = await prisma.items({
         where: {
@@ -138,8 +118,10 @@ export default {
 
       const previousDeals = await prisma.deals({
         where: {
-          items_some: {
-            id_in: [myItem.id, otherItem.id],
+          dealParticipants_some: {
+            items_some: {
+              id_in: [myItem.id, otherItem.id],
+            },
           },
         },
       });
@@ -156,6 +138,9 @@ export default {
               id: myItem.user.id,
             },
           },
+          items: {
+            connect: [{ id: myItem.id }],
+          },
         });
 
         const otherParticipant = await prisma.createDealParticipant({
@@ -166,12 +151,12 @@ export default {
               id: otherItem.user.id,
             },
           },
+          items: {
+            connect: [{ id: otherItem.id }],
+          },
         });
 
         const deal = await prisma.createDeal({
-          items: {
-            connect: [{ id: myItem.id }, { id: otherItem.id }],
-          },
           dealParticipants: {
             connect: [{ id: me.id }, { id: otherParticipant.id }],
           },

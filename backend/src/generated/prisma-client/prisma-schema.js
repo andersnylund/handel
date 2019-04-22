@@ -28,7 +28,6 @@ scalar DateTime
 type Deal {
   id: UUID!
   dealParticipants(where: DealParticipantWhereInput, orderBy: DealParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DealParticipant!]
-  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -48,7 +47,6 @@ type DealConnection {
 input DealCreateInput {
   id: UUID
   dealParticipants: DealParticipantCreateManyWithoutDealInput
-  items: ItemCreateManyInput
 }
 
 input DealCreateOneWithoutDealParticipantsInput {
@@ -58,7 +56,6 @@ input DealCreateOneWithoutDealParticipantsInput {
 
 input DealCreateWithoutDealParticipantsInput {
   id: UUID
-  items: ItemCreateManyInput
 }
 
 type DealEdge {
@@ -79,6 +76,7 @@ type DealParticipant {
   id: UUID!
   deal: Deal
   participant: User
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
   approval: DealApproval
   lastSeen: DateTime!
   createdAt: DateTime!
@@ -95,6 +93,7 @@ input DealParticipantCreateInput {
   id: UUID
   deal: DealCreateOneWithoutDealParticipantsInput
   participant: UserCreateOneWithoutDealParticipationsInput
+  items: ItemCreateManyInput
   approval: DealApproval
   lastSeen: DateTime!
 }
@@ -112,6 +111,7 @@ input DealParticipantCreateManyWithoutParticipantInput {
 input DealParticipantCreateWithoutDealInput {
   id: UUID
   participant: UserCreateOneWithoutDealParticipationsInput
+  items: ItemCreateManyInput
   approval: DealApproval
   lastSeen: DateTime!
 }
@@ -119,6 +119,7 @@ input DealParticipantCreateWithoutDealInput {
 input DealParticipantCreateWithoutParticipantInput {
   id: UUID
   deal: DealCreateOneWithoutDealParticipantsInput
+  items: ItemCreateManyInput
   approval: DealApproval
   lastSeen: DateTime!
 }
@@ -218,6 +219,7 @@ input DealParticipantSubscriptionWhereInput {
 input DealParticipantUpdateInput {
   deal: DealUpdateOneWithoutDealParticipantsInput
   participant: UserUpdateOneWithoutDealParticipationsInput
+  items: ItemUpdateManyInput
   approval: DealApproval
   lastSeen: DateTime
 }
@@ -263,12 +265,14 @@ input DealParticipantUpdateManyWithWhereNestedInput {
 
 input DealParticipantUpdateWithoutDealDataInput {
   participant: UserUpdateOneWithoutDealParticipationsInput
+  items: ItemUpdateManyInput
   approval: DealApproval
   lastSeen: DateTime
 }
 
 input DealParticipantUpdateWithoutParticipantDataInput {
   deal: DealUpdateOneWithoutDealParticipantsInput
+  items: ItemUpdateManyInput
   approval: DealApproval
   lastSeen: DateTime
 }
@@ -312,6 +316,9 @@ input DealParticipantWhereInput {
   id_not_ends_with: UUID
   deal: DealWhereInput
   participant: UserWhereInput
+  items_every: ItemWhereInput
+  items_some: ItemWhereInput
+  items_none: ItemWhereInput
   approval: DealApproval
   approval_not: DealApproval
   approval_in: [DealApproval!]
@@ -375,25 +382,13 @@ input DealSubscriptionWhereInput {
 
 input DealUpdateInput {
   dealParticipants: DealParticipantUpdateManyWithoutDealInput
-  items: ItemUpdateManyInput
 }
 
 input DealUpdateOneWithoutDealParticipantsInput {
   create: DealCreateWithoutDealParticipantsInput
-  update: DealUpdateWithoutDealParticipantsDataInput
-  upsert: DealUpsertWithoutDealParticipantsInput
   delete: Boolean
   disconnect: Boolean
   connect: DealWhereUniqueInput
-}
-
-input DealUpdateWithoutDealParticipantsDataInput {
-  items: ItemUpdateManyInput
-}
-
-input DealUpsertWithoutDealParticipantsInput {
-  update: DealUpdateWithoutDealParticipantsDataInput!
-  create: DealCreateWithoutDealParticipantsInput!
 }
 
 input DealWhereInput {
@@ -414,9 +409,6 @@ input DealWhereInput {
   dealParticipants_every: DealParticipantWhereInput
   dealParticipants_some: DealParticipantWhereInput
   dealParticipants_none: DealParticipantWhereInput
-  items_every: ItemWhereInput
-  items_some: ItemWhereInput
-  items_none: ItemWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

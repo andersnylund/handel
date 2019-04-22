@@ -24,7 +24,6 @@ type Item {
 type Deal {
   id: UUID! @id(strategy: AUTO)
   dealParticipants: [DealParticipant]!
-  items: [Item]!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -33,6 +32,7 @@ type DealParticipant {
   id: UUID! @id(strategy: AUTO)
   deal: Deal
   participant: User
+  items: [Item]!
   approval: DealApproval
   lastSeen: DateTime!
   createdAt: DateTime! @createdAt
