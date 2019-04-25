@@ -21,28 +21,40 @@ export default {
         throw new Error('Item not found');
       }
 
-      const myDeals = await prisma.deals({
+      const participationsWithItem = await prisma.participants({
         where: {
-          dealParticipants_some: {
-            participant: {
-              id: me.id,
-            },
+          item: {
+            id: myItem.id,
+          },
+          approval_in: ['ACCEPT', 'REJECT'],
+        },
+      }).$fragment(`{
+        deal {
+          participants {
+            item {
+              id
+            }
+          }
+        }
+      }`);
+
+      let otherItemsInMyDeals = [];
+      participationsWithItem.forEach(participation => {
+        participation.deal.participants.forEach(participant => {
+          otherItemsInMyDeals = [...otherItemsInMyDeals, participant.item.id];
+        });
+      });
+
+      const notMyItems = await prisma.items({
+        where: {
+          id_not_in: [...otherItemsInMyDeals],
+          user: {
+            id_not: me.id,
           },
         },
       });
-      console.log('myDeals:', myDeals);
 
-      const allNotMyItems = await prisma.items({
-        where: {
-          NOT: {
-            user: {
-              id: ctx.request.user.id,
-            },
-          },
-        },
-      });
-
-      return allNotMyItems[0];
+      return notMyItems[0];
     }),
 
     // myDeals: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
@@ -116,55 +128,62 @@ export default {
         })
         .$fragment('{ id user { id sub } }');
 
-      const previousDeals = await prisma.deals({
-        where: {
-          dealParticipants_some: {
-            items_some: {
-              id_in: [myItem.id, otherItem.id],
+      const previousDealsWithItems = await prisma
+        .deals({
+          where: {
+            participants_every: {
+              item: {
+                id_in: [myItem.id, otherItem.id],
+              },
             },
           },
-        },
-      });
+        })
+        .$fragment('{ id participants { id item { id title } } }');
 
       // no previous deals
-      if (previousDeals.length === 0) {
+      if (previousDealsWithItems.length === 0) {
         const now = new Date().toISOString();
 
-        const me = await prisma.createDealParticipant({
+        const me = await prisma.createParticipant({
           approval: args.approval,
           lastSeen: now,
-          participant: {
-            connect: {
-              id: myItem.user.id,
-            },
-          },
-          items: {
-            connect: [{ id: myItem.id }],
-          },
+          user: { connect: { id: myItem.user.id } },
+          item: { connect: { id: myItem.id } },
         });
 
-        const otherParticipant = await prisma.createDealParticipant({
+        const otherParticipant = await prisma.createParticipant({
           approval: 'UNACKNOWLEDGED',
           lastSeen: now,
-          participant: {
-            connect: {
-              id: otherItem.user.id,
-            },
-          },
-          items: {
-            connect: [{ id: otherItem.id }],
-          },
+          user: { connect: { id: otherItem.user.id } },
+          item: { connect: { id: otherItem.id } },
         });
 
         const deal = await prisma.createDeal({
-          dealParticipants: {
+          participants: {
             connect: [{ id: me.id }, { id: otherParticipant.id }],
           },
         });
 
         return deal;
       }
-      return null;
+
+      const previousDeal = previousDealsWithItems[0];
+      const me = previousDeal.participants.find(
+        participant => participant.item.id === myItem.id,
+      );
+
+      await prisma.updateParticipant({
+        where: {
+          id: me.id,
+        },
+        data: {
+          approval: args.approval,
+        },
+      });
+
+      return prisma.deal({
+        id: previousDeal.id,
+      });
     }),
   },
 };

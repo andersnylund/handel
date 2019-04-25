@@ -17,7 +17,7 @@ var models = [
     embedded: false
   },
   {
-    name: "DealParticipant",
+    name: "Participant",
     embedded: false
   },
   {

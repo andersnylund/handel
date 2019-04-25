@@ -7,11 +7,11 @@ module.exports = {
   count: Int!
 }
 
-type AggregateDealParticipant {
+type AggregateItem {
   count: Int!
 }
 
-type AggregateItem {
+type AggregateParticipant {
   count: Int!
 }
 
@@ -27,7 +27,7 @@ scalar DateTime
 
 type Deal {
   id: UUID!
-  dealParticipants(where: DealParticipantWhereInput, orderBy: DealParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DealParticipant!]
+  participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -46,15 +46,15 @@ type DealConnection {
 
 input DealCreateInput {
   id: UUID
-  dealParticipants: DealParticipantCreateManyWithoutDealInput
+  participants: ParticipantCreateManyWithoutDealInput
 }
 
-input DealCreateOneWithoutDealParticipantsInput {
-  create: DealCreateWithoutDealParticipantsInput
+input DealCreateOneWithoutParticipantsInput {
+  create: DealCreateWithoutParticipantsInput
   connect: DealWhereUniqueInput
 }
 
-input DealCreateWithoutDealParticipantsInput {
+input DealCreateWithoutParticipantsInput {
   id: UUID
 }
 
@@ -70,290 +70,6 @@ enum DealOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
-}
-
-type DealParticipant {
-  id: UUID!
-  deal: Deal
-  participant: User
-  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
-  approval: DealApproval
-  lastSeen: DateTime!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type DealParticipantConnection {
-  pageInfo: PageInfo!
-  edges: [DealParticipantEdge]!
-  aggregate: AggregateDealParticipant!
-}
-
-input DealParticipantCreateInput {
-  id: UUID
-  deal: DealCreateOneWithoutDealParticipantsInput
-  participant: UserCreateOneWithoutDealParticipationsInput
-  items: ItemCreateManyInput
-  approval: DealApproval
-  lastSeen: DateTime!
-}
-
-input DealParticipantCreateManyWithoutDealInput {
-  create: [DealParticipantCreateWithoutDealInput!]
-  connect: [DealParticipantWhereUniqueInput!]
-}
-
-input DealParticipantCreateManyWithoutParticipantInput {
-  create: [DealParticipantCreateWithoutParticipantInput!]
-  connect: [DealParticipantWhereUniqueInput!]
-}
-
-input DealParticipantCreateWithoutDealInput {
-  id: UUID
-  participant: UserCreateOneWithoutDealParticipationsInput
-  items: ItemCreateManyInput
-  approval: DealApproval
-  lastSeen: DateTime!
-}
-
-input DealParticipantCreateWithoutParticipantInput {
-  id: UUID
-  deal: DealCreateOneWithoutDealParticipantsInput
-  items: ItemCreateManyInput
-  approval: DealApproval
-  lastSeen: DateTime!
-}
-
-type DealParticipantEdge {
-  node: DealParticipant!
-  cursor: String!
-}
-
-enum DealParticipantOrderByInput {
-  id_ASC
-  id_DESC
-  approval_ASC
-  approval_DESC
-  lastSeen_ASC
-  lastSeen_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type DealParticipantPreviousValues {
-  id: UUID!
-  approval: DealApproval
-  lastSeen: DateTime!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-input DealParticipantScalarWhereInput {
-  id: UUID
-  id_not: UUID
-  id_in: [UUID!]
-  id_not_in: [UUID!]
-  id_lt: UUID
-  id_lte: UUID
-  id_gt: UUID
-  id_gte: UUID
-  id_contains: UUID
-  id_not_contains: UUID
-  id_starts_with: UUID
-  id_not_starts_with: UUID
-  id_ends_with: UUID
-  id_not_ends_with: UUID
-  approval: DealApproval
-  approval_not: DealApproval
-  approval_in: [DealApproval!]
-  approval_not_in: [DealApproval!]
-  lastSeen: DateTime
-  lastSeen_not: DateTime
-  lastSeen_in: [DateTime!]
-  lastSeen_not_in: [DateTime!]
-  lastSeen_lt: DateTime
-  lastSeen_lte: DateTime
-  lastSeen_gt: DateTime
-  lastSeen_gte: DateTime
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  AND: [DealParticipantScalarWhereInput!]
-  OR: [DealParticipantScalarWhereInput!]
-  NOT: [DealParticipantScalarWhereInput!]
-}
-
-type DealParticipantSubscriptionPayload {
-  mutation: MutationType!
-  node: DealParticipant
-  updatedFields: [String!]
-  previousValues: DealParticipantPreviousValues
-}
-
-input DealParticipantSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: DealParticipantWhereInput
-  AND: [DealParticipantSubscriptionWhereInput!]
-  OR: [DealParticipantSubscriptionWhereInput!]
-  NOT: [DealParticipantSubscriptionWhereInput!]
-}
-
-input DealParticipantUpdateInput {
-  deal: DealUpdateOneWithoutDealParticipantsInput
-  participant: UserUpdateOneWithoutDealParticipationsInput
-  items: ItemUpdateManyInput
-  approval: DealApproval
-  lastSeen: DateTime
-}
-
-input DealParticipantUpdateManyDataInput {
-  approval: DealApproval
-  lastSeen: DateTime
-}
-
-input DealParticipantUpdateManyMutationInput {
-  approval: DealApproval
-  lastSeen: DateTime
-}
-
-input DealParticipantUpdateManyWithoutDealInput {
-  create: [DealParticipantCreateWithoutDealInput!]
-  delete: [DealParticipantWhereUniqueInput!]
-  connect: [DealParticipantWhereUniqueInput!]
-  set: [DealParticipantWhereUniqueInput!]
-  disconnect: [DealParticipantWhereUniqueInput!]
-  update: [DealParticipantUpdateWithWhereUniqueWithoutDealInput!]
-  upsert: [DealParticipantUpsertWithWhereUniqueWithoutDealInput!]
-  deleteMany: [DealParticipantScalarWhereInput!]
-  updateMany: [DealParticipantUpdateManyWithWhereNestedInput!]
-}
-
-input DealParticipantUpdateManyWithoutParticipantInput {
-  create: [DealParticipantCreateWithoutParticipantInput!]
-  delete: [DealParticipantWhereUniqueInput!]
-  connect: [DealParticipantWhereUniqueInput!]
-  set: [DealParticipantWhereUniqueInput!]
-  disconnect: [DealParticipantWhereUniqueInput!]
-  update: [DealParticipantUpdateWithWhereUniqueWithoutParticipantInput!]
-  upsert: [DealParticipantUpsertWithWhereUniqueWithoutParticipantInput!]
-  deleteMany: [DealParticipantScalarWhereInput!]
-  updateMany: [DealParticipantUpdateManyWithWhereNestedInput!]
-}
-
-input DealParticipantUpdateManyWithWhereNestedInput {
-  where: DealParticipantScalarWhereInput!
-  data: DealParticipantUpdateManyDataInput!
-}
-
-input DealParticipantUpdateWithoutDealDataInput {
-  participant: UserUpdateOneWithoutDealParticipationsInput
-  items: ItemUpdateManyInput
-  approval: DealApproval
-  lastSeen: DateTime
-}
-
-input DealParticipantUpdateWithoutParticipantDataInput {
-  deal: DealUpdateOneWithoutDealParticipantsInput
-  items: ItemUpdateManyInput
-  approval: DealApproval
-  lastSeen: DateTime
-}
-
-input DealParticipantUpdateWithWhereUniqueWithoutDealInput {
-  where: DealParticipantWhereUniqueInput!
-  data: DealParticipantUpdateWithoutDealDataInput!
-}
-
-input DealParticipantUpdateWithWhereUniqueWithoutParticipantInput {
-  where: DealParticipantWhereUniqueInput!
-  data: DealParticipantUpdateWithoutParticipantDataInput!
-}
-
-input DealParticipantUpsertWithWhereUniqueWithoutDealInput {
-  where: DealParticipantWhereUniqueInput!
-  update: DealParticipantUpdateWithoutDealDataInput!
-  create: DealParticipantCreateWithoutDealInput!
-}
-
-input DealParticipantUpsertWithWhereUniqueWithoutParticipantInput {
-  where: DealParticipantWhereUniqueInput!
-  update: DealParticipantUpdateWithoutParticipantDataInput!
-  create: DealParticipantCreateWithoutParticipantInput!
-}
-
-input DealParticipantWhereInput {
-  id: UUID
-  id_not: UUID
-  id_in: [UUID!]
-  id_not_in: [UUID!]
-  id_lt: UUID
-  id_lte: UUID
-  id_gt: UUID
-  id_gte: UUID
-  id_contains: UUID
-  id_not_contains: UUID
-  id_starts_with: UUID
-  id_not_starts_with: UUID
-  id_ends_with: UUID
-  id_not_ends_with: UUID
-  deal: DealWhereInput
-  participant: UserWhereInput
-  items_every: ItemWhereInput
-  items_some: ItemWhereInput
-  items_none: ItemWhereInput
-  approval: DealApproval
-  approval_not: DealApproval
-  approval_in: [DealApproval!]
-  approval_not_in: [DealApproval!]
-  lastSeen: DateTime
-  lastSeen_not: DateTime
-  lastSeen_in: [DateTime!]
-  lastSeen_not_in: [DateTime!]
-  lastSeen_lt: DateTime
-  lastSeen_lte: DateTime
-  lastSeen_gt: DateTime
-  lastSeen_gte: DateTime
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  AND: [DealParticipantWhereInput!]
-  OR: [DealParticipantWhereInput!]
-  NOT: [DealParticipantWhereInput!]
-}
-
-input DealParticipantWhereUniqueInput {
-  id: UUID
 }
 
 type DealPreviousValues {
@@ -381,11 +97,11 @@ input DealSubscriptionWhereInput {
 }
 
 input DealUpdateInput {
-  dealParticipants: DealParticipantUpdateManyWithoutDealInput
+  participants: ParticipantUpdateManyWithoutDealInput
 }
 
-input DealUpdateOneWithoutDealParticipantsInput {
-  create: DealCreateWithoutDealParticipantsInput
+input DealUpdateOneWithoutParticipantsInput {
+  create: DealCreateWithoutParticipantsInput
   delete: Boolean
   disconnect: Boolean
   connect: DealWhereUniqueInput
@@ -406,9 +122,9 @@ input DealWhereInput {
   id_not_starts_with: UUID
   id_ends_with: UUID
   id_not_ends_with: UUID
-  dealParticipants_every: DealParticipantWhereInput
-  dealParticipants_some: DealParticipantWhereInput
-  dealParticipants_none: DealParticipantWhereInput
+  participants_every: ParticipantWhereInput
+  participants_some: ParticipantWhereInput
+  participants_none: ParticipantWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -462,14 +178,14 @@ input ItemCreateInput {
   user: UserCreateOneWithoutItemsInput
 }
 
-input ItemCreateManyInput {
-  create: [ItemCreateInput!]
-  connect: [ItemWhereUniqueInput!]
-}
-
 input ItemCreateManyWithoutUserInput {
   create: [ItemCreateWithoutUserInput!]
   connect: [ItemWhereUniqueInput!]
+}
+
+input ItemCreateOneInput {
+  create: ItemCreateInput
+  connect: ItemWhereUniqueInput
 }
 
 input ItemCreateWithoutUserInput {
@@ -660,18 +376,6 @@ input ItemUpdateManyDataInput {
   largeImage: String
 }
 
-input ItemUpdateManyInput {
-  create: [ItemCreateInput!]
-  update: [ItemUpdateWithWhereUniqueNestedInput!]
-  upsert: [ItemUpsertWithWhereUniqueNestedInput!]
-  delete: [ItemWhereUniqueInput!]
-  connect: [ItemWhereUniqueInput!]
-  set: [ItemWhereUniqueInput!]
-  disconnect: [ItemWhereUniqueInput!]
-  deleteMany: [ItemScalarWhereInput!]
-  updateMany: [ItemUpdateManyWithWhereNestedInput!]
-}
-
 input ItemUpdateManyMutationInput {
   title: String
   description: String
@@ -697,6 +401,15 @@ input ItemUpdateManyWithWhereNestedInput {
   data: ItemUpdateManyDataInput!
 }
 
+input ItemUpdateOneInput {
+  create: ItemCreateInput
+  update: ItemUpdateDataInput
+  upsert: ItemUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ItemWhereUniqueInput
+}
+
 input ItemUpdateWithoutUserDataInput {
   title: String
   description: String
@@ -705,18 +418,12 @@ input ItemUpdateWithoutUserDataInput {
   largeImage: String
 }
 
-input ItemUpdateWithWhereUniqueNestedInput {
-  where: ItemWhereUniqueInput!
-  data: ItemUpdateDataInput!
-}
-
 input ItemUpdateWithWhereUniqueWithoutUserInput {
   where: ItemWhereUniqueInput!
   data: ItemUpdateWithoutUserDataInput!
 }
 
-input ItemUpsertWithWhereUniqueNestedInput {
-  where: ItemWhereUniqueInput!
+input ItemUpsertNestedInput {
   update: ItemUpdateDataInput!
   create: ItemCreateInput!
 }
@@ -840,18 +547,18 @@ type Mutation {
   upsertDeal(where: DealWhereUniqueInput!, create: DealCreateInput!, update: DealUpdateInput!): Deal!
   deleteDeal(where: DealWhereUniqueInput!): Deal
   deleteManyDeals(where: DealWhereInput): BatchPayload!
-  createDealParticipant(data: DealParticipantCreateInput!): DealParticipant!
-  updateDealParticipant(data: DealParticipantUpdateInput!, where: DealParticipantWhereUniqueInput!): DealParticipant
-  updateManyDealParticipants(data: DealParticipantUpdateManyMutationInput!, where: DealParticipantWhereInput): BatchPayload!
-  upsertDealParticipant(where: DealParticipantWhereUniqueInput!, create: DealParticipantCreateInput!, update: DealParticipantUpdateInput!): DealParticipant!
-  deleteDealParticipant(where: DealParticipantWhereUniqueInput!): DealParticipant
-  deleteManyDealParticipants(where: DealParticipantWhereInput): BatchPayload!
   createItem(data: ItemCreateInput!): Item!
   updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
   updateManyItems(data: ItemUpdateManyMutationInput!, where: ItemWhereInput): BatchPayload!
   upsertItem(where: ItemWhereUniqueInput!, create: ItemCreateInput!, update: ItemUpdateInput!): Item!
   deleteItem(where: ItemWhereUniqueInput!): Item
   deleteManyItems(where: ItemWhereInput): BatchPayload!
+  createParticipant(data: ParticipantCreateInput!): Participant!
+  updateParticipant(data: ParticipantUpdateInput!, where: ParticipantWhereUniqueInput!): Participant
+  updateManyParticipants(data: ParticipantUpdateManyMutationInput!, where: ParticipantWhereInput): BatchPayload!
+  upsertParticipant(where: ParticipantWhereUniqueInput!, create: ParticipantCreateInput!, update: ParticipantUpdateInput!): Participant!
+  deleteParticipant(where: ParticipantWhereUniqueInput!): Participant
+  deleteManyParticipants(where: ParticipantWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -877,16 +584,298 @@ type PageInfo {
   endCursor: String
 }
 
+type Participant {
+  id: UUID!
+  deal: Deal
+  user: User
+  item: Item
+  approval: DealApproval
+  lastSeen: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ParticipantConnection {
+  pageInfo: PageInfo!
+  edges: [ParticipantEdge]!
+  aggregate: AggregateParticipant!
+}
+
+input ParticipantCreateInput {
+  id: UUID
+  deal: DealCreateOneWithoutParticipantsInput
+  user: UserCreateOneWithoutParticipationsInput
+  item: ItemCreateOneInput
+  approval: DealApproval
+  lastSeen: DateTime!
+}
+
+input ParticipantCreateManyWithoutDealInput {
+  create: [ParticipantCreateWithoutDealInput!]
+  connect: [ParticipantWhereUniqueInput!]
+}
+
+input ParticipantCreateManyWithoutUserInput {
+  create: [ParticipantCreateWithoutUserInput!]
+  connect: [ParticipantWhereUniqueInput!]
+}
+
+input ParticipantCreateWithoutDealInput {
+  id: UUID
+  user: UserCreateOneWithoutParticipationsInput
+  item: ItemCreateOneInput
+  approval: DealApproval
+  lastSeen: DateTime!
+}
+
+input ParticipantCreateWithoutUserInput {
+  id: UUID
+  deal: DealCreateOneWithoutParticipantsInput
+  item: ItemCreateOneInput
+  approval: DealApproval
+  lastSeen: DateTime!
+}
+
+type ParticipantEdge {
+  node: Participant!
+  cursor: String!
+}
+
+enum ParticipantOrderByInput {
+  id_ASC
+  id_DESC
+  approval_ASC
+  approval_DESC
+  lastSeen_ASC
+  lastSeen_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ParticipantPreviousValues {
+  id: UUID!
+  approval: DealApproval
+  lastSeen: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input ParticipantScalarWhereInput {
+  id: UUID
+  id_not: UUID
+  id_in: [UUID!]
+  id_not_in: [UUID!]
+  id_lt: UUID
+  id_lte: UUID
+  id_gt: UUID
+  id_gte: UUID
+  id_contains: UUID
+  id_not_contains: UUID
+  id_starts_with: UUID
+  id_not_starts_with: UUID
+  id_ends_with: UUID
+  id_not_ends_with: UUID
+  approval: DealApproval
+  approval_not: DealApproval
+  approval_in: [DealApproval!]
+  approval_not_in: [DealApproval!]
+  lastSeen: DateTime
+  lastSeen_not: DateTime
+  lastSeen_in: [DateTime!]
+  lastSeen_not_in: [DateTime!]
+  lastSeen_lt: DateTime
+  lastSeen_lte: DateTime
+  lastSeen_gt: DateTime
+  lastSeen_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [ParticipantScalarWhereInput!]
+  OR: [ParticipantScalarWhereInput!]
+  NOT: [ParticipantScalarWhereInput!]
+}
+
+type ParticipantSubscriptionPayload {
+  mutation: MutationType!
+  node: Participant
+  updatedFields: [String!]
+  previousValues: ParticipantPreviousValues
+}
+
+input ParticipantSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ParticipantWhereInput
+  AND: [ParticipantSubscriptionWhereInput!]
+  OR: [ParticipantSubscriptionWhereInput!]
+  NOT: [ParticipantSubscriptionWhereInput!]
+}
+
+input ParticipantUpdateInput {
+  deal: DealUpdateOneWithoutParticipantsInput
+  user: UserUpdateOneWithoutParticipationsInput
+  item: ItemUpdateOneInput
+  approval: DealApproval
+  lastSeen: DateTime
+}
+
+input ParticipantUpdateManyDataInput {
+  approval: DealApproval
+  lastSeen: DateTime
+}
+
+input ParticipantUpdateManyMutationInput {
+  approval: DealApproval
+  lastSeen: DateTime
+}
+
+input ParticipantUpdateManyWithoutDealInput {
+  create: [ParticipantCreateWithoutDealInput!]
+  delete: [ParticipantWhereUniqueInput!]
+  connect: [ParticipantWhereUniqueInput!]
+  set: [ParticipantWhereUniqueInput!]
+  disconnect: [ParticipantWhereUniqueInput!]
+  update: [ParticipantUpdateWithWhereUniqueWithoutDealInput!]
+  upsert: [ParticipantUpsertWithWhereUniqueWithoutDealInput!]
+  deleteMany: [ParticipantScalarWhereInput!]
+  updateMany: [ParticipantUpdateManyWithWhereNestedInput!]
+}
+
+input ParticipantUpdateManyWithoutUserInput {
+  create: [ParticipantCreateWithoutUserInput!]
+  delete: [ParticipantWhereUniqueInput!]
+  connect: [ParticipantWhereUniqueInput!]
+  set: [ParticipantWhereUniqueInput!]
+  disconnect: [ParticipantWhereUniqueInput!]
+  update: [ParticipantUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [ParticipantUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [ParticipantScalarWhereInput!]
+  updateMany: [ParticipantUpdateManyWithWhereNestedInput!]
+}
+
+input ParticipantUpdateManyWithWhereNestedInput {
+  where: ParticipantScalarWhereInput!
+  data: ParticipantUpdateManyDataInput!
+}
+
+input ParticipantUpdateWithoutDealDataInput {
+  user: UserUpdateOneWithoutParticipationsInput
+  item: ItemUpdateOneInput
+  approval: DealApproval
+  lastSeen: DateTime
+}
+
+input ParticipantUpdateWithoutUserDataInput {
+  deal: DealUpdateOneWithoutParticipantsInput
+  item: ItemUpdateOneInput
+  approval: DealApproval
+  lastSeen: DateTime
+}
+
+input ParticipantUpdateWithWhereUniqueWithoutDealInput {
+  where: ParticipantWhereUniqueInput!
+  data: ParticipantUpdateWithoutDealDataInput!
+}
+
+input ParticipantUpdateWithWhereUniqueWithoutUserInput {
+  where: ParticipantWhereUniqueInput!
+  data: ParticipantUpdateWithoutUserDataInput!
+}
+
+input ParticipantUpsertWithWhereUniqueWithoutDealInput {
+  where: ParticipantWhereUniqueInput!
+  update: ParticipantUpdateWithoutDealDataInput!
+  create: ParticipantCreateWithoutDealInput!
+}
+
+input ParticipantUpsertWithWhereUniqueWithoutUserInput {
+  where: ParticipantWhereUniqueInput!
+  update: ParticipantUpdateWithoutUserDataInput!
+  create: ParticipantCreateWithoutUserInput!
+}
+
+input ParticipantWhereInput {
+  id: UUID
+  id_not: UUID
+  id_in: [UUID!]
+  id_not_in: [UUID!]
+  id_lt: UUID
+  id_lte: UUID
+  id_gt: UUID
+  id_gte: UUID
+  id_contains: UUID
+  id_not_contains: UUID
+  id_starts_with: UUID
+  id_not_starts_with: UUID
+  id_ends_with: UUID
+  id_not_ends_with: UUID
+  deal: DealWhereInput
+  user: UserWhereInput
+  item: ItemWhereInput
+  approval: DealApproval
+  approval_not: DealApproval
+  approval_in: [DealApproval!]
+  approval_not_in: [DealApproval!]
+  lastSeen: DateTime
+  lastSeen_not: DateTime
+  lastSeen_in: [DateTime!]
+  lastSeen_not_in: [DateTime!]
+  lastSeen_lt: DateTime
+  lastSeen_lte: DateTime
+  lastSeen_gt: DateTime
+  lastSeen_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [ParticipantWhereInput!]
+  OR: [ParticipantWhereInput!]
+  NOT: [ParticipantWhereInput!]
+}
+
+input ParticipantWhereUniqueInput {
+  id: UUID
+}
+
 type Query {
   deal(where: DealWhereUniqueInput!): Deal
   deals(where: DealWhereInput, orderBy: DealOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Deal]!
   dealsConnection(where: DealWhereInput, orderBy: DealOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DealConnection!
-  dealParticipant(where: DealParticipantWhereUniqueInput!): DealParticipant
-  dealParticipants(where: DealParticipantWhereInput, orderBy: DealParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DealParticipant]!
-  dealParticipantsConnection(where: DealParticipantWhereInput, orderBy: DealParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DealParticipantConnection!
   item(where: ItemWhereUniqueInput!): Item
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
   itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
+  participant(where: ParticipantWhereUniqueInput!): Participant
+  participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant]!
+  participantsConnection(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ParticipantConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -895,8 +884,8 @@ type Query {
 
 type Subscription {
   deal(where: DealSubscriptionWhereInput): DealSubscriptionPayload
-  dealParticipant(where: DealParticipantSubscriptionWhereInput): DealParticipantSubscriptionPayload
   item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
+  participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -906,7 +895,7 @@ type User {
   email: String!
   emailVerified: Boolean!
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
-  dealParticipations(where: DealParticipantWhereInput, orderBy: DealParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DealParticipant!]
+  participations(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -923,12 +912,7 @@ input UserCreateInput {
   email: String!
   emailVerified: Boolean
   items: ItemCreateManyWithoutUserInput
-  dealParticipations: DealParticipantCreateManyWithoutParticipantInput
-}
-
-input UserCreateOneWithoutDealParticipationsInput {
-  create: UserCreateWithoutDealParticipationsInput
-  connect: UserWhereUniqueInput
+  participations: ParticipantCreateManyWithoutUserInput
 }
 
 input UserCreateOneWithoutItemsInput {
@@ -936,12 +920,9 @@ input UserCreateOneWithoutItemsInput {
   connect: UserWhereUniqueInput
 }
 
-input UserCreateWithoutDealParticipationsInput {
-  id: UUID
-  sub: String!
-  email: String!
-  emailVerified: Boolean
-  items: ItemCreateManyWithoutUserInput
+input UserCreateOneWithoutParticipationsInput {
+  create: UserCreateWithoutParticipationsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateWithoutItemsInput {
@@ -949,7 +930,15 @@ input UserCreateWithoutItemsInput {
   sub: String!
   email: String!
   emailVerified: Boolean
-  dealParticipations: DealParticipantCreateManyWithoutParticipantInput
+  participations: ParticipantCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutParticipationsInput {
+  id: UUID
+  sub: String!
+  email: String!
+  emailVerified: Boolean
+  items: ItemCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -1004,22 +993,13 @@ input UserUpdateInput {
   email: String
   emailVerified: Boolean
   items: ItemUpdateManyWithoutUserInput
-  dealParticipations: DealParticipantUpdateManyWithoutParticipantInput
+  participations: ParticipantUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
   sub: String
   email: String
   emailVerified: Boolean
-}
-
-input UserUpdateOneWithoutDealParticipationsInput {
-  create: UserCreateWithoutDealParticipationsInput
-  update: UserUpdateWithoutDealParticipationsDataInput
-  upsert: UserUpsertWithoutDealParticipationsInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneWithoutItemsInput {
@@ -1031,28 +1011,37 @@ input UserUpdateOneWithoutItemsInput {
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateWithoutDealParticipationsDataInput {
-  sub: String
-  email: String
-  emailVerified: Boolean
-  items: ItemUpdateManyWithoutUserInput
+input UserUpdateOneWithoutParticipationsInput {
+  create: UserCreateWithoutParticipationsInput
+  update: UserUpdateWithoutParticipationsDataInput
+  upsert: UserUpsertWithoutParticipationsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateWithoutItemsDataInput {
   sub: String
   email: String
   emailVerified: Boolean
-  dealParticipations: DealParticipantUpdateManyWithoutParticipantInput
+  participations: ParticipantUpdateManyWithoutUserInput
 }
 
-input UserUpsertWithoutDealParticipationsInput {
-  update: UserUpdateWithoutDealParticipationsDataInput!
-  create: UserCreateWithoutDealParticipationsInput!
+input UserUpdateWithoutParticipationsDataInput {
+  sub: String
+  email: String
+  emailVerified: Boolean
+  items: ItemUpdateManyWithoutUserInput
 }
 
 input UserUpsertWithoutItemsInput {
   update: UserUpdateWithoutItemsDataInput!
   create: UserCreateWithoutItemsInput!
+}
+
+input UserUpsertWithoutParticipationsInput {
+  update: UserUpdateWithoutParticipationsDataInput!
+  create: UserCreateWithoutParticipationsInput!
 }
 
 input UserWhereInput {
@@ -1103,9 +1092,9 @@ input UserWhereInput {
   items_every: ItemWhereInput
   items_some: ItemWhereInput
   items_none: ItemWhereInput
-  dealParticipations_every: DealParticipantWhereInput
-  dealParticipations_some: DealParticipantWhereInput
-  dealParticipations_none: DealParticipantWhereInput
+  participations_every: ParticipantWhereInput
+  participations_some: ParticipantWhereInput
+  participations_none: ParticipantWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

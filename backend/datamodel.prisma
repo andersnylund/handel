@@ -4,7 +4,7 @@ type User {
   email: String! @unique
   emailVerified: Boolean! @default(value: false)
   items: [Item]!
-  dealParticipations: [DealParticipant]!
+  participations: [Participant]!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -23,16 +23,16 @@ type Item {
 
 type Deal {
   id: UUID! @id(strategy: AUTO)
-  dealParticipants: [DealParticipant]!
+  participants: [Participant] @relation(name: "DealParticipant")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
-type DealParticipant {
+type Participant {
   id: UUID! @id(strategy: AUTO)
-  deal: Deal
-  participant: User
-  items: [Item]!
+  deal: Deal @relation(name: "DealParticipant")
+  user: User
+  item: Item
   approval: DealApproval
   lastSeen: DateTime!
   createdAt: DateTime! @createdAt
