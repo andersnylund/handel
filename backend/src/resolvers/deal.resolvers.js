@@ -23,6 +23,11 @@ export default {
 
       const participationsWithItem = await prisma.participants({
         where: {
+          deal: {
+            participants_none: {
+              item: null,
+            },
+          },
           item: {
             id: myItem.id,
           },
@@ -57,57 +62,54 @@ export default {
       return notMyItems[0];
     }),
 
-    // myDeals: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
-    //   if (!ctx.request.user) {
-    //     throw new Error('You must be logged in');
-    //   }
+    myDeals: combineResolvers(isAuthenticated, async (parent, args, ctx) => {
+      const myAcceptedDeals = await prisma.deals({
+        where: {
+          participants_every: {
+            approval: 'ACCEPT',
+          },
+          participants_none: {
+            item: null,
+          },
+          participants_some: {
+            item: {
+              user: {
+                id: ctx.request.user.id,
+              },
+            },
+          },
+        },
+      }).$fragment(`{
+          participants {
+            item {
+              id
+              title
+              description
+              price
+              image
+              user {
+                id
+                email
+              }
+            }
+          }
+        }`);
 
-    //   const myItemIds = (await Promise.resolve(
-    //     prisma.items({
-    //       where: {
-    //         userId: ctx.request.user.sub,
-    //       },
-    //     }),
-    //   )).map(item => item.id);
+      return myAcceptedDeals.map(deal => {
+        const myItem = deal.participants.find(
+          p => p.item.user.id === ctx.request.user.id,
+        ).item;
+        const otherItem = deal.participants.find(
+          p => p.item.user.id !== ctx.request.user.id,
+        ).item;
 
-    //   const myOfferReceiverItemIds = (await Promise.resolve(
-    //     prisma
-    //       .offers({
-    //         where: {
-    //           maker: {
-    //             id_in: [...myItemIds],
-    //           },
-    //           type: 'ACCEPT',
-    //         },
-    //       })
-    //       .$fragment('{ receiver { id }}'),
-    //   )).map(offer => offer.receiver.id);
-
-    //   const myAnsweredOffers = await prisma
-    //     .offers({
-    //       where: {
-    //         maker: {
-    //           id_in: [...myOfferReceiverItemIds],
-    //         },
-    //         receiver: {
-    //           id_in: [...myItemIds],
-    //         },
-    //         type: 'ACCEPT',
-    //       },
-    //     })
-    //     .$fragment(
-    //       '{ id type maker { id title description price image largeImage email } receiver { id title description price image largeImage email } }',
-    //     );
-
-    //   return myAnsweredOffers.map(offer => ({
-    //     myItem: offer.maker,
-    //     otherItem: offer.receiver,
-    //     participant: {
-    //       email: offer.receiver.email,
-    //     },
-    //     offer,
-    //   }));
-    // }),
+        return {
+          myItem,
+          otherItem,
+          contactEmail: otherItem.user.email,
+        };
+      });
+    }),
   },
 
   Mutation: {

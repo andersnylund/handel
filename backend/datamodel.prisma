@@ -23,14 +23,14 @@ type Item {
 
 type Deal {
   id: UUID! @id(strategy: AUTO)
-  participants: [Participant] @relation(name: "DealParticipant")
+  participants: [Participant]
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
 type Participant {
   id: UUID! @id(strategy: AUTO)
-  deal: Deal @relation(name: "DealParticipant")
+  deal: Deal
   user: User
   item: Item
   approval: DealApproval

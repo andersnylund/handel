@@ -27,9 +27,7 @@ const GET_DEALS = gql`
         price
         image
       }
-      participant {
-        email
-      }
+      contactEmail
     }
   }
 `;
@@ -77,7 +75,7 @@ const DealsList = () => (
                   <Divider horizontal>with</Divider>
 
                   <Grid.Row>
-                    <Header>{deal.participant.email}</Header>
+                    <Header>{deal.contactEmail}</Header>
                   </Grid.Row>
                 </Grid.Column>
               </Grid>
