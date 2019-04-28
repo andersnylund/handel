@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Card, Button, Image } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { shape, string, number } from 'prop-types';
+import { shape, string } from 'prop-types';
 
 import { NEXT_ITEM } from '../pages/TradingPage';
 
@@ -19,7 +19,6 @@ const Item = ({ item, myItemId }) => (
     <Image src={item.image} />
     <Card.Content>
       <Card.Header>{item.title}</Card.Header>
-      <Card.Meta>{`${item.price} €`}</Card.Meta>
       <Card.Description>{item.description}</Card.Description>
     </Card.Content>
     <Card.Content extra>
@@ -63,7 +62,6 @@ Item.propTypes = {
     description: string.isRequired,
     image: string.isRequired,
     largeImage: string.isRequired,
-    price: number.isRequired,
     title: string.isRequired,
   }).isRequired,
   myItemId: string.isRequired,

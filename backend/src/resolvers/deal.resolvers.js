@@ -12,9 +12,7 @@ export default {
         .item({
           id: args.myItemId,
         })
-        .$fragment(
-          '{ id title description price image largeImage user { id sub } }',
-        );
+        .$fragment('{ id title description image largeImage user { id sub } }');
 
       // TODO test and abstract away this
       if (!myItem || myItem.user.sub !== ctx.request.user.sub) {
@@ -50,14 +48,16 @@ export default {
         });
       });
 
-      const notMyItems = await prisma.items({
-        where: {
-          id_not_in: [...otherItemsInMyDeals],
-          user: {
-            id_not: me.id,
+      const notMyItems = await prisma
+        .items({
+          where: {
+            id_not_in: [...otherItemsInMyDeals],
+            user: {
+              id_not: me.id,
+            },
           },
-        },
-      });
+        })
+        .$fragment('{ id title description image largeImage }');
 
       return notMyItems[0];
     }),
@@ -85,7 +85,6 @@ export default {
               id
               title
               description
-              price
               image
               user {
                 id

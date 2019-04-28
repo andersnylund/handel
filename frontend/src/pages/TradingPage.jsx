@@ -14,7 +14,6 @@ export const NEXT_ITEM = gql`
       id
       title
       description
-      price
       image
       largeImage
     }

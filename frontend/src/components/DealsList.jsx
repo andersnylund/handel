@@ -18,13 +18,11 @@ const GET_DEALS = gql`
       myItem {
         title
         description
-        price
         image
       }
       otherItem {
         title
         description
-        price
         image
       }
       contactEmail
@@ -45,18 +43,17 @@ const DealsList = () => (
         <>
           {data.myDeals.map((deal, i) => (
             // eslint-disable-next-line react/no-array-index-key
-            <Segment padded placeholder key={i}>
-              <Grid
-                columns={1}
-                // stackable
-                textAlign="center"
-              >
+            <Segment key={i}>
+              <Grid columns={1} textAlign="center">
                 <Grid.Column>
                   <Grid.Row>
-                    <Card>
+                    <Card centered>
                       <Image src={deal.myItem.image} />
                       <Card.Content>
                         <Card.Header>{deal.myItem.title}</Card.Header>
+                        <Card.Description>
+                          {deal.myItem.description}
+                        </Card.Description>
                       </Card.Content>
                     </Card>
                   </Grid.Row>
@@ -64,10 +61,13 @@ const DealsList = () => (
                   <Divider horizontal>against</Divider>
 
                   <Grid.Row>
-                    <Card>
+                    <Card centered>
                       <Image src={deal.otherItem.image} />
                       <Card.Content>
                         <Card.Header>{deal.otherItem.title}</Card.Header>
+                        <Card.Description>
+                          {deal.otherItem.description}
+                        </Card.Description>
                       </Card.Content>
                     </Card>
                   </Grid.Row>

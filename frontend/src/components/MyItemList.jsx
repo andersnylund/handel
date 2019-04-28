@@ -78,7 +78,7 @@ class MyItemList extends React.Component {
                   >
                     {removeItemMutation => (
                       <Card>
-                        <Image centered src={item.image} />
+                        <Image src={item.image} />
                         <Card.Content>
                           <Card.Header>{item.title}</Card.Header>
                           <Card.Meta>{`${item.price} €`}</Card.Meta>
