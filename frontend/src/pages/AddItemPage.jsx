@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Form,
   Button,
@@ -48,6 +48,19 @@ const AddItem = () => {
   const [message, setMessage] = useState(null);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
 
+  useEffect(
+    // eslint-disable-next-line consistent-return
+    () => {
+      if (message) {
+        const timer = setTimeout(() => setMessage(null), 3000);
+        return () => {
+          clearTimeout(timer);
+        };
+      }
+    },
+    [message]
+  );
+
   const onSubmit = async (event, mutation) => {
     event.preventDefault();
     await mutation();
@@ -57,9 +70,6 @@ const AddItem = () => {
     setImage('');
     setLargeImage('');
     setMessage('Item created!');
-    setTimeout(() => {
-      setMessage(null);
-    }, 3000);
   };
 
   const uploadFile = async event => {
