@@ -51,6 +51,11 @@ const AddItem = () => {
   const onSubmit = async (event, mutation) => {
     event.preventDefault();
     await mutation();
+    setTitle('');
+    setDescription('');
+    setPrice('');
+    setImage('');
+    setLargeImage('');
     setMessage('Item created!');
     setTimeout(() => {
       setMessage(null);
@@ -58,6 +63,9 @@ const AddItem = () => {
   };
 
   const uploadFile = async event => {
+    if (!event.target.files[0]) {
+      return;
+    }
     setIsUploadingFile(true);
     const { files } = event.target;
     const data = new FormData();
@@ -99,7 +107,7 @@ const AddItem = () => {
         {(addItem, { loading }) => (
           <>
             <Message>
-              <Message.Header>Add new item</Message.Header>
+              <Message.Header>Create new item</Message.Header>
               <p>Item that you don&apos;t longer want or need</p>
             </Message>
             <Form loading={loading || isUploadingFile}>
@@ -148,7 +156,7 @@ const AddItem = () => {
                 onClick={event => onSubmit(event, addItem)}
                 disabled={!formIsValid}
               >
-                Add
+                Create
               </Button>
             </Form>
           </>

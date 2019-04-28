@@ -16,7 +16,7 @@ import PrivateRoute from './auth/PrivateRoute';
 import LandingPage from './pages/LandingPage';
 
 const Wrapper = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;

@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const Img = styled.img`
-  max-width: 20rem;
+  width: 20rem;
 `;
 
 const Posed = posed.section({
